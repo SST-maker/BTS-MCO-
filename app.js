@@ -4,11 +4,19 @@
   const $ = (id) => document.getElementById(id);
   const views = [...document.querySelectorAll('.view')];
   const shapes = ['◆','●','▲','■'];
-  const avatars = ['🦊','🐼','🐯','🐸','🐵','🐧','🐙','🦄','🐲','🦁','🐨','🐰'];
+  const avatars = [
+    ['avatar-01','Robot Boost'],['avatar-02','Robot Zen'],['avatar-03','Robot Wink'],['avatar-04','Robot Cool'],['avatar-05','Robot Scholar'],['avatar-06','Robot Hero'],
+    ['avatar-07','Chat'],['avatar-08','Chien'],['avatar-09','Panda'],['avatar-10','Pingouin'],['avatar-11','Renard'],['avatar-12','Lapin'],
+    ['avatar-13','Monstre Vert'],['avatar-14','Cyclope Violet'],['avatar-15','Monstre Bleu'],['avatar-16','Monstre Cœur'],['avatar-17','Alien Jaune'],['avatar-18','Monstre DJ'],
+    ['avatar-19','Robot Spatial'],['avatar-20','Alien UFO'],['avatar-21','Chat Astronaute'],['avatar-22','Requin Cool'],['avatar-23','Licorne'],['avatar-24','Hibou Diplômé']
+  ].map(([id,label])=>({id,label,src:`assets/avatars/${id}.webp`}));
+  const defaultAvatar = avatars[0].id;
+  function avatarPath(id){ return (avatars.find(a=>a.id===id)||avatars[0]).src; }
+  function avatarMarkup(id, cls=''){ return `<img${cls?` class="${cls}"`:''} src="${avatarPath(id)}" alt="" draggable="false">`; }
   const state = {
     questions: [], catalog: {}, sb: null, room: null, player: null,
     host: false, subscriptions: [], timer: null, hostSelected: [],
-    answered: new Map(), currentQuestionId: null, players: [], selectedAvatar: '🦊', reuseRoom: false
+    answered: new Map(), currentQuestionId: null, players: [], selectedAvatar: defaultAvatar, reuseRoom: false
   };
 
   function show(id){
@@ -70,7 +78,7 @@
 
   function initAvatarPicker(){
     const box=$('avatarPicker'); if(!box)return; box.innerHTML='';
-    avatars.forEach((avatar,i)=>{const b=document.createElement('button');b.type='button';b.className='avatar-option';b.textContent=avatar;b.setAttribute('aria-label',`Avatar ${i+1}`);b.setAttribute('aria-pressed',avatar===state.selectedAvatar?'true':'false');b.classList.toggle('selected',avatar===state.selectedAvatar);b.addEventListener('click',()=>{state.selectedAvatar=avatar;[...box.children].forEach(x=>{const on=x.textContent===avatar;x.classList.toggle('selected',on);x.setAttribute('aria-pressed',on?'true':'false');});});box.appendChild(b);});
+    avatars.forEach((avatar,i)=>{const b=document.createElement('button');b.type='button';b.className='avatar-option';b.dataset.avatar=avatar.id;b.innerHTML=avatarMarkup(avatar.id);b.setAttribute('aria-label',avatar.label);b.setAttribute('title',avatar.label);b.setAttribute('aria-pressed',avatar.id===state.selectedAvatar?'true':'false');b.classList.toggle('selected',avatar.id===state.selectedAvatar);b.addEventListener('click',()=>{state.selectedAvatar=avatar.id;[...box.children].forEach(x=>{const on=x.dataset.avatar===avatar.id;x.classList.toggle('selected',on);x.setAttribute('aria-pressed',on?'true':'false');});});box.appendChild(b);});
   }
 
   // HOST SETUP
@@ -195,7 +203,7 @@
   function renderPlayers(){
     $('playerCount').textContent=state.players.length; $('hostTotalPlayers').textContent=state.players.length;
     const cloud=$('playerCloud');cloud.innerHTML='';
-    state.players.forEach(p=>{const el=document.createElement('span');el.className='player-chip';el.innerHTML=`<i>${escapeHtml(p.avatar||'🦊')}</i><span>${escapeHtml(p.name)}</span>`;cloud.appendChild(el);});
+    state.players.forEach(p=>{const el=document.createElement('span');el.className='player-chip';el.innerHTML=`<i>${avatarMarkup(p.avatar,'avatar-thumb')}</i><span>${escapeHtml(p.name)}</span>`;cloud.appendChild(el);});
     $('startGameBtn').disabled=state.players.length===0;
   }
   $('startGameBtn').addEventListener('click',async()=>{
@@ -262,7 +270,7 @@
   }
   async function renderLeaderboard(){
     await refreshPlayers(); const list=$('leaderboardList'); list.innerHTML='';
-    state.players.slice(0,8).forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span class="leader-name"><i>${escapeHtml(p.avatar||'🦊')}</i>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;list.appendChild(r);});
+    state.players.slice(0,8).forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span class="leader-name"><i>${avatarMarkup(p.avatar,'avatar-thumb')}</i>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;list.appendChild(r);});
   }
   $('nextBtn').addEventListener('click',async()=>{
     if(!state.room)return; const last=state.room.current_index>=state.room.question_ids.length-1;
@@ -271,8 +279,8 @@
   async function renderPodium(){
     clearInterval(state.timer); await refreshPlayers(); show('viewPodium'); const sorted=[...state.players].sort((a,b)=>b.score-a.score);
     const podium=$('podium'); podium.innerHTML=''; const order=[1,0,2];
-    order.forEach(idx=>{const p=sorted[idx];if(!p)return;const place=idx+1;const d=document.createElement('div');d.className=`podium-slot p${place}`;d.innerHTML=`<div class="avatar">${escapeHtml(p.avatar||'🦊')}</div><strong>${escapeHtml(p.name)}</strong><span>${p.score.toLocaleString('fr-FR')} pts</span><div class="podium-block">${place===1?'🥇':place===2?'🥈':'🥉'}</div>`;podium.appendChild(d);});
-    const final=$('finalList');final.innerHTML='<span class="eyebrow">CLASSEMENT COMPLET</span>';sorted.forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span class="leader-name"><i>${escapeHtml(p.avatar||'🦊')}</i>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;final.appendChild(r);});
+    order.forEach(idx=>{const p=sorted[idx];if(!p)return;const place=idx+1;const d=document.createElement('div');d.className=`podium-slot p${place}`;d.innerHTML=`<div class="avatar">${avatarMarkup(p.avatar,'podium-avatar-img')}</div><strong>${escapeHtml(p.name)}</strong><span>${p.score.toLocaleString('fr-FR')} pts</span><div class="podium-block">${place===1?'🥇':place===2?'🥈':'🥉'}</div>`;podium.appendChild(d);});
+    const final=$('finalList');final.innerHTML='<span class="eyebrow">CLASSEMENT COMPLET</span>';sorted.forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span class="leader-name"><i>${avatarMarkup(p.avatar,'avatar-thumb')}</i>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;final.appendChild(r);});
   }
 
   // STUDENT JOIN
@@ -295,7 +303,7 @@
   async function renderStudentFromRoom(){
     if(!state.room||!state.player)return; await refreshPlayers();
     if(state.room.phase==='lobby'){
-      if(state.room.current_index===-1)state.answered.clear(); $('studentName').textContent=state.player.name;$('studentAvatar').textContent=state.player.avatar||'🦊';$('waitingScore').textContent=state.player.score;show('viewStudentWaiting');return;
+      if(state.room.current_index===-1)state.answered.clear(); $('studentName').textContent=state.player.name;$('studentAvatar').innerHTML=avatarMarkup(state.player.avatar,'student-avatar-img');$('waitingScore').textContent=state.player.score;show('viewStudentWaiting');return;
     }
     if(state.room.phase==='question'){ await renderStudentQuestion(); return; }
     if(state.room.phase==='reveal'){ await renderStudentReveal(); return; }
@@ -353,7 +361,7 @@
         const saved=localStorage.getItem(`ncr-player-${room.id}`);
         if(saved){
           const {data:player}=await supa().from('quiz_players').select('*').eq('id',saved).eq('room_id',room.id).maybeSingle();
-          if(player){state.room=room;state.player=player;state.selectedAvatar=player.avatar||'🦊';initAvatarPicker();await subscribeRoom(room.id);await renderStudentFromRoom();return;}
+          if(player){state.room=room;state.player=player;state.selectedAvatar=avatars.some(a=>a.id===player.avatar)?player.avatar:defaultAvatar;initAvatarPicker();await subscribeRoom(room.id);await renderStudentFromRoom();return;}
         }
       }
       show('viewJoin'); setTimeout(()=>$('joinNameInput')?.focus(),150); return;
