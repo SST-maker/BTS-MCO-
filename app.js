@@ -136,6 +136,19 @@
     });
     updateAvailability();
   }
+  function pickQuizQuestions(pool,count){
+    const advanced=shuffle(pool.filter(q=>q.difficulty==='advanced'));
+    const standard=shuffle(pool.filter(q=>q.difficulty!=='advanced'));
+    // V2.8 : difficulté renforcée dans toutes les matières.
+    // Environ 85 % de questions d'application, de distinction ou de formule quand la banque le permet.
+    const targetAdvanced=Math.min(advanced.length,Math.max(1,Math.round(count*0.85)));
+    const picked=[...advanced.slice(0,targetAdvanced),...standard.slice(0,Math.max(0,count-targetAdvanced))];
+    if(picked.length<count){
+      const used=new Set(picked.map(q=>q.id));
+      picked.push(...shuffle(pool.filter(q=>!used.has(q.id))).slice(0,count-picked.length));
+    }
+    return shuffle(picked).slice(0,count);
+  }
   function filteredQuestions(){
     const s=$('subjectSelect').value,y=$('yearSelect').value,c=$('chapterSelect').value,sess=$('sessionSelect').value;
     return state.questions.filter(q=>q.subject===s&&q.year===y&&q.chapter===c&&(sess==='all'||q.session===sess));
@@ -154,7 +167,7 @@
     const sb=supa(); if(!sb){show('viewSetupNeeded');return;}
     const pool=filteredQuestions(); if(!pool.length){toast('Aucune question disponible pour ce filtre.');return;}
     const count=Math.min(Number($('countSelect').value),pool.length);
-    const picked=shuffle(pool).slice(0,count);
+    const picked=pickQuizQuestions(pool,count);
     $('createRoomBtn').disabled=true; $('createRoomBtn').innerHTML=state.reuseRoom?'Préparation de la manche…':'Création…';
     if(state.reuseRoom && state.room){
       const ok=await resetRoomWithPlayers(picked,{

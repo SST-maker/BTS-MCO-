@@ -1,3 +1,20 @@
+NCR MCO Quiz Arena V2.8 — Difficulté renforcée
+
+- Difficulté renforcée dans ADOC, DRCV et GO
+- Environ 85 % de questions avancées lors du tirage quand la séance le permet
+- Questions contextualisées avec distracteurs proches issus du même chapitre / de la même séance
+- Davantage de reconnaissance de formules sans demander le calcul numérique
+- Les anciens QCM simples restent disponibles mais sont moins souvent tirés
+- Aucun changement Supabase requis par rapport à la V2.7
+
+NCR MCO Quiz Arena V2.7
+
+Évolution GO :
+- calculs directs remplacés par des questions de choix de formule ;
+- 188 nouvelles questions de formule avancées ;
+- distracteurs proches pour obliger à identifier la bonne base et le bon dénominateur ;
+- sélection GO équilibrée pour proposer environ 55 % de questions avancées quand la séance le permet.
+
 NCR MCO Quiz Arena V2.6
 
 Ajout Gestion opérationnelle (GO) :
