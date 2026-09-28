@@ -1,3 +1,16 @@
+NCR MCO Quiz Arena V2.9 — compte formateur
+
+Ajouts principaux :
+- Connexion formateur par e-mail / mot de passe via Supabase Auth
+- Seul un formateur connecté peut créer et piloter une partie
+- Les élèves peuvent toujours rejoindre la partie avec le code / QR code
+
+Mise en place :
+1. Exécuter supabase.sql
+2. Renseigner config.js
+3. Dans Supabase > Authentication > Users, créer le compte formateur
+4. Déployer le dossier sur GitHub Pages / hébergeur
+
 NCR MCO Quiz Arena V2.8 — Difficulté renforcée
 
 - Difficulté renforcée dans ADOC, DRCV et GO

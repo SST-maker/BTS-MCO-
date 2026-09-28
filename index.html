@@ -16,7 +16,7 @@
     <button class="brand brand-btn" id="brandHome" type="button" aria-label="Accueil">
       <span class="brand-mark"><img src="assets/app-icon.png" alt="Logo NCR MCO Quiz Arena"></span><span><strong>NCR MCO</strong><small>QUIZ ARENA</small></span>
     </button>
-    <div class="status-pill" id="connectionPill"><span class="dot"></span><span id="connectionText">Initialisation</span></div>
+    <div class="topbar-actions"><div class="status-pill" id="connectionPill"><span class="dot"></span><span id="connectionText">Initialisation</span></div><button class="auth-chip hidden" id="trainerSessionBtn" type="button" title="Ouvrir l’espace formateur"><span>🔒</span><span id="trainerSessionText">Formateur connecté</span></button></div>
   </header>
 
   <main class="app-shell">
@@ -42,8 +42,22 @@
       <div class="source-note">Banque construite à partir des manuels NCR Solutions ADOC, DRCV & GO 1re/2e année.</div>
     </section>
 
+    
+    <section class="view" id="viewTrainerLogin">
+      <div class="mobile-card panel">
+        <span class="eyebrow">ESPACE FORMATEUR</span>
+        <h2>Connexion formateur</h2>
+        <p class="tiny auth-note">Seul un formateur connecté peut créer, lancer et piloter un live.</p>
+        <label>Adresse e-mail<input id="trainerEmailInput" type="email" autocomplete="username" placeholder="vous@exemple.fr" /></label>
+        <label>Mot de passe<input id="trainerPasswordInput" type="password" autocomplete="current-password" placeholder="Mot de passe" /></label>
+        <button class="cta" id="trainerLoginBtn" type="button">Se connecter <span>→</span></button>
+        <p class="tiny" id="trainerLoginMessage"></p>
+        <button class="secondary auth-back" id="trainerLoginBackBtn" type="button">Retour</button>
+      </div>
+    </section>
+
     <section class="view" id="viewHostSetup">
-      <div class="section-head"><button class="back" data-home>←</button><div><span class="eyebrow">ESPACE FORMATEUR</span><h2>Préparer la partie</h2></div></div>
+      <div class="section-head"><button class="back" data-home>←</button><div><span class="eyebrow">ESPACE FORMATEUR</span><h2>Préparer la partie</h2></div></div><div class="host-account panel"><div><span class="eyebrow">COMPTE FORMATEUR</span><strong id="trainerEmailLabel">Connecté</strong><p class="tiny">Les élèves peuvent rejoindre une partie, mais seuls les formateurs connectés peuvent la créer et la piloter.</p></div><button class="secondary logout-btn" id="trainerLogoutBtn" type="button">Se déconnecter</button></div>
       <div class="setup-layout">
         <div class="panel form-panel">
           <div class="field-row"><label>Matière<select id="subjectSelect"><option>ADOC</option><option>DRCV</option><option>GO</option></select></label><label>Année<select id="yearSelect"><option value="1re">1re année</option><option value="2e">2e année</option></select></label></div>
@@ -102,7 +116,7 @@
 
     <section class="view" id="viewStudentReveal"><div class="mobile-card panel center"><span class="eyebrow">RÉSULTAT</span><div class="result-icon" id="studentResultIcon">✓</div><h2 id="studentResultTitle">Bonne réponse !</h2><p id="studentCorrectText"></p><div class="score-chip">Score <strong id="studentRevealScore">0</strong></div><p class="tiny">Regarde l’écran principal pour le classement.</p></div></section>
 
-    <section class="view" id="viewSetupNeeded"><div class="mobile-card panel"><span class="eyebrow">CONFIGURATION REQUISE</span><h2>Connecter Supabase</h2><p>Le live multi-téléphones a besoin de Supabase Realtime. Le package contient déjà le SQL et le fichier de configuration.</p><ol><li>Exécute <code>supabase.sql</code> dans ton projet.</li><li>Renseigne l’URL et la clé anon dans <code>config.js</code>.</li><li>Déploie le dossier sur ton hébergeur.</li></ol><button class="secondary" data-home type="button">Retour</button></div></section>
+    <section class="view" id="viewSetupNeeded"><div class="mobile-card panel"><span class="eyebrow">CONFIGURATION REQUISE</span><h2>Connecter Supabase</h2><p>Le live multi-téléphones a besoin de Supabase Realtime. Le package contient déjà le SQL et le fichier de configuration.</p><ol><li>Exécute <code>supabase.sql</code> dans ton projet.</li><li>Renseigne l’URL et la clé anon dans <code>config.js</code>.</li><li>Dans <strong>Supabase &gt; Authentication &gt; Users</strong>, crée ton compte formateur.</li><li>Déploie le dossier sur ton hébergeur.</li></ol><button class="secondary" data-home type="button">Retour</button></div></section>
   </main>
 
   <div class="toast" id="toast"></div>

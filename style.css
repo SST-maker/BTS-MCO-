@@ -175,3 +175,6 @@ button{user-select:none;-webkit-user-select:none}
   .player-chip i,.player-chip .avatar-thumb{width:52px;height:52px;flex-basis:52px}
   .player-chip .avatar-thumb{border-radius:15px}
 }
+
+
+.topbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}.auth-chip{border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);min-height:40px;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center;gap:8px;font-weight:800;cursor:pointer}.auth-chip.hidden{display:none!important}.auth-chip span:last-child{max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.host-account{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 18px;margin:0 0 18px}.host-account strong{display:block;margin-top:4px;font-size:16px}.logout-btn{width:auto;white-space:nowrap}.auth-back{width:100%;margin-top:10px}.auth-note{margin:-10px 0 14px}.hidden{display:none!important}@media (max-width:760px){.topbar-actions{gap:8px}.auth-chip{min-height:36px;padding:0 10px;font-size:12px}.auth-chip span:last-child{max-width:110px}.host-account{flex-direction:column;align-items:flex-start;padding:14px}.logout-btn{width:100%}}

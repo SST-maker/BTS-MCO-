@@ -17,7 +17,7 @@
     questions: [], catalog: {}, sb: null, room: null, player: null,
     host: false, subscriptions: [], timer: null, hostSelected: [],
     answered: new Map(), currentQuestionId: null, players: [], selectedAvatar: defaultAvatar, reuseRoom: false,
-    wakeLock: null, wakeNoticeShown: false
+    wakeLock: null, wakeNoticeShown: false, session: null, user: null, authBound: false
   };
 
   const wakeViews = new Set(['viewLobby','viewHostGame','viewReveal','viewPodium','viewStudentWaiting','viewStudentQuestion','viewStudentReveal']);
@@ -72,7 +72,16 @@
   function supa(){
     if(!state.sb){
       if(!hasConfig()) return null;
-      state.sb=window.supabase.createClient(window.NCR_CONFIG.SUPABASE_URL,window.NCR_CONFIG.SUPABASE_ANON_KEY,{realtime:{params:{eventsPerSecond:15}}});
+      state.sb=window.supabase.createClient(window.NCR_CONFIG.SUPABASE_URL,window.NCR_CONFIG.SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true},realtime:{params:{eventsPerSecond:15}}});
+      if(!state.authBound){
+        state.authBound=true;
+        state.sb.auth.onAuthStateChange(async (_event, session)=>{
+          state.session=session||null; state.user=session?.user||null; updateTrainerUi();
+          if(!session && (state.host || document.querySelector('.view.active')?.id==='viewHostSetup')){
+            state.host=false; state.room=null; state.reuseRoom=false; show('viewLanding');
+          }
+        });
+      }
     }
     return state.sb;
   }
@@ -84,21 +93,82 @@
     else setConnection('offline','Supabase à connecter');
   }
 
+
+  function updateTrainerUi(){
+    const active=!!state.user;
+    const email=state.user?.email||'Formateur connecté';
+    $('trainerEmailLabel') && ($('trainerEmailLabel').textContent=email);
+    const chip=$('trainerSessionBtn');
+    if(chip){
+      chip.classList.toggle('hidden', !active);
+      $('trainerSessionText').textContent=active ? email : 'Formateur connecté';
+    }
+  }
+  async function refreshSession(){
+    if(!hasConfig()) return null;
+    const sb=supa();
+    const {data:{session}}=await sb.auth.getSession();
+    state.session=session||null; state.user=session?.user||null; updateTrainerUi();
+    return session||null;
+  }
+  async function ensureTrainer(redirect=true){
+    if(!hasConfig()){
+      if(redirect) show('viewSetupNeeded');
+      return false;
+    }
+    const session = state.session || await refreshSession();
+    if(session?.user) return true;
+    if(redirect){
+      $('trainerLoginMessage').textContent='';
+      $('trainerPasswordInput').value='';
+      show('viewTrainerLogin');
+      setTimeout(()=>$('trainerEmailInput')?.focus(),120);
+    }
+    return false;
+  }
+  async function signInTrainer(){
+    const email=$('trainerEmailInput').value.trim();
+    const password=$('trainerPasswordInput').value;
+    const msg=$('trainerLoginMessage'); msg.textContent='';
+    if(!email || !password){ msg.textContent='Renseigne l’adresse e-mail et le mot de passe.'; return; }
+    const sb=supa(); if(!sb){ show('viewSetupNeeded'); return; }
+    $('trainerLoginBtn').disabled=true;
+    const {data,error}=await sb.auth.signInWithPassword({email,password});
+    $('trainerLoginBtn').disabled=false;
+    if(error){ console.error(error); msg.textContent='Connexion impossible. Vérifie tes identifiants.'; return; }
+    state.session=data.session||null; state.user=data.user||null; state.host=true; state.reuseRoom=false; updateTrainerUi();
+    $('trainerPasswordInput').value='';
+    $('createRoomBtn').innerHTML='Créer le live <span>→</span>'; refreshHostSelectors(); show('viewHostSetup');
+  }
+  async function signOutTrainer(goHome=true){
+    const sb=supa();
+    if(sb) await sb.auth.signOut();
+    state.session=null; state.user=null; state.host=false; state.room=null; state.reuseRoom=false;
+    updateTrainerUi();
+    if(goHome) home();
+  }
+
   function home(){
     cleanupSubscriptions(); state.host=false; state.room=null; state.player=null; state.players=[]; state.reuseRoom=false; state.answered.clear(); clearInterval(state.timer); releaseWakeLock(); show('viewLanding');
   }
   document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',home));
   $('brandHome').addEventListener('click',home);
-  $('newGameBtn').addEventListener('click',()=>{cleanupSubscriptions();state.room=null;state.player=null;state.players=[];state.reuseRoom=false;state.answered.clear();state.host=true;$('createRoomBtn').innerHTML='Créer le live <span>→</span>';refreshHostSelectors();show('viewHostSetup');});
+  $('newGameBtn').addEventListener('click',async()=>{ if(!await ensureTrainer(true)) return; cleanupSubscriptions();state.room=null;state.player=null;state.players=[];state.reuseRoom=false;state.answered.clear();state.host=true;$('createRoomBtn').innerHTML='Créer le live <span>→</span>';refreshHostSelectors();show('viewHostSetup');});
 
-  $('hostEntry').addEventListener('click',()=>{
+  $('hostEntry').addEventListener('click',async()=>{
     if(!hasConfig()){ show('viewSetupNeeded'); return; }
+    if(!await ensureTrainer(true)) return;
     state.host=true; state.reuseRoom=false; $('createRoomBtn').innerHTML='Créer le live <span>→</span>'; refreshHostSelectors(); show('viewHostSetup');
   });
   $('joinEntry').addEventListener('click',()=>{
     if(!hasConfig()){ show('viewSetupNeeded'); return; }
     state.host=false; show('viewJoin');
   });
+  $('trainerLoginBtn').addEventListener('click',signInTrainer);
+  $('trainerLoginBackBtn').addEventListener('click',()=>show('viewLanding'));
+  $('trainerLogoutBtn').addEventListener('click',()=>signOutTrainer(true));
+  $('trainerSessionBtn').addEventListener('click',async()=>{ if(await ensureTrainer(true)){ state.host=true; refreshHostSelectors(); show('viewHostSetup'); } });
+  $('trainerPasswordInput').addEventListener('keydown',e=>{ if(e.key==='Enter') signInTrainer(); });
 
 
   function initAvatarPicker(){
@@ -164,6 +234,7 @@
 
   $('createRoomBtn').addEventListener('click',createRoom);
   async function createRoom(){
+    if(!await ensureTrainer(true)) return;
     const sb=supa(); if(!sb){show('viewSetupNeeded');return;}
     const pool=filteredQuestions(); if(!pool.length){toast('Aucune question disponible pour ce filtre.');return;}
     const count=Math.min(Number($('countSelect').value),pool.length);
@@ -192,6 +263,7 @@
   }
 
   async function resetRoomWithPlayers(picked,settings){
+    if(!await ensureTrainer(false)) return false;
     const sb=supa(); if(!sb||!state.room)return false;
     const roomId=state.room.id;
     const {error:aErr}=await sb.from('quiz_answers').delete().eq('room_id',roomId);
@@ -204,7 +276,7 @@
   }
 
   async function replaySameClass(){
-    if(!state.room)return;
+    if(!state.room || !await ensureTrainer(false))return;
     const room=state.room;
     const pool=state.questions.filter(q=>q.subject===room.subject&&q.year===room.year&&q.chapter===room.chapter&&(!room.session||q.session===room.session));
     const count=Math.min(room.question_ids?.length||10,pool.length); const old=new Set(room.question_ids||[]);
@@ -216,8 +288,8 @@
     if(ok){renderLobby();show('viewLobby');}
   }
 
-  function changeQuizKeepPlayers(){
-    if(!state.room)return; state.reuseRoom=true; state.host=true;
+  async function changeQuizKeepPlayers(){
+    if(!state.room || !await ensureTrainer(false))return; state.reuseRoom=true; state.host=true;
     $('subjectSelect').value=state.room.subject; $('yearSelect').value=state.room.year; fillChapters();
     $('chapterSelect').value=state.room.chapter; fillSessions(); $('sessionSelect').value=state.room.session||'all';
     const wanted=String(state.room.question_ids?.length||10); if([...$('countSelect').options].some(o=>o.value===wanted))$('countSelect').value=wanted;
@@ -245,7 +317,7 @@
     $('startGameBtn').disabled=state.players.length===0;
   }
   $('startGameBtn').addEventListener('click',async()=>{
-    if(!state.room||!state.players.length)return;
+    if(!state.room||!state.players.length||!await ensureTrainer(false))return;
     await updateRoom({phase:'question',current_index:0,question_started_at:new Date().toISOString()});
   });
 
@@ -270,6 +342,7 @@
     const sb=state.sb; if(sb) state.subscriptions.forEach(c=>sb.removeChannel(c)); state.subscriptions=[];
   }
   async function updateRoom(patch){
+    if(!await ensureTrainer(false)){ toast('Connexion formateur requise.'); return null; }
     const {data,error}=await supa().from('quiz_rooms').update(patch).eq('id',state.room.id).select().single();
     if(error){console.error(error);toast('Erreur de synchronisation.');return null;} state.room=data; return data;
   }
@@ -412,6 +485,7 @@
   // Deep link from QR code.
   async function boot(){
     try{await loadData();}catch(e){console.error(e);setConnection('offline','Erreur de chargement');toast('Impossible de charger la banque de questions.');return;}
+    if(hasConfig()) await refreshSession();
     const join=new URLSearchParams(location.search).get('join');
     if(join && hasConfig()){
       const code=cleanCode(join); $('joinCodeInput').value=code; state.host=false;
