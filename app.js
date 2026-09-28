@@ -16,13 +16,38 @@
   const state = {
     questions: [], catalog: {}, sb: null, room: null, player: null,
     host: false, subscriptions: [], timer: null, hostSelected: [],
-    answered: new Map(), currentQuestionId: null, players: [], selectedAvatar: defaultAvatar, reuseRoom: false
+    answered: new Map(), currentQuestionId: null, players: [], selectedAvatar: defaultAvatar, reuseRoom: false,
+    wakeLock: null, wakeNoticeShown: false
   };
 
+  const wakeViews = new Set(['viewLobby','viewHostGame','viewReveal','viewPodium','viewStudentWaiting','viewStudentQuestion','viewStudentReveal']);
   function show(id){
     views.forEach(v => v.classList.toggle('active', v.id === id));
     window.scrollTo({top:0,behavior:'auto'});
+    syncWakeLock(id);
   }
+  async function requestWakeLock(){
+    try{
+      if(!('wakeLock' in navigator) || document.visibilityState !== 'visible') return;
+      if(state.wakeLock) return;
+      state.wakeLock = await navigator.wakeLock.request('screen');
+      state.wakeLock.addEventListener('release',()=>{ state.wakeLock=null; });
+      if(!state.wakeNoticeShown){ state.wakeNoticeShown=true; toast('Mode écran éveillé activé.'); }
+    }catch(err){
+      console.warn('WakeLock unavailable', err);
+    }
+  }
+  async function releaseWakeLock(){
+    try{ if(state.wakeLock){ await state.wakeLock.release(); state.wakeLock=null; } }catch(err){ console.warn(err); }
+  }
+  function syncWakeLock(activeId){
+    const id = activeId || document.querySelector('.view.active')?.id;
+    if(wakeViews.has(id)) requestWakeLock();
+    else releaseWakeLock();
+  }
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='visible') syncWakeLock(); else releaseWakeLock();
+  });
   function toast(msg){
     const t=$('toast'); t.textContent=msg; t.classList.add('show');
     clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'),2600);
@@ -60,7 +85,7 @@
   }
 
   function home(){
-    cleanupSubscriptions(); state.host=false; state.room=null; state.player=null; state.players=[]; state.reuseRoom=false; state.answered.clear(); clearInterval(state.timer); show('viewLanding');
+    cleanupSubscriptions(); state.host=false; state.room=null; state.player=null; state.players=[]; state.reuseRoom=false; state.answered.clear(); clearInterval(state.timer); releaseWakeLock(); show('viewLanding');
   }
   document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',home));
   $('brandHome').addEventListener('click',home);
@@ -137,7 +162,7 @@
         session:$('sessionSelect').value==='all'?null:$('sessionSelect').value,duration:Number($('durationSelect').value)
       });
       $('createRoomBtn').disabled=false; $('createRoomBtn').innerHTML='Créer le live <span>→</span>';
-      if(ok){state.reuseRoom=false;renderLobby();show('viewLobby');}
+      if(ok){state.reuseRoom=false;renderLobby();requestWakeLock();show('viewLobby');}
       return;
     }
     const code=String(Math.floor(100000+Math.random()*900000));
@@ -150,7 +175,7 @@
     $('createRoomBtn').disabled=false; $('createRoomBtn').innerHTML='Créer le live <span>→</span>';
     if(error){console.error(error);toast('Impossible de créer la salle. Vérifie Supabase.');return;}
     state.room=data; state.hostSelected=picked; state.host=true; state.answered.clear();
-    await subscribeRoom(data.id); await refreshPlayers(); renderLobby(); show('viewLobby');
+    await subscribeRoom(data.id); await refreshPlayers(); renderLobby(); requestWakeLock(); show('viewLobby');
   }
 
   async function resetRoomWithPlayers(picked,settings){
@@ -245,7 +270,7 @@
 
   // HOST GAME
   async function renderHostQuestion(){
-    const q=currentQ(); if(!q)return; show('viewHostGame'); clearInterval(state.timer);
+    const q=currentQ(); if(!q)return; requestWakeLock(); show('viewHostGame'); clearInterval(state.timer);
     $('hostGameMeta').textContent=`${q.subject} • ${q.year} année • chapitre ${q.chapter} • séance ${q.session}`;
     $('hostProgress').textContent=`Question ${state.room.current_index+1} / ${state.room.question_ids.length}`;
     $('hostQuestionNumber').textContent=String(state.room.current_index+1).padStart(2,'0'); $('hostQuestionText').textContent=q.question;
@@ -263,7 +288,7 @@
   $('revealBtn').addEventListener('click',revealQuestion);
   async function revealQuestion(){ if(state.room?.phase==='question') await updateRoom({phase:'reveal'}); }
   async function renderHostReveal(){
-    clearInterval(state.timer); const q=currentQ(); if(!q)return; show('viewReveal');
+    clearInterval(state.timer); const q=currentQ(); if(!q)return; requestWakeLock(); show('viewReveal');
     $('revealQuestion').textContent=q.question; $('revealAnswer').textContent=`${shapes[q.answer]} ${q.choices[q.answer]}`; $('revealExplanation').textContent=q.explanation;
     await refreshPlayers(); await renderLeaderboard();
     const last=state.room.current_index>=state.room.question_ids.length-1; $('nextBtn').innerHTML=last?'Afficher le podium <span>🏆</span>':'Question suivante <span>→</span>';
@@ -277,10 +302,31 @@
     if(last) await updateRoom({phase:'finished'}); else await updateRoom({phase:'question',current_index:state.room.current_index+1,question_started_at:new Date().toISOString()});
   });
   async function renderPodium(){
-    clearInterval(state.timer); await refreshPlayers(); show('viewPodium'); const sorted=[...state.players].sort((a,b)=>b.score-a.score);
+    clearInterval(state.timer); await refreshPlayers(); requestWakeLock(); show('viewPodium'); triggerPodiumFx(); const sorted=[...state.players].sort((a,b)=>b.score-a.score);
     const podium=$('podium'); podium.innerHTML=''; const order=[1,0,2];
     order.forEach(idx=>{const p=sorted[idx];if(!p)return;const place=idx+1;const d=document.createElement('div');d.className=`podium-slot p${place}`;d.innerHTML=`<div class="avatar">${avatarMarkup(p.avatar,'podium-avatar-img')}</div><strong>${escapeHtml(p.name)}</strong><span>${p.score.toLocaleString('fr-FR')} pts</span><div class="podium-block">${place===1?'🥇':place===2?'🥈':'🥉'}</div>`;podium.appendChild(d);});
     const final=$('finalList');final.innerHTML='<span class="eyebrow">CLASSEMENT COMPLET</span>';sorted.forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span class="leader-name"><i>${avatarMarkup(p.avatar,'avatar-thumb')}</i>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;final.appendChild(r);});
+  }
+
+
+  function triggerPodiumFx(){
+    const box=$('podiumFx'); if(!box) return; box.innerHTML='';
+    const total=52;
+    for(let i=0;i<total;i++){
+      const piece=document.createElement('span');
+      piece.className='confetti';
+      const left=(i*(100/total)) + (Math.random()*4-2);
+      const delay=(Math.random()*1.3).toFixed(2);
+      const dur=(2.7 + Math.random()*2.3).toFixed(2);
+      const drift=(Math.random()*160-80).toFixed(0);
+      const rot=(Math.random()*540-270).toFixed(0);
+      piece.style.left=`${Math.max(-4,Math.min(100,left))}%`;
+      piece.style.setProperty('--delay', `${delay}s`);
+      piece.style.setProperty('--dur', `${dur}s`);
+      piece.style.setProperty('--drift', `${drift}px`);
+      piece.style.setProperty('--rot', `${rot}deg`);
+      box.appendChild(piece);
+    }
   }
 
   // STUDENT JOIN
@@ -297,13 +343,13 @@
     const {data:player,error:pErr}=await sb.from('quiz_players').insert({room_id:room.id,name:name.slice(0,24),avatar:state.selectedAvatar}).select().single();
     $('joinRoomBtn').disabled=false;
     if(pErr){console.error(pErr);msg.textContent='Impossible de rejoindre la partie.';return;}
-    state.room=room;state.player=player;state.host=false;localStorage.setItem(`ncr-player-${room.id}`,player.id);await subscribeRoom(room.id);await renderStudentFromRoom();
+    state.room=room;state.player=player;state.host=false;localStorage.setItem(`ncr-player-${room.id}`,player.id);requestWakeLock();await subscribeRoom(room.id);await renderStudentFromRoom();
   }
 
   async function renderStudentFromRoom(){
     if(!state.room||!state.player)return; await refreshPlayers();
     if(state.room.phase==='lobby'){
-      if(state.room.current_index===-1)state.answered.clear(); $('studentName').textContent=state.player.name;$('studentAvatar').innerHTML=avatarMarkup(state.player.avatar,'student-avatar-img');$('waitingScore').textContent=state.player.score;show('viewStudentWaiting');return;
+      if(state.room.current_index===-1)state.answered.clear(); $('studentName').textContent=state.player.name;$('studentAvatar').innerHTML=avatarMarkup(state.player.avatar,'student-avatar-img');$('waitingScore').textContent=state.player.score;requestWakeLock();show('viewStudentWaiting');return;
     }
     if(state.room.phase==='question'){ await renderStudentQuestion(); return; }
     if(state.room.phase==='reveal'){ await renderStudentReveal(); return; }
@@ -315,7 +361,7 @@
     if(data)state.answered.set(qid,data); return data||null;
   }
   async function renderStudentQuestion(){
-    const q=currentQ(); if(!q)return; state.currentQuestionId=q.id; show('viewStudentQuestion');
+    const q=currentQ(); if(!q)return; state.currentQuestionId=q.id; requestWakeLock(); show('viewStudentQuestion');
     $('studentProgress').textContent=`${state.room.current_index+1}/${state.room.question_ids.length}`;$('studentScore').textContent=`${state.player.score||0} pts`;$('studentQuestion').textContent=q.question;
     const box=$('studentChoices');box.innerHTML='';const prior=await alreadyAnswered(q.id);
     q.choices.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.className='student-answer';b.innerHTML=`${shapes[i]} &nbsp; ${escapeHtml(c)}`;b.disabled=!!prior;b.addEventListener('click',()=>submitAnswer(q,i));box.appendChild(b);});
@@ -339,12 +385,12 @@
     $('studentScore').textContent=`${newScore} pts`;
   }
   async function renderStudentReveal(){
-    clearInterval(state.timer); const q=currentQ(); if(!q)return; const ans=await alreadyAnswered(q.id); await refreshPlayers(); show('viewStudentReveal');
+    clearInterval(state.timer); const q=currentQ(); if(!q)return; const ans=await alreadyAnswered(q.id); await refreshPlayers(); requestWakeLock(); show('viewStudentReveal');
     const ok=!!ans?.is_correct; const icon=$('studentResultIcon');icon.textContent=ok?'✓':'×';icon.classList.toggle('wrong',!ok);$('studentResultTitle').textContent=ok?'Bonne réponse !':'Pas cette fois';
     $('studentCorrectText').textContent=`Bonne réponse : ${q.choices[q.answer]}`;$('studentRevealScore').textContent=(state.player.score||0).toLocaleString('fr-FR');
   }
   async function renderStudentFinal(){
-    await refreshPlayers(); const sorted=[...state.players].sort((a,b)=>b.score-a.score); const rank=sorted.findIndex(p=>p.id===state.player.id)+1; show('viewStudentReveal');
+    await refreshPlayers(); const sorted=[...state.players].sort((a,b)=>b.score-a.score); const rank=sorted.findIndex(p=>p.id===state.player.id)+1; requestWakeLock(); show('viewStudentReveal');
     const icon=$('studentResultIcon');icon.textContent=rank===1?'🏆':rank<=3?'🥉':'✓';icon.classList.remove('wrong');$('studentResultTitle').textContent=`Tu termines ${rank}${rank===1?'er':'e'} !`;$('studentCorrectText').textContent=`${state.player.name} • ${(state.player.score||0).toLocaleString('fr-FR')} points`;$('studentRevealScore').textContent=(state.player.score||0).toLocaleString('fr-FR');
   }
 

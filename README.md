@@ -1,3 +1,14 @@
+NCR MCO Quiz Arena V2.5
+
+- Salle d’attente redesignée : avatar et prénom des joueurs nettement plus grands
+- Grille responsive pensée pour une classe complète
+
+NCR MCO Quiz Arena V2.4
+
+- Wake lock écran éveillé sur les vues live compatibles
+- Podium animé avec confettis
+- Icône/logo robot utilisé comme favicon et identité visuelle
+
 # NCR MCO Quiz Arena — V2.3
 
 Version prête à déployer sur GitHub Pages pour un quiz BTS MCO live en classe.

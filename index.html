@@ -4,14 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#081226" />
-  <title>NCR MCO Quiz Arena — V2.3</title>
+  <title>NCR MCO Quiz Arena</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
   <header class="topbar">
     <button class="brand brand-btn" id="brandHome" type="button" aria-label="Accueil">
-      <span class="brand-mark">N</span><span><strong>NCR MCO</strong><small>QUIZ ARENA</small></span>
+      <span class="brand-mark"><img src="assets/app-icon.png" alt="Logo NCR MCO Quiz Arena"></span><span><strong>NCR MCO</strong><small>QUIZ ARENA</small></span>
     </button>
     <div class="status-pill" id="connectionPill"><span class="dot"></span><span id="connectionText">Initialisation</span></div>
   </header>
@@ -76,7 +79,7 @@
     </section>
 
     <section class="view" id="viewPodium">
-      <div class="podium-wrap"><span class="eyebrow">PARTIE TERMINÉE</span><h1>Le podium 🏆</h1><div class="podium" id="podium"></div><div class="final-list panel" id="finalList"></div>
+      <div class="podium-wrap"><div class="podium-fx" id="podiumFx" aria-hidden="true"></div><span class="eyebrow">PARTIE TERMINÉE</span><h1>Le podium 🏆</h1><div class="podium" id="podium"></div><div class="final-list panel" id="finalList"></div>
         <div class="podium-actions">
           <button class="cta compact" id="replaySameBtn" type="button">↻ Rejouer avec la même classe</button>
           <button class="secondary compact-action" id="changeQuizKeepPlayersBtn" type="button">Changer le quiz • garder les joueurs</button>
