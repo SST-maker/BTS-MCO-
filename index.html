@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#081226" />
-  <title>NCR MCO Quiz Arena — V2.1</title>
+  <title>NCR MCO Quiz Arena — V2.2</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -46,7 +46,7 @@
           <div class="field-row"><label>Matière<select id="subjectSelect"><option>ADOC</option><option>DRCV</option></select></label><label>Année<select id="yearSelect"><option value="1re">1re année</option><option value="2e">2e année</option></select></label></div>
           <label>Chapitre<select id="chapterSelect"></select></label>
           <label>Séance<select id="sessionSelect"></select></label>
-          <div class="field-row"><label>Questions<select id="countSelect"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>30</option></select></label><label>Temps par question<select id="durationSelect"><option value="20">20 s • rapide</option><option value="30" selected>30 s • normal</option><option value="45">45 s • confort</option><option value="60">60 s • réflexion</option></select></label></div>
+          <div class="field-row"><label>Questions<select id="countSelect"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>30</option><option>40</option><option>50</option><option>60</option></select></label><label>Temps par question<select id="durationSelect"><option value="20">20 s • rapide</option><option value="30" selected>30 s • normal</option><option value="45">45 s • confort</option><option value="60">60 s • réflexion</option></select></label></div>
           <div class="availability" id="availability"></div>
           <button class="cta" id="createRoomBtn" type="button">Créer le live <span>→</span></button>
         </div>
@@ -76,14 +76,22 @@
     </section>
 
     <section class="view" id="viewPodium">
-      <div class="podium-wrap"><span class="eyebrow">PARTIE TERMINÉE</span><h1>Le podium 🏆</h1><div class="podium" id="podium"></div><div class="final-list panel" id="finalList"></div><button class="cta compact" id="newGameBtn" type="button">Nouvelle partie</button></div>
+      <div class="podium-wrap"><span class="eyebrow">PARTIE TERMINÉE</span><h1>Le podium 🏆</h1><div class="podium" id="podium"></div><div class="final-list panel" id="finalList"></div>
+        <div class="podium-actions">
+          <button class="cta compact" id="replaySameBtn" type="button">↻ Rejouer avec la même classe</button>
+          <button class="secondary compact-action" id="changeQuizKeepPlayersBtn" type="button">Changer le quiz • garder les joueurs</button>
+          <button class="ghost-action" id="newGameBtn" type="button">Nouvelle classe</button>
+        </div>
+      </div>
     </section>
 
     <section class="view" id="viewJoin">
-      <div class="mobile-card panel"><span class="eyebrow">NCR MCO QUIZ ARENA</span><h2>Rejoindre la partie</h2><label>Code de partie<input id="joinCodeInput" inputmode="numeric" maxlength="6" placeholder="482913" /></label><label>Ton prénom<input id="joinNameInput" maxlength="24" placeholder="Prénom" /></label><button class="cta" id="joinRoomBtn" type="button">Entrer dans la salle <span>→</span></button><p class="tiny" id="joinMessage"></p></div>
+      <div class="mobile-card panel"><span class="eyebrow">NCR MCO QUIZ ARENA</span><h2>Rejoindre la partie</h2><label>Code de partie<input id="joinCodeInput" inputmode="numeric" maxlength="6" placeholder="482913" /></label><label>Ton prénom<input id="joinNameInput" maxlength="24" placeholder="Prénom" /></label>
+        <div class="avatar-field"><span>Choisis ton avatar</span><div class="avatar-picker" id="avatarPicker" role="radiogroup" aria-label="Choisir un avatar"></div></div>
+        <button class="cta" id="joinRoomBtn" type="button">Entrer dans la salle <span>→</span></button><p class="tiny" id="joinMessage"></p></div>
     </section>
 
-    <section class="view" id="viewStudentWaiting"><div class="mobile-card panel center"><div class="waiting-orb"></div><span class="eyebrow">TU ES CONNECTÉ(E)</span><h2 id="studentName">—</h2><p>Regarde l’écran principal. Le quiz va commencer.</p><div class="score-chip">Score <strong id="waitingScore">0</strong></div></div></section>
+    <section class="view" id="viewStudentWaiting"><div class="mobile-card panel center"><div class="student-avatar-large" id="studentAvatar">🦊</div><span class="eyebrow">TU ES CONNECTÉ(E)</span><h2 id="studentName">—</h2><p>Regarde l’écran principal. Le quiz va commencer.</p><div class="score-chip">Score <strong id="waitingScore">0</strong></div></div></section>
 
     <section class="view" id="viewStudentQuestion">
       <div class="student-game"><div class="student-top"><span id="studentProgress">1/10</span><div class="round-timer" id="studentTimer">20</div><strong id="studentScore">0 pts</strong></div><h2 id="studentQuestion">—</h2><div class="student-answers" id="studentChoices"></div><div class="submitted hidden" id="submittedBox">✓ Réponse envoyée</div></div>

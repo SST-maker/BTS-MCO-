@@ -1,23 +1,18 @@
-## V2.1 — formulations complètes, sans points de suspension
+# NCR MCO Quiz Arena — V2.2
 
-Les questions et réponses du live sont désormais courtes mais complètes. Aucun texte de quiz n’est tronqué avec « … » et les noms se renvoient à la ligne au lieu d’être coupés.
+Application de quiz live BTS MCO pour une utilisation en classe : l’hôte projette la partie, les élèves rejoignent par QR code ou code à 6 chiffres, répondent depuis leur téléphone, puis le classement et le podium sont affichés en temps réel.
 
-# NCR MCO Quiz Arena — V2 Responsive
+## Nouveautés V2.2
 
-Application de quiz live BTS MCO pour une utilisation en classe : l’hôte projette la partie, les élèves rejoignent par QR code ou code à 6 chiffres, répondent depuis leur téléphone, puis le classement et le podium sont affichés.
-
-## Ce qui change dans la V2
-
-- responsive mobile entièrement retravaillé pour les téléphones élèves ;
-- interface hôte optimisée pour vidéoprojecteur, tablette et petits écrans ;
-- lobby, écran de connexion, correction et podium adaptés aux écrans étroits ;
-- boutons de réponse plus grands et plus tactiles ;
-- gestion des petits téléphones et du mode paysage ;
-- barre supérieure et espacements réduits sur mobile pour laisser plus de place au quiz ;
-- questions fortement raccourcies pour une lecture rapide en live ;
-- réponses raccourcies, tandis que les explications détaillées restent visibles après la réponse ;
-- chrono par défaut porté à **30 secondes** ;
-- choix de chrono : 20 s rapide, 30 s normal, 45 s confort, 60 s réflexion.
+- **1 347 questions** dans la banque ADOC/DRCV, avec davantage de variantes courtes par notion ;
+- toujours aucune question ou réponse tronquée avec des points de suspension ;
+- choix de 5, 10, 15, 20, 30, 40, 50 ou 60 questions selon le volume disponible ;
+- choix d’un **avatar** lors de l’entrée dans la salle ;
+- avatar visible dans le lobby, le classement et le podium ;
+- bouton **Rejouer avec la même classe** à la fin : les élèves restent connectés, les scores et réponses sont remis à zéro et une nouvelle sélection de questions est tirée ;
+- bouton **Changer le quiz • garder les joueurs** : le formateur peut choisir une autre matière, année, chapitre ou séance sans faire rescanner le QR code aux élèves ;
+- reconnexion automatique d’un élève sur le même appareil si la page est actualisée ;
+- responsive mobile conservé et optimisé pour les écrans élèves.
 
 ## Banque de questions
 
@@ -25,30 +20,28 @@ Application de quiz live BTS MCO pour une utilisation en classe : l’hôte proj
 - ADOC 2e année
 - DRCV 1re année
 - DRCV 2e année
-- **689 questions** conservées
+- **1 347 questions** au total
 - filtres matière > année > chapitre > séance
-- tirage aléatoire de 5, 10, 15, 20 ou 30 questions selon le volume disponible
+- tirage aléatoire à chaque manche
 
-Les corrections et explications restent plus développées que les formulations affichées pendant le chrono : le but est que l’élève lise vite pendant la manche, puis que le formateur puisse exploiter la correction pédagogiquement.
+Les formulations de jeu restent volontairement courtes. Les corrections restent plus développées après chaque question afin que le formateur puisse exploiter la réponse avec la classe.
 
-### Mesures de longueur V2
+## Mise à jour Supabase obligatoire pour la V2.2
 
-Sur les 689 questions :
+Si tu avais déjà exécuté le SQL d’une ancienne version, **réexécute le fichier `supabase.sql` de cette V2.2**. Il ajoute :
 
-- question médiane : environ 67 caractères ;
-- 90 % des questions : moins de 88 caractères ;
-- réponses : environ 49 caractères en médiane ;
-- 90 % des réponses : moins de 90 caractères.
+- la colonne `avatar` sur les joueurs ;
+- l’autorisation de supprimer les réponses d’une manche, nécessaire pour relancer un quiz avec les mêmes joueurs.
+
+Le script utilise `IF NOT EXISTS` lorsque nécessaire et peut donc servir aussi bien à une nouvelle installation qu’à une mise à jour.
 
 ## Installation Supabase
 
-1. Créer ou ouvrir un projet Supabase.
-2. Ouvrir **SQL Editor**.
-3. Copier/coller le contenu de `supabase.sql` et l’exécuter.
-4. Dans **Project Settings > API**, récupérer :
-   - Project URL
-   - anon / public key
-5. Ouvrir `config.js` et renseigner :
+1. Ouvrir le projet Supabase.
+2. Aller dans **SQL Editor**.
+3. Copier/coller `supabase.sql` puis l’exécuter.
+4. Dans **Project Settings > API**, récupérer le Project URL et la clé anon/public.
+5. Renseigner `config.js` :
 
 ```js
 window.NCR_CONFIG = {
@@ -59,25 +52,19 @@ window.NCR_CONFIG = {
 
 ## Déploiement
 
-Le dossier est statique. Il peut être hébergé sur Cloudflare Pages, GitHub Pages ou tout hébergement statique HTTPS. Le site doit être accessible depuis les téléphones des élèves pour que le QR code fonctionne.
+Le dossier est statique et peut être hébergé sur Cloudflare Pages, GitHub Pages ou tout hébergement HTTPS. Pour que les élèves rejoignent par QR code, l’URL doit être accessible depuis leurs téléphones.
 
-Pour un test local :
-
-```bash
-python -m http.server 8080
-```
-
-## Fichiers
+## Fichiers principaux
 
 - `index.html` : interface
-- `style.css` : design responsive V2
-- `app.js` : logique hôte/élève, temps réel, score et podium
-- `questions.json` : banque de questions raccourcies
+- `style.css` : design responsive
+- `app.js` : logique hôte/élève, temps réel, avatars, relance et score
+- `questions.json` : banque de 1 347 questions
 - `catalog.json` : structure matières / chapitres / séances
-- `source_index.json` : index des notions des manuels
+- `source_index.json` : index des notions issues des manuels
 - `supabase.sql` : base de données + Realtime + RLS
 - `config.js` : configuration Supabase
 
 ## Sécurité
 
-Cette version est destinée à l’entraînement en classe. Les réponses correctes restent dans le bundle web afin de garder un déploiement simple. Pour un examen certifiant, il faudrait déplacer la validation des réponses côté serveur.
+Cette version est destinée à l’entraînement en classe. Les réponses correctes restent dans le bundle web afin de conserver un déploiement simple. Pour un examen certifiant, la validation des réponses devrait être déplacée côté serveur.

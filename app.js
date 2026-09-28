@@ -4,10 +4,11 @@
   const $ = (id) => document.getElementById(id);
   const views = [...document.querySelectorAll('.view')];
   const shapes = ['◆','●','▲','■'];
+  const avatars = ['🦊','🐼','🐯','🐸','🐵','🐧','🐙','🦄','🐲','🦁','🐨','🐰'];
   const state = {
     questions: [], catalog: {}, sb: null, room: null, player: null,
     host: false, subscriptions: [], timer: null, hostSelected: [],
-    answered: new Map(), currentQuestionId: null, players: []
+    answered: new Map(), currentQuestionId: null, players: [], selectedAvatar: '🦊', reuseRoom: false
   };
 
   function show(id){
@@ -44,27 +45,33 @@
   }
   async function loadData(){
     const [q,c]=await Promise.all([fetch('questions.json').then(r=>r.json()),fetch('catalog.json').then(r=>r.json())]);
-    state.questions=q; state.catalog=c;
+    state.questions=q; state.catalog=c; initAvatarPicker();
     $('statQuestions').textContent=q.length.toLocaleString('fr-FR');
     if(hasConfig()){ setConnection('online','Prêt pour le live'); supa(); }
     else setConnection('offline','Supabase à connecter');
   }
 
   function home(){
-    cleanupSubscriptions(); state.host=false; state.room=null; state.player=null; state.players=[]; clearInterval(state.timer); show('viewLanding');
+    cleanupSubscriptions(); state.host=false; state.room=null; state.player=null; state.players=[]; state.reuseRoom=false; state.answered.clear(); clearInterval(state.timer); show('viewLanding');
   }
   document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',home));
   $('brandHome').addEventListener('click',home);
-  $('newGameBtn').addEventListener('click',()=>{cleanupSubscriptions();state.room=null;state.player=null;state.host=true;refreshHostSelectors();show('viewHostSetup');});
+  $('newGameBtn').addEventListener('click',()=>{cleanupSubscriptions();state.room=null;state.player=null;state.players=[];state.reuseRoom=false;state.answered.clear();state.host=true;$('createRoomBtn').innerHTML='Créer le live <span>→</span>';refreshHostSelectors();show('viewHostSetup');});
 
   $('hostEntry').addEventListener('click',()=>{
     if(!hasConfig()){ show('viewSetupNeeded'); return; }
-    state.host=true; refreshHostSelectors(); show('viewHostSetup');
+    state.host=true; state.reuseRoom=false; $('createRoomBtn').innerHTML='Créer le live <span>→</span>'; refreshHostSelectors(); show('viewHostSetup');
   });
   $('joinEntry').addEventListener('click',()=>{
     if(!hasConfig()){ show('viewSetupNeeded'); return; }
     state.host=false; show('viewJoin');
   });
+
+
+  function initAvatarPicker(){
+    const box=$('avatarPicker'); if(!box)return; box.innerHTML='';
+    avatars.forEach((avatar,i)=>{const b=document.createElement('button');b.type='button';b.className='avatar-option';b.textContent=avatar;b.setAttribute('aria-label',`Avatar ${i+1}`);b.setAttribute('aria-pressed',avatar===state.selectedAvatar?'true':'false');b.classList.toggle('selected',avatar===state.selectedAvatar);b.addEventListener('click',()=>{state.selectedAvatar=avatar;[...box.children].forEach(x=>{const on=x.textContent===avatar;x.classList.toggle('selected',on);x.setAttribute('aria-pressed',on?'true':'false');});});box.appendChild(b);});
+  }
 
   // HOST SETUP
   const selectorIds=['subjectSelect','yearSelect','chapterSelect','sessionSelect','countSelect'];
@@ -115,9 +122,18 @@
     const pool=filteredQuestions(); if(!pool.length){toast('Aucune question disponible pour ce filtre.');return;}
     const count=Math.min(Number($('countSelect').value),pool.length);
     const picked=shuffle(pool).slice(0,count);
+    $('createRoomBtn').disabled=true; $('createRoomBtn').innerHTML=state.reuseRoom?'Préparation de la manche…':'Création…';
+    if(state.reuseRoom && state.room){
+      const ok=await resetRoomWithPlayers(picked,{
+        subject:$('subjectSelect').value,year:$('yearSelect').value,chapter:$('chapterSelect').value,
+        session:$('sessionSelect').value==='all'?null:$('sessionSelect').value,duration:Number($('durationSelect').value)
+      });
+      $('createRoomBtn').disabled=false; $('createRoomBtn').innerHTML='Créer le live <span>→</span>';
+      if(ok){state.reuseRoom=false;renderLobby();show('viewLobby');}
+      return;
+    }
     const code=String(Math.floor(100000+Math.random()*900000));
     const payload={code,subject:$('subjectSelect').value,year:$('yearSelect').value,chapter:$('chapterSelect').value,session:$('sessionSelect').value==='all'?null:$('sessionSelect').value,question_ids:picked.map(q=>q.id),duration:Number($('durationSelect').value),phase:'lobby',current_index:-1,question_started_at:null};
-    $('createRoomBtn').disabled=true; $('createRoomBtn').innerHTML='Création…';
     let {data,error}=await sb.from('quiz_rooms').insert(payload).select().single();
     if(error && String(error.message).toLowerCase().includes('duplicate')){
       payload.code=String(Math.floor(100000+Math.random()*900000));
@@ -125,9 +141,46 @@
     }
     $('createRoomBtn').disabled=false; $('createRoomBtn').innerHTML='Créer le live <span>→</span>';
     if(error){console.error(error);toast('Impossible de créer la salle. Vérifie Supabase.');return;}
-    state.room=data; state.hostSelected=picked; state.host=true;
+    state.room=data; state.hostSelected=picked; state.host=true; state.answered.clear();
     await subscribeRoom(data.id); await refreshPlayers(); renderLobby(); show('viewLobby');
   }
+
+  async function resetRoomWithPlayers(picked,settings){
+    const sb=supa(); if(!sb||!state.room)return false;
+    const roomId=state.room.id;
+    const {error:aErr}=await sb.from('quiz_answers').delete().eq('room_id',roomId);
+    if(aErr){console.error(aErr);toast('Impossible de remettre les réponses à zéro. Mets à jour supabase.sql.');return false;}
+    const {error:pErr}=await sb.from('quiz_players').update({score:0,streak:0}).eq('room_id',roomId);
+    if(pErr){console.error(pErr);toast('Impossible de remettre les scores à zéro.');return false;}
+    state.answered.clear(); state.hostSelected=picked;
+    const data=await updateRoom({...settings,question_ids:picked.map(q=>q.id),phase:'lobby',current_index:-1,question_started_at:null});
+    if(!data)return false; await refreshPlayers(); return true;
+  }
+
+  async function replaySameClass(){
+    if(!state.room)return;
+    const room=state.room;
+    const pool=state.questions.filter(q=>q.subject===room.subject&&q.year===room.year&&q.chapter===room.chapter&&(!room.session||q.session===room.session));
+    const count=Math.min(room.question_ids?.length||10,pool.length); const old=new Set(room.question_ids||[]);
+    const fresh=shuffle(pool.filter(q=>!old.has(q.id))); const previous=shuffle(pool.filter(q=>old.has(q.id)));
+    const picked=[...fresh,...previous].slice(0,count);
+    $('replaySameBtn').disabled=true; $('replaySameBtn').textContent='Préparation…';
+    const ok=await resetRoomWithPlayers(picked,{subject:room.subject,year:room.year,chapter:room.chapter,session:room.session,duration:room.duration});
+    $('replaySameBtn').disabled=false; $('replaySameBtn').textContent='↻ Rejouer avec la même classe';
+    if(ok){renderLobby();show('viewLobby');}
+  }
+
+  function changeQuizKeepPlayers(){
+    if(!state.room)return; state.reuseRoom=true; state.host=true;
+    $('subjectSelect').value=state.room.subject; $('yearSelect').value=state.room.year; fillChapters();
+    $('chapterSelect').value=state.room.chapter; fillSessions(); $('sessionSelect').value=state.room.session||'all';
+    const wanted=String(state.room.question_ids?.length||10); if([...$('countSelect').options].some(o=>o.value===wanted))$('countSelect').value=wanted;
+    $('durationSelect').value=String(state.room.duration||30); updateAvailability();
+    $('createRoomBtn').innerHTML='Relancer avec la classe <span>→</span>'; show('viewHostSetup');
+  }
+
+  $('replaySameBtn').addEventListener('click',replaySameClass);
+  $('changeQuizKeepPlayersBtn').addEventListener('click',changeQuizKeepPlayers);
 
   function renderLobby(){
     if(!state.room)return;
@@ -142,7 +195,7 @@
   function renderPlayers(){
     $('playerCount').textContent=state.players.length; $('hostTotalPlayers').textContent=state.players.length;
     const cloud=$('playerCloud');cloud.innerHTML='';
-    state.players.forEach(p=>{const el=document.createElement('span');el.className='player-chip';el.textContent=p.name;cloud.appendChild(el);});
+    state.players.forEach(p=>{const el=document.createElement('span');el.className='player-chip';el.innerHTML=`<i>${escapeHtml(p.avatar||'🦊')}</i><span>${escapeHtml(p.name)}</span>`;cloud.appendChild(el);});
     $('startGameBtn').disabled=state.players.length===0;
   }
   $('startGameBtn').addEventListener('click',async()=>{
@@ -209,7 +262,7 @@
   }
   async function renderLeaderboard(){
     await refreshPlayers(); const list=$('leaderboardList'); list.innerHTML='';
-    state.players.slice(0,8).forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;list.appendChild(r);});
+    state.players.slice(0,8).forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span class="leader-name"><i>${escapeHtml(p.avatar||'🦊')}</i>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;list.appendChild(r);});
   }
   $('nextBtn').addEventListener('click',async()=>{
     if(!state.room)return; const last=state.room.current_index>=state.room.question_ids.length-1;
@@ -218,8 +271,8 @@
   async function renderPodium(){
     clearInterval(state.timer); await refreshPlayers(); show('viewPodium'); const sorted=[...state.players].sort((a,b)=>b.score-a.score);
     const podium=$('podium'); podium.innerHTML=''; const order=[1,0,2];
-    order.forEach(idx=>{const p=sorted[idx];if(!p)return;const place=idx+1;const d=document.createElement('div');d.className=`podium-slot p${place}`;d.innerHTML=`<div class="avatar">${escapeHtml((p.name||'?')[0].toUpperCase())}</div><strong>${escapeHtml(p.name)}</strong><span>${p.score.toLocaleString('fr-FR')} pts</span><div class="podium-block">${place===1?'🥇':place===2?'🥈':'🥉'}</div>`;podium.appendChild(d);});
-    const final=$('finalList');final.innerHTML='<span class="eyebrow">CLASSEMENT COMPLET</span>';sorted.forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;final.appendChild(r);});
+    order.forEach(idx=>{const p=sorted[idx];if(!p)return;const place=idx+1;const d=document.createElement('div');d.className=`podium-slot p${place}`;d.innerHTML=`<div class="avatar">${escapeHtml(p.avatar||'🦊')}</div><strong>${escapeHtml(p.name)}</strong><span>${p.score.toLocaleString('fr-FR')} pts</span><div class="podium-block">${place===1?'🥇':place===2?'🥈':'🥉'}</div>`;podium.appendChild(d);});
+    const final=$('finalList');final.innerHTML='<span class="eyebrow">CLASSEMENT COMPLET</span>';sorted.forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span class="leader-name"><i>${escapeHtml(p.avatar||'🦊')}</i>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;final.appendChild(r);});
   }
 
   // STUDENT JOIN
@@ -233,7 +286,7 @@
     const {data:room,error}=await sb.from('quiz_rooms').select('*').eq('code',code).maybeSingle();
     if(error||!room){msg.textContent='Partie introuvable. Vérifie le code.';$('joinRoomBtn').disabled=false;return;}
     if(room.phase==='finished'){msg.textContent='Cette partie est terminée.';$('joinRoomBtn').disabled=false;return;}
-    const {data:player,error:pErr}=await sb.from('quiz_players').insert({room_id:room.id,name:name.slice(0,24)}).select().single();
+    const {data:player,error:pErr}=await sb.from('quiz_players').insert({room_id:room.id,name:name.slice(0,24),avatar:state.selectedAvatar}).select().single();
     $('joinRoomBtn').disabled=false;
     if(pErr){console.error(pErr);msg.textContent='Impossible de rejoindre la partie.';return;}
     state.room=room;state.player=player;state.host=false;localStorage.setItem(`ncr-player-${room.id}`,player.id);await subscribeRoom(room.id);await renderStudentFromRoom();
@@ -242,7 +295,7 @@
   async function renderStudentFromRoom(){
     if(!state.room||!state.player)return; await refreshPlayers();
     if(state.room.phase==='lobby'){
-      $('studentName').textContent=state.player.name;$('waitingScore').textContent=state.player.score;show('viewStudentWaiting');return;
+      if(state.room.current_index===-1)state.answered.clear(); $('studentName').textContent=state.player.name;$('studentAvatar').textContent=state.player.avatar||'🦊';$('waitingScore').textContent=state.player.score;show('viewStudentWaiting');return;
     }
     if(state.room.phase==='question'){ await renderStudentQuestion(); return; }
     if(state.room.phase==='reveal'){ await renderStudentReveal(); return; }
@@ -293,7 +346,21 @@
   async function boot(){
     try{await loadData();}catch(e){console.error(e);setConnection('offline','Erreur de chargement');toast('Impossible de charger la banque de questions.');return;}
     const join=new URLSearchParams(location.search).get('join');
-    if(join){$('joinCodeInput').value=cleanCode(join);state.host=false;show(hasConfig()?'viewJoin':'viewSetupNeeded');setTimeout(()=>$('joinNameInput')?.focus(),150);} else show('viewLanding');
+    if(join && hasConfig()){
+      const code=cleanCode(join); $('joinCodeInput').value=code; state.host=false;
+      const {data:room}=await supa().from('quiz_rooms').select('*').eq('code',code).maybeSingle();
+      if(room){
+        const saved=localStorage.getItem(`ncr-player-${room.id}`);
+        if(saved){
+          const {data:player}=await supa().from('quiz_players').select('*').eq('id',saved).eq('room_id',room.id).maybeSingle();
+          if(player){state.room=room;state.player=player;state.selectedAvatar=player.avatar||'🦊';initAvatarPicker();await subscribeRoom(room.id);await renderStudentFromRoom();return;}
+        }
+      }
+      show('viewJoin'); setTimeout(()=>$('joinNameInput')?.focus(),150); return;
+    }
+    if(join){$('joinCodeInput').value=cleanCode(join);state.host=false;show('viewSetupNeeded');return;}
+    show('viewLanding');
   }
+
   boot();
 })();

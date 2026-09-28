@@ -12,7 +12,7 @@
               "1.4",
               "1.5"
             ],
-            "questionCount": 12
+            "questionCount": 22
           },
           "02": {
             "notions": [
@@ -20,7 +20,7 @@
               "1.7",
               "1.8"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "03": {
             "notions": [
@@ -31,14 +31,14 @@
               "1.13",
               "1.14"
             ],
-            "questionCount": 12
+            "questionCount": 24
           },
           "05": {
             "notions": [
               "1.15",
               "1.16"
             ],
-            "questionCount": 4
+            "questionCount": 8
           }
         }
       },
@@ -52,7 +52,7 @@
               "2.3",
               "2.4"
             ],
-            "questionCount": 9
+            "questionCount": 17
           },
           "07": {
             "notions": [
@@ -61,7 +61,7 @@
               "2.7",
               "2.8"
             ],
-            "questionCount": 8
+            "questionCount": 16
           },
           "08": {
             "notions": [
@@ -71,13 +71,13 @@
               "2.12",
               "2.13"
             ],
-            "questionCount": 10
+            "questionCount": 20
           },
           "10": {
             "notions": [
               "2.14"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "11": {
             "notions": [
@@ -86,7 +86,7 @@
               "2.17",
               "2.18"
             ],
-            "questionCount": 8
+            "questionCount": 16
           },
           "12": {
             "notions": [
@@ -94,7 +94,7 @@
               "2.20",
               "2.21"
             ],
-            "questionCount": 6
+            "questionCount": 12
           }
         }
       },
@@ -109,7 +109,7 @@
               "3.4",
               "3.5"
             ],
-            "questionCount": 10
+            "questionCount": 20
           },
           "14": {
             "notions": [
@@ -119,21 +119,21 @@
               "3.9",
               "3.10"
             ],
-            "questionCount": 10
+            "questionCount": 20
           },
           "16": {
             "notions": [
               "3.11",
               "3.12"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "17": {
             "notions": [
               "3.13",
               "3.14"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "19": {
             "notions": [
@@ -143,7 +143,7 @@
               "3.18",
               "3.19"
             ],
-            "questionCount": 12
+            "questionCount": 22
           }
         }
       },
@@ -158,20 +158,20 @@
               "4.4",
               "4.5"
             ],
-            "questionCount": 11
+            "questionCount": 21
           },
           "21": {
             "notions": [
               "4.6",
               "4.7"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "22": {
             "notions": [
               "4.8"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "23": {
             "notions": [
@@ -182,7 +182,7 @@
               "4.13",
               "4.14"
             ],
-            "questionCount": 12
+            "questionCount": 24
           },
           "24": {
             "notions": [
@@ -195,14 +195,14 @@
               "4.21",
               "4.22"
             ],
-            "questionCount": 16
+            "questionCount": 32
           },
           "25": {
             "notions": [
               "4.23",
               "4.24"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "27": {
             "notions": [
@@ -210,7 +210,7 @@
               "4.26",
               "4.27"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "28": {
             "notions": [
@@ -220,7 +220,7 @@
               "4.34",
               "4.35"
             ],
-            "questionCount": 10
+            "questionCount": 20
           }
         }
       },
@@ -235,7 +235,7 @@
               "5.4",
               "5.5"
             ],
-            "questionCount": 11
+            "questionCount": 21
           },
           "30": {
             "notions": [
@@ -255,14 +255,14 @@
               "5.19",
               "5.20"
             ],
-            "questionCount": 30
+            "questionCount": 60
           },
           "32": {
             "notions": [
               "5.21",
               "5.22"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "33": {
             "notions": [
@@ -273,7 +273,7 @@
               "5.27",
               "5.28"
             ],
-            "questionCount": 12
+            "questionCount": 24
           },
           "34": {
             "notions": [
@@ -291,7 +291,7 @@
               "5.40",
               "5.41"
             ],
-            "questionCount": 26
+            "questionCount": 52
           }
         }
       }
@@ -305,38 +305,38 @@
               "1.1",
               "1.2"
             ],
-            "questionCount": 5
+            "questionCount": 9
           },
           "02": {
             "notions": [
               "1.3"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "03": {
             "notions": [
               "1.4"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "05": {
             "notions": [
               "1.5"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "06": {
             "notions": [
               "1.6"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "07": {
             "notions": [
               "1.7",
               "1.8"
             ],
-            "questionCount": 5
+            "questionCount": 9
           }
         }
       },
@@ -348,26 +348,26 @@
               "2.1",
               "2.2"
             ],
-            "questionCount": 5
+            "questionCount": 9
           },
           "10": {
             "notions": [
               "2.3"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "11": {
             "notions": [
               "2.4",
               "2.5"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "13": {
             "notions": [
               "2.6"
             ],
-            "questionCount": 2
+            "questionCount": 4
           }
         }
       },
@@ -379,26 +379,26 @@
               "3.1",
               "3.2"
             ],
-            "questionCount": 5
+            "questionCount": 9
           },
           "15": {
             "notions": [
               "3.3",
               "3.4"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "18": {
             "notions": [
               "3.5"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "19": {
             "notions": [
               "3.6"
             ],
-            "questionCount": 2
+            "questionCount": 4
           }
         }
       },
@@ -409,32 +409,32 @@
             "notions": [
               "4.1"
             ],
-            "questionCount": 3
+            "questionCount": 5
           },
           "21": {
             "notions": [
               "4.2"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "22": {
             "notions": [
               "4.3",
               "4.4"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "24": {
             "notions": [
               "4.5"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "26": {
             "notions": [
               "4.6"
             ],
-            "questionCount": 2
+            "questionCount": 4
           }
         }
       },
@@ -445,31 +445,31 @@
             "notions": [
               "5.1"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "28": {
             "notions": [
               "5.2"
             ],
-            "questionCount": 4
+            "questionCount": 6
           },
           "30": {
             "notions": [
               "5.4"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "31": {
             "notions": [
               "5.3"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "32": {
             "notions": [
               "5.5"
             ],
-            "questionCount": 2
+            "questionCount": 4
           }
         }
       }
@@ -490,7 +490,7 @@
               "0.6",
               "0.7"
             ],
-            "questionCount": 16
+            "questionCount": 30
           }
         }
       },
@@ -504,7 +504,7 @@
               "1.3",
               "1.4"
             ],
-            "questionCount": 10
+            "questionCount": 18
           },
           "03": {
             "notions": [
@@ -513,7 +513,7 @@
               "1.7",
               "1.8"
             ],
-            "questionCount": 8
+            "questionCount": 16
           },
           "04": {
             "notions": [
@@ -523,14 +523,14 @@
               "1.12",
               "1.13"
             ],
-            "questionCount": 10
+            "questionCount": 20
           },
           "05": {
             "notions": [
               "1.14",
               "1.15"
             ],
-            "questionCount": 4
+            "questionCount": 8
           }
         }
       },
@@ -546,7 +546,7 @@
               "2.5",
               "2.6"
             ],
-            "questionCount": 13
+            "questionCount": 25
           },
           "07": {
             "notions": [
@@ -557,7 +557,7 @@
               "2.11",
               "2.12"
             ],
-            "questionCount": 12
+            "questionCount": 24
           },
           "09": {
             "notions": [
@@ -569,7 +569,7 @@
               "2.18",
               "2.19"
             ],
-            "questionCount": 14
+            "questionCount": 28
           }
         }
       },
@@ -585,7 +585,7 @@
               "3.5",
               "3.6"
             ],
-            "questionCount": 12
+            "questionCount": 24
           },
           "12": {
             "notions": [
@@ -598,7 +598,7 @@
               "3.12",
               "3.13"
             ],
-            "questionCount": 15
+            "questionCount": 29
           }
         }
       },
@@ -613,7 +613,7 @@
               "4.4",
               "4.5"
             ],
-            "questionCount": 10
+            "questionCount": 20
           },
           "14": {
             "notions": [
@@ -624,7 +624,7 @@
               "4.9",
               "4.10"
             ],
-            "questionCount": 11
+            "questionCount": 21
           }
         }
       },
@@ -641,7 +641,7 @@
               "5.6",
               "5.7"
             ],
-            "questionCount": 15
+            "questionCount": 29
           },
           "16": {
             "notions": [
@@ -649,7 +649,7 @@
               "5.9",
               "5.10"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "18": {
             "notions": [
@@ -661,7 +661,7 @@
               "5.16",
               "5.17"
             ],
-            "questionCount": 14
+            "questionCount": 28
           }
         }
       },
@@ -678,7 +678,7 @@
               "6.6",
               "6.7"
             ],
-            "questionCount": 15
+            "questionCount": 29
           },
           "20": {
             "notions": [
@@ -687,20 +687,20 @@
               "6.10",
               "6.11"
             ],
-            "questionCount": 8
+            "questionCount": 16
           },
           "22": {
             "notions": [
               "6.12"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "23": {
             "notions": [
               "6.13",
               "6.14"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "24": {
             "notions": [
@@ -708,7 +708,7 @@
               "6.16",
               "6.17"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "25": {
             "notions": [
@@ -716,7 +716,7 @@
               "6.19",
               "6.20"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "27": {
             "notions": [
@@ -724,7 +724,7 @@
               "6.22",
               "6.23"
             ],
-            "questionCount": 6
+            "questionCount": 12
           }
         }
       },
@@ -739,7 +739,7 @@
               "7.4",
               "7.5"
             ],
-            "questionCount": 11
+            "questionCount": 21
           },
           "29": {
             "notions": [
@@ -747,7 +747,7 @@
               "7.7",
               "7.8"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "31": {
             "notions": [
@@ -755,21 +755,21 @@
               "7.10",
               "7.11"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "32": {
             "notions": [
               "7.12",
               "7.13"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "33": {
             "notions": [
               "7.14",
               "7.15"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "34": {
             "notions": [
@@ -777,7 +777,7 @@
               "7.17",
               "7.18"
             ],
-            "questionCount": 6
+            "questionCount": 12
           }
         }
       }
@@ -791,7 +791,7 @@
               "1.1",
               "1.2"
             ],
-            "questionCount": 6
+            "questionCount": 10
           },
           "02": {
             "notions": [
@@ -799,19 +799,19 @@
               "1.4",
               "1.5"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "03": {
             "notions": [
               "1.6"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "05": {
             "notions": [
               "1.7"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "06": {
             "notions": [
@@ -819,25 +819,25 @@
               "1.9",
               "1.10"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "07": {
             "notions": [
               "1.11"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "10": {
             "notions": [
               "1.12"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "11": {
             "notions": [
               "1.20"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "13": {
             "notions": [
@@ -846,13 +846,13 @@
               "1.15",
               "1.19"
             ],
-            "questionCount": 8
+            "questionCount": 16
           },
           "14": {
             "notions": [
               "1.16"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "15": {
             "notions": [
@@ -860,7 +860,7 @@
               "1.18",
               "1.21"
             ],
-            "questionCount": 6
+            "questionCount": 12
           }
         }
       },
@@ -872,26 +872,26 @@
               "2.1",
               "2.2"
             ],
-            "questionCount": 5
+            "questionCount": 9
           },
           "19": {
             "notions": [
               "2.3",
               "2.4"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "20": {
             "notions": [
               "2.5"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "21": {
             "notions": [
               "2.6"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "22": {
             "notions": [
@@ -899,20 +899,20 @@
               "2.8",
               "2.9"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "24": {
             "notions": [
               "2.10",
               "2.11"
             ],
-            "questionCount": 4
+            "questionCount": 8
           },
           "26": {
             "notions": [
               "2.12"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "27": {
             "notions": [
@@ -920,7 +920,7 @@
               "2.14",
               "2.15"
             ],
-            "questionCount": 7
+            "questionCount": 13
           },
           "28": {
             "notions": [
@@ -929,13 +929,13 @@
               "2.24",
               "2.25"
             ],
-            "questionCount": 10
+            "questionCount": 18
           },
           "30": {
             "notions": [
               "2.17"
             ],
-            "questionCount": 2
+            "questionCount": 4
           },
           "31": {
             "notions": [
@@ -943,7 +943,7 @@
               "2.19",
               "2.20"
             ],
-            "questionCount": 6
+            "questionCount": 12
           },
           "32": {
             "notions": [
@@ -951,7 +951,7 @@
               "2.22",
               "2.26"
             ],
-            "questionCount": 7
+            "questionCount": 13
           }
         }
       }
