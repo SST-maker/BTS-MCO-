@@ -956,5 +956,517 @@
         }
       }
     }
+  },
+  "GO": {
+    "1re": {
+      "01": {
+        "title": "Documents commerciaux et règlements",
+        "sessions": {
+          "01": {
+            "notions": [
+              "1.1.1",
+              "1.1.2",
+              "1.1.3",
+              "1.1.4",
+              "1.1.5"
+            ],
+            "questionCount": 23
+          },
+          "02": {
+            "notions": [
+              "1.2.1",
+              "1.2.2",
+              "1.2.3"
+            ],
+            "questionCount": 17
+          },
+          "03": {
+            "notions": [
+              "1.3.1",
+              "1.3.2",
+              "1.3.3"
+            ],
+            "questionCount": 13
+          }
+        }
+      },
+      "02": {
+        "title": "Cycle d’exploitation et trésorerie",
+        "sessions": {
+          "04": {
+            "notions": [
+              "2.1.1",
+              "2.1.2",
+              "2.1.3",
+              "2.1.4",
+              "2.1.5",
+              "2.1.6",
+              "2.1.7"
+            ],
+            "questionCount": 30
+          },
+          "05": {
+            "notions": [
+              "2.2.1",
+              "2.2.2",
+              "2.2.3"
+            ],
+            "questionCount": 16
+          }
+        }
+      },
+      "03": {
+        "title": "Stocks, approvisionnements et règlements",
+        "sessions": {
+          "06": {
+            "notions": [
+              "3.1.1"
+            ],
+            "questionCount": 6
+          },
+          "07": {
+            "notions": [
+              "3.1.2",
+              "3.1.3",
+              "3.1.4"
+            ],
+            "questionCount": 17
+          },
+          "10": {
+            "notions": [
+              "3.2.1",
+              "3.2.2"
+            ],
+            "questionCount": 8
+          },
+          "11": {
+            "notions": [
+              "3.3.1",
+              "3.3.2"
+            ],
+            "questionCount": 10
+          },
+          "12": {
+            "notions": [
+              "3.4.1",
+              "3.4.2",
+              "3.4.3"
+            ],
+            "questionCount": 13
+          },
+          "13": {
+            "notions": [
+              "3.5.1",
+              "3.5.2",
+              "3.5.3",
+              "3.5.4",
+              "3.5.5",
+              "3.5.6"
+            ],
+            "questionCount": 25
+          }
+        }
+      },
+      "04": {
+        "title": "Analyse comptable et financière",
+        "sessions": {
+          "14": {
+            "notions": [
+              "4.1.1"
+            ],
+            "questionCount": 4
+          },
+          "15": {
+            "notions": [
+              "4.1.2",
+              "4.1.3",
+              "4.1.4"
+            ],
+            "questionCount": 12
+          },
+          "16": {
+            "notions": [
+              "4.2.1",
+              "4.2.2",
+              "4.2.3"
+            ],
+            "questionCount": 12
+          },
+          "18": {
+            "notions": [
+              "4.3.1",
+              "4.3.2",
+              "4.3.3"
+            ],
+            "questionCount": 14
+          },
+          "19": {
+            "notions": [
+              "4.4.1",
+              "4.4.2"
+            ],
+            "questionCount": 8
+          },
+          "20": {
+            "notions": [
+              "4.5.1",
+              "4.5.2",
+              "4.6.1",
+              "4.6.2",
+              "4.6.3",
+              "4.6.4",
+              "4.6.5"
+            ],
+            "questionCount": 31
+          },
+          "22": {
+            "notions": [
+              "4.6.6"
+            ],
+            "questionCount": 4
+          }
+        }
+      },
+      "05": {
+        "title": "Coûts et rentabilité",
+        "sessions": {
+          "23": {
+            "notions": [
+              "5.1.1",
+              "5.1.2",
+              "5.1.3"
+            ],
+            "questionCount": 12
+          },
+          "24": {
+            "notions": [
+              "5.2.1",
+              "5.2.2",
+              "5.2.3",
+              "5.2.4"
+            ],
+            "questionCount": 17
+          },
+          "25": {
+            "notions": [
+              "5.2.5"
+            ],
+            "questionCount": 4
+          },
+          "27": {
+            "notions": [
+              "5.3.1"
+            ],
+            "questionCount": 6
+          },
+          "28": {
+            "notions": [
+              "5.3.2"
+            ],
+            "questionCount": 5
+          },
+          "29": {
+            "notions": [
+              "5.3.3.1",
+              "5.3.3.2"
+            ],
+            "questionCount": 11
+          }
+        }
+      },
+      "06": {
+        "title": "Fixation et modulation des prix",
+        "sessions": {
+          "31": {
+            "notions": [
+              "6.1.1",
+              "6.1.2.1",
+              "6.1.2.2",
+              "6.1.2.3",
+              "6.1.2.4",
+              "6.1.3",
+              "6.1.4"
+            ],
+            "questionCount": 28
+          },
+          "32": {
+            "notions": [
+              "6.2.1.1"
+            ],
+            "questionCount": 8
+          },
+          "33": {
+            "notions": [
+              "6.2.1.2",
+              "6.2.2.2"
+            ],
+            "questionCount": 9
+          },
+          "34": {
+            "notions": [
+              "6.2.2.1"
+            ],
+            "questionCount": 4
+          }
+        }
+      }
+    },
+    "2e": {
+      "01": {
+        "title": "Gestion des risques et obligations de prévention",
+        "sessions": {
+          "01": {
+            "notions": [
+              "1.1.1",
+              "1.1.2",
+              "1.1.3",
+              "1.1.4",
+              "1.1.5",
+              "1.1.6",
+              "1.1.7",
+              "1.1.8",
+              "1.1.9"
+            ],
+            "questionCount": 39
+          },
+          "02": {
+            "notions": [
+              "1.2.1",
+              "1.2.2",
+              "1.2.3"
+            ],
+            "questionCount": 14
+          },
+          "03": {
+            "notions": [
+              "1.3.1",
+              "1.3.2",
+              "1.3.3",
+              "1.3.4"
+            ],
+            "questionCount": 16
+          }
+        }
+      },
+      "02": {
+        "title": "Prévisions des ventes et saisonnalité",
+        "sessions": {
+          "04": {
+            "notions": [
+              "2.1.1",
+              "2.1.2",
+              "2.1.3"
+            ],
+            "questionCount": 13
+          },
+          "05": {
+            "notions": [
+              "2.1.4"
+            ],
+            "questionCount": 4
+          },
+          "06": {
+            "notions": [
+              "2.1.5",
+              "2.1.6"
+            ],
+            "questionCount": 8
+          },
+          "09": {
+            "notions": [
+              "2.2.1",
+              "2.2.2",
+              "2.2.3"
+            ],
+            "questionCount": 14
+          },
+          "10": {
+            "notions": [
+              "2.3.1",
+              "2.3.2",
+              "2.3.3",
+              "2.3.4",
+              "2.3.5"
+            ],
+            "questionCount": 22
+          }
+        }
+      },
+      "03": {
+        "title": "Budgets, investissements et financement",
+        "sessions": {
+          "12": {
+            "notions": [
+              "3.1.1",
+              "3.1.2",
+              "3.1.3",
+              "3.1.4",
+              "3.1.5"
+            ],
+            "questionCount": 20
+          },
+          "13": {
+            "notions": [
+              "3.1.6",
+              "3.1.7",
+              "3.1.8"
+            ],
+            "questionCount": 13
+          },
+          "15": {
+            "notions": [
+              "3.2.1",
+              "3.2.2",
+              "3.2.3",
+              "3.2.4",
+              "3.2.5"
+            ],
+            "questionCount": 20
+          },
+          "16": {
+            "notions": [
+              "3.3.1",
+              "3.3.2",
+              "3.3.3",
+              "3.3.4",
+              "3.3.5",
+              "3.3.6"
+            ],
+            "questionCount": 25
+          },
+          "19": {
+            "notions": [
+              "3.3.7",
+              "3.3.8",
+              "3.3.9",
+              "3.3.10",
+              "3.3.11"
+            ],
+            "questionCount": 24
+          },
+          "21": {
+            "notions": [
+              "3.4.1",
+              "3.4.2",
+              "3.4.3",
+              "3.4.4",
+              "3.4.5"
+            ],
+            "questionCount": 20
+          },
+          "22": {
+            "notions": [
+              "3.5.1",
+              "3.5.3",
+              "3.5.4",
+              "3.5.5",
+              "3.5.6"
+            ],
+            "questionCount": 22
+          },
+          "23": {
+            "notions": [
+              "3.5.2"
+            ],
+            "questionCount": 6
+          },
+          "24": {
+            "notions": [
+              "3.6.1",
+              "3.6.2",
+              "3.6.3",
+              "3.6.4"
+            ],
+            "questionCount": 16
+          }
+        }
+      },
+      "04": {
+        "title": "Pilotage de la performance",
+        "sessions": {
+          "26": {
+            "notions": [
+              "4.1.1",
+              "4.1.2",
+              "4.1.3",
+              "4.1.4",
+              "4.1.5",
+              "4.2.1",
+              "4.2.2",
+              "4.2.3",
+              "4.2.4",
+              "4.2.5"
+            ],
+            "questionCount": 42
+          },
+          "28": {
+            "notions": [
+              "4.3.1",
+              "4.3.2",
+              "4.3.3",
+              "4.3.4",
+              "4.3.5",
+              "4.3.6",
+              "4.3.7",
+              "4.3.8",
+              "4.3.9",
+              "4.3.10",
+              "4.3.11",
+              "4.3.12"
+            ],
+            "questionCount": 56
+          },
+          "29": {
+            "notions": [
+              "4.4.1",
+              "4.4.2",
+              "4.4.3",
+              "4.4.4",
+              "4.4.5"
+            ],
+            "questionCount": 21
+          },
+          "30": {
+            "notions": [
+              "4.5.1",
+              "4.5.2",
+              "4.5.3"
+            ],
+            "questionCount": 12
+          },
+          "31": {
+            "notions": [
+              "4.6.1",
+              "4.6.2",
+              "4.6.3",
+              "4.6.4",
+              "4.6.5",
+              "4.6.6"
+            ],
+            "questionCount": 24
+          },
+          "32": {
+            "notions": [
+              "4.7.1",
+              "4.7.2",
+              "4.7.3",
+              "4.7.4"
+            ],
+            "questionCount": 18
+          },
+          "33": {
+            "notions": [
+              "4.8.1",
+              "4.8.2",
+              "4.8.3",
+              "4.8.4",
+              "4.8.5",
+              "4.8.6"
+            ],
+            "questionCount": 24
+          }
+        }
+      }
+    }
   }
 }

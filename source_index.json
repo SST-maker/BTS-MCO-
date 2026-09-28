@@ -3318,5 +3318,1965 @@
     "notion": "2.26",
     "title": "Construire un plan d’action relation client",
     "definition": "De l’objectif au responsable Un plan d'action transforme les constats du tableau de bord en décisions concrètes. Chaque action précise l'objectif, la cible, le responsable, l'échéance, les ressources, le risque et l'indicateur de résultat."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "01",
+    "notion": "1.1.1",
+    "title": "Le devis",
+    "definition": "Le devis est une offre écrite et chiffrée proposée avant la vente ou la prestation."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "01",
+    "notion": "1.1.2",
+    "title": "Le bon de commande",
+    "definition": "Le bon de commande traduit l'intention d'achat en une commande exploitable par l'entreprise."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "01",
+    "notion": "1.1.3",
+    "title": "Le bon de livraison",
+    "definition": "Le bon de livraison constate les marchandises effectivement remises au client."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "01",
+    "notion": "1.1.4",
+    "title": "La facture",
+    "definition": "La facture constate une vente ou une prestation et indique la somme due."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "01",
+    "notion": "1.1.5",
+    "title": "Les réductions",
+    "definition": "l'escompte est une réduction financière liée aux conditions de paiement."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "02",
+    "notion": "1.2.1",
+    "title": "Les mentions obligatoires de la facture",
+    "definition": "Les mentions obligatoires sont les informations imposées afin qu'une facture puisse être identifiée, contrôlée et rattachée à une opération réelle."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "02",
+    "notion": "1.2.2",
+    "title": "Le calcul du prix net à payer",
+    "definition": "Le net à payer est le résultat final d'une chaîne de calcul."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "02",
+    "notion": "1.2.3",
+    "title": "La TVA",
+    "definition": "La taxe sur la valeur ajoutée est un impôt sur la consommation."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "03",
+    "notion": "1.3.1",
+    "title": "Règlement au comptant et règlement à crédit",
+    "definition": "Un règlement à crédit signifie qu'une échéance future est accordée au client."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "03",
+    "notion": "1.3.2",
+    "title": "Les outils de règlement au comptant",
+    "definition": "Un moyen de paiement au comptant se choisit selon rapidité, coût, sécurité et risque de rejet."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "01",
+    "chapterTitle": "Documents commerciaux et règlements",
+    "session": "03",
+    "notion": "1.3.3",
+    "title": "Les outils de règlement à crédit",
+    "definition": "Les outils de règlement à crédit organisent un paiement futur."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "02",
+    "chapterTitle": "Cycle d’exploitation et trésorerie",
+    "session": "04",
+    "notion": "2.1.1",
+    "title": "Les composantes du cycle d’exploitation",
+    "definition": "Le cycle d'exploitation regroupe les opérations courantes nécessaires à l'activité"
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "02",
+    "chapterTitle": "Cycle d’exploitation et trésorerie",
+    "session": "04",
+    "notion": "2.1.2",
+    "title": "La durée du cycle d’exploitation",
+    "definition": "La durée du cycle mesure le temps entre le début du processus d'exploitation et l'encaissement final."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "02",
+    "chapterTitle": "Cycle d’exploitation et trésorerie",
+    "session": "04",
+    "notion": "2.1.3",
+    "title": "La durée de stockage",
+    "definition": "La durée de stockage mesure le nombre moyen de jours pendant lesquels les marchandises restent immobilisées avant leur vente."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "02",
+    "chapterTitle": "Cycle d’exploitation et trésorerie",
+    "session": "04",
+    "notion": "2.1.4",
+    "title": "La durée du crédit client",
+    "definition": "Le crédit client correspond au temps accordé au client pour payer après la vente."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "02",
+    "chapterTitle": "Cycle d’exploitation et trésorerie",
+    "session": "04",
+    "notion": "2.1.5",
+    "title": "La durée du crédit fournisseur",
+    "definition": "Le crédit fournisseur est le délai obtenu entre l'achat ou la facture fournisseur et son règlement."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "02",
+    "chapterTitle": "Cycle d’exploitation et trésorerie",
+    "session": "04",
+    "notion": "2.1.6",
+    "title": "Représenter le cycle d’exploitation",
+    "definition": "Représenter le cycle place les décaissements et encaissements sur une frise chronologique."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "02",
+    "chapterTitle": "Cycle d’exploitation et trésorerie",
+    "session": "04",
+    "notion": "2.1.7",
+    "title": "Influence sur la trésorerie",
+    "definition": "La trésorerie dépend du calendrier des encaissements et décaissements, pas seulement du niveau des ventes."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "02",
+    "chapterTitle": "Cycle d’exploitation et trésorerie",
+    "session": "05",
+    "notion": "2.2.1",
+    "title": "Le besoin en fonds de roulement (BFR)",
+    "definition": "Le BFR mesure l'argent immobilisé par l'exploitation courante."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "02",
+    "chapterTitle": "Cycle d’exploitation et trésorerie",
+    "session": "05",
+    "notion": "2.2.2",
+    "title": "Interpréter le BFR et la RFR",
+    "definition": "Un BFR positif représente un besoin à financer ; un BFR négatif une ressource."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "02",
+    "chapterTitle": "Cycle d’exploitation et trésorerie",
+    "session": "05",
+    "notion": "2.2.3",
+    "title": "La trésorerie",
+    "definition": "La trésorerie représente les liquidités immédiatement mobilisables et les concours bancaires à court terme."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "06",
+    "notion": "3.1.1",
+    "title": "Les niveaux de stock",
+    "definition": "Les niveaux de stock servent à déclencher les bonnes décisions au bon moment."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "07",
+    "notion": "3.1.2",
+    "title": "Le suivi des indicateurs de gestion",
+    "definition": "Les indicateurs de stock permettent de mesurer le niveau moyen immobilisé et la vitesse à laquelle le stock se renouvelle."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "07",
+    "notion": "3.1.3",
+    "title": "Définir et valoriser les stocks",
+    "definition": "Valoriser le stock consiste à lui attribuer une valeur monétaire."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "07",
+    "notion": "3.1.4",
+    "title": "Réaliser un inventaire physique",
+    "definition": "L'inventaire physique consiste à compter réellement les articles et à comparer le résultat au stock théorique enregistré dans le système."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "10",
+    "notion": "3.2.1",
+    "title": "La méthode 20/80 ou loi de Pareto",
+    "definition": "La méthode 20/80 cherche à identifier une minorité de références qui représente une part majeure de la valeur étudiée, souvent le chiffre d'affaires."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "10",
+    "notion": "3.2.2",
+    "title": "La méthode ABC",
+    "definition": "La méthode ABC classe les références par importance afin de concentrer le suivi sur les plus contributrices."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "11",
+    "notion": "3.3.1",
+    "title": "Les composantes du coût d’approvisionnement",
+    "definition": "Le coût d'approvisionnement ne se limite pas au prix d'achat des marchandises."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "11",
+    "notion": "3.3.2",
+    "title": "La méthode de Wilson",
+    "definition": "La méthode de Wilson est un modèle de calcul du lot économique."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "12",
+    "notion": "3.4.1",
+    "title": "La relation avec les fournisseurs",
+    "definition": "La relation fournisseur regroupe la sélection, la négociation, le suivi de la qualité, des délais, des prix et de la fiabilité des approvisionnements."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "12",
+    "notion": "3.4.2",
+    "title": "Les méthodes d’approvisionnement",
+    "definition": "Une méthode d'approvisionnement précise quand et combien commander."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "12",
+    "notion": "3.4.3",
+    "title": "Le cadencier",
+    "definition": "Le cadencier est un tableau qui planifie les stocks, besoins et livraisons sur plusieurs périodes."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "13",
+    "notion": "3.5.1",
+    "title": "La balance âgée",
+    "definition": "La balance âgée classe les créances clients en fonction de leur ancienneté ou de leur retard."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "13",
+    "notion": "3.5.2",
+    "title": "L’échéancier de factures",
+    "definition": "L'échéancier suit facture par facture les montants et dates de paiement attendus."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "13",
+    "notion": "3.5.3",
+    "title": "Les relances clients",
+    "definition": "La relance client est l'ensemble des actions destinées à obtenir le règlement d'une créance arrivée à échéance."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "13",
+    "notion": "3.5.4",
+    "title": "Le cadre juridique des délais de paiement",
+    "definition": "Entre professionnels, les délais de paiement sont encadrés."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "13",
+    "notion": "3.5.5",
+    "title": "Calculer les délais effectifs et moyens de règlement",
+    "definition": "Le délai effectif mesure le nombre de jours entre le point de départ retenu et le paiement."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "03",
+    "chapterTitle": "Stocks, approvisionnements et règlements",
+    "session": "13",
+    "notion": "3.5.6",
+    "title": "Financer le cycle d’exploitation",
+    "definition": "Lorsque le BFR est positif, l'entreprise doit trouver des ressources pour financer l'écart entre décaissements et encaissements."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "14",
+    "notion": "4.1.1",
+    "title": "La structure du bilan comptable",
+    "definition": "Le bilan présente la situation patrimoniale de l’entreprise à une date donnée."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "15",
+    "notion": "4.1.2",
+    "title": "Les ratios",
+    "definition": "Un ratio est un rapport entre deux grandeurs."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "15",
+    "notion": "4.1.3",
+    "title": "Les ratios de structure",
+    "definition": "Les ratios de structure analysent l’équilibre entre les grandes masses du bilan."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "15",
+    "notion": "4.1.4",
+    "title": "Les ratios de rotation",
+    "definition": "Les ratios de rotation mesurent la vitesse de renouvellement des stocks ou les délais moyens liés aux créances et dettes."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "16",
+    "notion": "4.2.1",
+    "title": "Les cycles du bilan fonctionnel",
+    "definition": "Le bilan fonctionnel distingue les cycles d'investissement, de financement, d'exploitation et la trésorerie."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "16",
+    "notion": "4.2.2",
+    "title": "La structure du bilan fonctionnel",
+    "definition": "Le bilan fonctionnel regroupe les postes par fonctions pour analyser FRNG, BFR et trésorerie."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "16",
+    "notion": "4.2.3",
+    "title": "Les amortissements et les provisions",
+    "definition": "L’amortissement traduit la consommation progressive des avantages économiques d’une immobilisation dont l’utilisation est limitée dans le temps."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "18",
+    "notion": "4.3.1",
+    "title": "Le fonds de roulement net global (FRNG)",
+    "definition": "Le FRNG mesure l'excédent éventuel de ressources stables après financement des emplois stables."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "18",
+    "notion": "4.3.2",
+    "title": "Le besoin en fonds de roulement (BFR)",
+    "definition": "Dans le bilan fonctionnel, le BFR mesure le besoin de financement lié aux actifs circulants, diminué des dettes circulantes correspondantes."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "18",
+    "notion": "4.3.3",
+    "title": "La trésorerie nette (TN)",
+    "definition": "La trésorerie nette constitue le solde de l'équilibre financier : TN = FRNG - BFR."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "19",
+    "notion": "4.4.1",
+    "title": "Le compte de résultat de base",
+    "definition": "Le compte de résultat mesure la performance sur une période, contrairement au bilan qui photographie une date."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "19",
+    "notion": "4.4.2",
+    "title": "Le compte de résultat en liste",
+    "definition": "La présentation en liste calcule progressivement les résultats par nature d'activité afin de comprendre d'où vient le résultat final."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "20",
+    "notion": "4.5.1",
+    "title": "Le principe du calcul des SIG",
+    "definition": "Les SIG sont calculés en cascade pour expliquer la formation du résultat."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "20",
+    "notion": "4.5.2",
+    "title": "Le tableau de calcul des SIG",
+    "definition": "Le tableau des SIG enchaîne les soldes pour expliquer la formation du résultat."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "20",
+    "notion": "4.6.1",
+    "title": "La marge commerciale (MC)",
+    "definition": "La marge commerciale mesure l’écart entre ventes de marchandises et coût d’achat des marchandises vendues."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "20",
+    "notion": "4.6.2",
+    "title": "La production de l’exercice (PE)",
+    "definition": "La production de l'exercice mesure la valeur de la production réalisée pendant la période."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "20",
+    "notion": "4.6.3",
+    "title": "La valeur ajoutée (VA)",
+    "definition": "La valeur ajoutée mesure la richesse créée par l'entreprise grâce à son activité propre."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "20",
+    "notion": "4.6.4",
+    "title": "L’excédent brut d’exploitation (EBE)",
+    "definition": "L’EBE mesure la performance de l’exploitation avant financement, amortissements et exceptionnel."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "20",
+    "notion": "4.6.5",
+    "title": "Le résultat d’exploitation (RE)",
+    "definition": "Le résultat d’exploitation mesure la performance des activités courantes après charges et produits d’exploitation."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "04",
+    "chapterTitle": "Analyse comptable et financière",
+    "session": "22",
+    "notion": "4.6.6",
+    "title": "Les ratios issus des SIG",
+    "definition": "Transformer les SIG en pourcentages permet de comparer des entreprises ou périodes de tailles différentes."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "23",
+    "notion": "5.1.1",
+    "title": "Charge et coût",
+    "definition": "Une charge est une consommation enregistrée dans le compte de résultat."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "23",
+    "notion": "5.1.2",
+    "title": "Les charges directes",
+    "definition": "Une charge directe peut être rattachée sans calcul intermédiaire à un seul produit, service ou objet de coût."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "23",
+    "notion": "5.1.3",
+    "title": "Les charges indirectes",
+    "definition": "Une charge indirecte concerne plusieurs objets de coût."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "24",
+    "notion": "5.2.1",
+    "title": "Le processus de calcul du coût de revient complet",
+    "definition": "Le coût de revient complet additionne toutes les charges supportées pour mettre un produit ou un service à disposition du client."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "24",
+    "notion": "5.2.2",
+    "title": "Étape 1 : répartir les charges indirectes",
+    "definition": "La répartition des charges indirectes consiste à affecter les charges communes à des centres d'analyse correspondant à des fonctions ou activités."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "24",
+    "notion": "5.2.3",
+    "title": "Les unités d’œuvre (UO)",
+    "definition": "Une unité d'œuvre est une mesure de l'activité d'un centre d'analyse utilisée pour répartir son coût entre les produits ou services."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "24",
+    "notion": "5.2.4",
+    "title": "Le coût de l’unité d’œuvre",
+    "definition": "Le coût de l'unité d'œuvre se calcule en divisant le coût du centre par le nombre d'unités d'œuvre."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "25",
+    "notion": "5.2.5",
+    "title": "Étape 2 : calculer le coût de revient complet",
+    "definition": "Pour chaque produit, on additionne les charges directes et le coût des unités d'œuvre consommées dans chaque centre."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "27",
+    "notion": "5.3.1",
+    "title": "La variabilité des charges",
+    "definition": "Les charges variables évoluent avec le niveau d'activité, tandis que les charges fixes restent globalement stables dans une zone d'activité donnée."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "28",
+    "notion": "5.3.2",
+    "title": "Le seuil de rentabilité (SR)",
+    "definition": "Le seuil de rentabilité est le niveau d'activité pour lequel le résultat est nul."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "29",
+    "notion": "5.3.3.1",
+    "title": "Le point mort (PM)",
+    "definition": "Le point mort indique la date à laquelle le seuil de rentabilité est atteint."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "05",
+    "chapterTitle": "Coûts et rentabilité",
+    "session": "29",
+    "notion": "5.3.3.2",
+    "title": "La marge et l’indice de sécurité",
+    "definition": "La marge de sécurité mesure l’écart entre le chiffre d’affaires et le seuil de rentabilité."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "31",
+    "notion": "6.1.1",
+    "title": "Les fonctions du prix",
+    "definition": "Le prix joue plusieurs rôles simultanément."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "31",
+    "notion": "6.1.2.1",
+    "title": "Le coût de revient",
+    "definition": "Le coût de revient constitue un repère économique pour fixer un prix."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "31",
+    "notion": "6.1.2.2",
+    "title": "La stratégie de l’enseigne et le cycle de vie",
+    "definition": "La stratégie de prix peut évoluer selon la phase du cycle de vie du produit."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "31",
+    "notion": "6.1.2.3",
+    "title": "Le positionnement du produit",
+    "definition": "Le positionnement correspond à la place que l'entreprise veut occuper dans l'esprit du client par rapport aux concurrents."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "31",
+    "notion": "6.1.2.4",
+    "title": "Les autres critères stratégiques",
+    "definition": "Le canal, la zone géographique, le portefeuille de produits et les objectifs commerciaux peuvent conduire à des prix différents."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "31",
+    "notion": "6.1.3",
+    "title": "Les facteurs externes",
+    "definition": "Les facteurs externes sont ceux que l'entreprise ne maîtrise pas directement"
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "31",
+    "notion": "6.1.4",
+    "title": "Les principales contraintes légales liées au prix",
+    "definition": "En France, les prix sont en principe librement déterminés par les professionnels."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "32",
+    "notion": "6.2.1.1",
+    "title": "Fixer le prix par les coûts : principe",
+    "definition": "La méthode par les coûts construit le prix à partir du coût et de la marge souhaitée."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "33",
+    "notion": "6.2.1.2",
+    "title": "Limite de la méthode par les coûts",
+    "definition": "Fixer un prix uniquement par les coûts ignore la demande, la concurrence et le positionnement."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "34",
+    "notion": "6.2.2.1",
+    "title": "Les enjeux de la modulation des prix",
+    "definition": "Moduler les prix consiste à faire varier le tarif pour agir sur la demande, les volumes, la marge ou l'utilisation des capacités."
+  },
+  {
+    "subject": "GO",
+    "year": "1re",
+    "chapter": "06",
+    "chapterTitle": "Fixation et modulation des prix",
+    "session": "33",
+    "notion": "6.2.2.2",
+    "title": "Élasticité prix et marge globale",
+    "definition": "L’élasticité-prix mesure la réaction des quantités demandées à une variation de prix."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "01",
+    "notion": "1.1.1",
+    "title": "Le risque dans une unité commerciale",
+    "definition": "Commencer par nommer précisément le risque permet ensuite de choisir une prévention adaptée."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "01",
+    "notion": "1.1.2",
+    "title": "Classer les risques selon ce qu’ils affectent",
+    "definition": "Classer les risques selon leur cible consiste à repérer ce qui peut être atteint"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "01",
+    "notion": "1.1.3",
+    "title": "Identifier l’origine du risque : interne, externe ou naturelle",
+    "definition": "L'origine d'un risque désigne la source de l'événement susceptible de perturber l'unité commerciale."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "01",
+    "notion": "1.1.4",
+    "title": "Analyser l’incidence et l’horizon d’un risque",
+    "definition": "L'incidence mesure les répercussions possibles d'un risque."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "01",
+    "notion": "1.1.5",
+    "title": "Évaluer la complexité des conséquences",
+    "definition": "La complexité d'un risque dépend du nombre de domaines touchés et des interactions entre ses conséquences."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "01",
+    "notion": "1.1.6",
+    "title": "Fréquence, probabilité et gravité",
+    "definition": "la gravité mesure l'importance de ses conséquences."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "01",
+    "notion": "1.1.7",
+    "title": "Réaliser l’inventaire des risques",
+    "definition": "L'inventaire des risques consiste à recenser de manière structurée les situations susceptibles de provoquer un dommage."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "01",
+    "notion": "1.1.8",
+    "title": "Supprimer, réduire, protéger ou couvrir un risque",
+    "definition": "Traiter un risque consiste à choisir une réponse adaptée"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "01",
+    "notion": "1.1.9",
+    "title": "Comprendre les enjeux de la gestion des risques",
+    "definition": "La gestion des risques protège les personnes, l’activité, les finances, la conformité et l’image."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "02",
+    "notion": "1.2.1",
+    "title": "La criticité : hiérarchiser les risques",
+    "definition": "La criticité est une note ou un niveau permettant de comparer les risques à partir de critères communs."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "02",
+    "notion": "1.2.2",
+    "title": "Construire une échelle d’évaluation cohérente",
+    "definition": "Une échelle cohérente applique les mêmes niveaux de gravité, fréquence et maîtrise à tous les risques."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "02",
+    "notion": "1.2.3",
+    "title": "Passer de la note de risque au plan d’action",
+    "definition": "La note de risque sert à hiérarchiser les priorités puis à construire un plan d’action."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "03",
+    "notion": "1.3.1",
+    "title": "Le DUERP : formaliser l’évaluation des risques professionnels",
+    "definition": "Le DUERP rassemble les résultats de l’évaluation des risques professionnels auxquels les travailleurs sont exposés."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "03",
+    "notion": "1.3.2",
+    "title": "Registre de sécurité, consignes et formation à la sécurité",
+    "definition": "Les dispositifs de sécurité regroupent documents, contrôles, consignes et formations utiles à la prévention."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "03",
+    "notion": "1.3.3",
+    "title": "Organiser la gestion d’un incident et d’une crise",
+    "definition": "La gestion de crise organise les décisions et procédures pour protéger les personnes et limiter un incident."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "01",
+    "chapterTitle": "Gestion des risques et obligations de prévention",
+    "session": "03",
+    "notion": "1.3.4",
+    "title": "Réparer le dommage, mobiliser l’assurance et communiquer",
+    "definition": "Après un incident, l’unité traite les dommages, mobilise les partenaires utiles et maîtrise sa communication."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "04",
+    "notion": "2.1.1",
+    "title": "Comprendre une série chronologique de ventes",
+    "definition": "Une série chronologique est une suite de valeurs observées au fil du temps."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "04",
+    "notion": "2.1.2",
+    "title": "La droite d’ajustement et son interprétation",
+    "definition": "La droite d’ajustement y = ax + b représente une tendance linéaire des ventes."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "04",
+    "notion": "2.1.3",
+    "title": "Prévoir avec la méthode des points extrêmes",
+    "definition": "La méthode des points extrêmes construit une droite à partir du premier et du dernier point retenus."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "05",
+    "notion": "2.1.4",
+    "title": "Prévoir avec la méthode de Mayer",
+    "definition": "La méthode de Mayer utilise les points moyens de deux groupes pour construire une droite."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "06",
+    "notion": "2.1.5",
+    "title": "Prévoir avec la méthode des moindres carrés",
+    "definition": "Les moindres carrés déterminent la droite qui minimise globalement les écarts au carré."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "06",
+    "notion": "2.1.6",
+    "title": "Comparer les méthodes de prévision",
+    "definition": "Comparer les méthodes revient à choisir celle qui représente le mieux la tendance observée."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "09",
+    "notion": "2.2.1",
+    "title": "La corrélation : mesurer le lien entre deux variables",
+    "definition": "La corrélation mesure le sens et l'intensité de la liaison linéaire entre deux variables quantitatives."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "09",
+    "notion": "2.2.2",
+    "title": "Calculer le coefficient de corrélation linéaire",
+    "definition": "Le coefficient de corrélation r varie de -1 à +1 et mesure l’intensité d’un lien linéaire."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "09",
+    "notion": "2.2.3",
+    "title": "Utiliser une corrélation pour décider",
+    "definition": "Exploiter une corrélation consiste à intégrer un lien statistique dans l'analyse commerciale tout en vérifiant sa cohérence économique et ses limites."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "10",
+    "notion": "2.3.1",
+    "title": "Comprendre la saisonnalité de l’activité",
+    "definition": "La saisonnalité correspond à des variations de l'activité qui se répètent selon un rythme régulier au cours de l'année"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "10",
+    "notion": "2.3.2",
+    "title": "Les coefficients saisonniers en pourcentage",
+    "definition": "Un coefficient saisonnier exprimé en pourcentage indique la part moyenne de l'activité annuelle réalisée au cours d'une période donnée."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "10",
+    "notion": "2.3.3",
+    "title": "Les coefficients saisonniers par rapport à une moyenne",
+    "definition": "Un coefficient saisonnier multiplicatif compare l'activité d'une période à l'activité moyenne d'une période de même durée."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "10",
+    "notion": "2.3.4",
+    "title": "Appliquer la saisonnalité à une prévision",
+    "definition": "Appliquer la saisonnalité consiste à corriger une prévision par un coefficient saisonnier."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "02",
+    "chapterTitle": "Prévisions des ventes et saisonnalité",
+    "session": "10",
+    "notion": "2.3.5",
+    "title": "Distinguer tendance, saisonnalité et événement exceptionnel",
+    "definition": "Une série de ventes peut combiner une tendance de long terme, une saisonnalité répétitive et des variations exceptionnelles non récurrentes."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "12",
+    "notion": "3.1.1",
+    "title": "La démarche budgétaire",
+    "definition": "La démarche budgétaire transforme les objectifs en prévisions chiffrées pour une période future."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "12",
+    "notion": "3.1.2",
+    "title": "Le budget des ventes",
+    "definition": "Le budget des ventes prévoit les quantités vendues et le chiffre d'affaires attendu sur les périodes futures."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "12",
+    "notion": "3.1.3",
+    "title": "Le budget des encaissements",
+    "definition": "Le budget des encaissements positionne dans le temps les entrées d'argent réellement attendues sur le compte ou en caisse."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "12",
+    "notion": "3.1.4",
+    "title": "Le budget des achats",
+    "definition": "Le budget des achats prévoit les quantités et montants d'achats nécessaires pour soutenir l'activité future de l'unité commerciale."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "12",
+    "notion": "3.1.5",
+    "title": "Le budget de TVA",
+    "definition": "Le budget de TVA estime la TVA collectée et déductible afin de prévoir la TVA à décaisser ou le crédit de TVA."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "13",
+    "notion": "3.1.6",
+    "title": "Le budget des décaissements",
+    "definition": "Le budget des décaissements répartit dans le temps toutes les sorties d'argent prévisibles de l'unité commerciale."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "13",
+    "notion": "3.1.7",
+    "title": "Construire le budget de trésorerie",
+    "definition": "Le budget de trésorerie synthétise les encaissements et décaissements prévus pour calculer le solde final."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "13",
+    "notion": "3.1.8",
+    "title": "Interpréter un excédent ou une insuffisance de trésorerie",
+    "definition": "Interpréter la trésorerie consiste à décider comment utiliser un excédent ou corriger une insuffisance sans fragiliser l'activité future."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "15",
+    "notion": "3.2.1",
+    "title": "L’investissement : engager des ressources pour l’avenir",
+    "definition": "Un investissement engage des ressources aujourd’hui pour obtenir des avantages futurs."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "15",
+    "notion": "3.2.2",
+    "title": "La notion d’immobilisation",
+    "definition": "Une immobilisation est un actif destiné à être utilisé durablement par l'entreprise plutôt qu'à être revendu dans le cadre normal de son activité."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "15",
+    "notion": "3.2.3",
+    "title": "Investissements matériels, immatériels et financiers",
+    "definition": "La nature de l'investissement permet de distinguer les investissements corporels ou matériels, incorporels ou immatériels, et financiers."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "15",
+    "notion": "3.2.4",
+    "title": "Investissements de remplacement, de capacité et de productivité",
+    "definition": "productivité Le classement par objectif distingue l'investissement de remplacement, de capacité et de productivité selon la finalité recherchée."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "15",
+    "notion": "3.2.5",
+    "title": "Les enjeux et risques d’un investissement",
+    "definition": "Analyser un investissement consiste à mesurer ses apports, ses contraintes et ses risques."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "16",
+    "notion": "3.3.1",
+    "title": "Déterminer le coût initial de l’investissement",
+    "definition": "Le coût initial représente les ressources nécessaires pour rendre l'investissement acquis et opérationnel au démarrage du projet."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "16",
+    "notion": "3.3.2",
+    "title": "L’amortissement de l’immobilisation",
+    "definition": "L'amortissement comptable répartit de manière systématique le montant amortissable d'une immobilisation sur sa durée d'utilisation prévue."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "16",
+    "notion": "3.3.3",
+    "title": "Calculer la capacité d’autofinancement du projet",
+    "definition": "La CAF d’un projet représente les ressources internes générées par son activité."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "16",
+    "notion": "3.3.4",
+    "title": "La valeur résiduelle",
+    "definition": "La valeur résiduelle est le montant net récupérable à la fin du projet."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "16",
+    "notion": "3.3.5",
+    "title": "Le BFR lié à un projet d’investissement",
+    "definition": "Le BFR du projet mesure la trésorerie immobilisée par les décalages d’exploitation."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "16",
+    "notion": "3.3.6",
+    "title": "Construire les flux nets de trésorerie (FNT)",
+    "definition": "Le FNT est la différence entre les ressources et les emplois de trésorerie d’une période."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "19",
+    "notion": "3.3.7",
+    "title": "Actualiser un flux futur",
+    "definition": "Actualiser un flux futur consiste à le ramener à sa valeur d’aujourd’hui."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "19",
+    "notion": "3.3.8",
+    "title": "La valeur actuelle nette (VAN)",
+    "definition": "La VAN mesure la valeur créée par un projet après actualisation de ses flux."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "19",
+    "notion": "3.3.9",
+    "title": "L’indice de profitabilité (IP)",
+    "definition": "L’indice de profitabilité rapporte les flux futurs actualisés à l’investissement initial."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "19",
+    "notion": "3.3.10",
+    "title": "Le délai de récupération",
+    "definition": "Le délai de récupération mesure le temps nécessaire pour récupérer l’investissement initial."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "19",
+    "notion": "3.3.11",
+    "title": "Comparer plusieurs projets d’investissement",
+    "definition": "Comparer des projets consiste à croiser plusieurs critères financiers et opérationnels."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "21",
+    "notion": "3.4.1",
+    "title": "L’autofinancement",
+    "definition": "L’autofinancement utilise les ressources générées et conservées par l’entreprise."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "21",
+    "notion": "3.4.2",
+    "title": "Compte courant d’associé et augmentation de capital",
+    "definition": "Le compte courant d'associé correspond à des fonds prêtés par un associé à l'entreprise"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "21",
+    "notion": "3.4.3",
+    "title": "Financer par emprunt",
+    "definition": "Un emprunt met un capital à disposition contre remboursement et paiement d’intérêts."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "21",
+    "notion": "3.4.4",
+    "title": "Le crédit-bail",
+    "definition": "Le crédit-bail permet d’utiliser un bien contre des loyers, avec option d’achat possible en fin de contrat."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "21",
+    "notion": "3.4.5",
+    "title": "Choisir une ressource de financement",
+    "definition": "Choisir un financement consiste à comparer coût, trésorerie, endettement, durée et risque."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "22",
+    "notion": "3.5.1",
+    "title": "Comprendre une annuité d’emprunt",
+    "definition": "L'annuité est le montant total versé au prêteur au cours d'une période"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "23",
+    "notion": "3.5.2",
+    "title": "Remboursement par annuités constantes",
+    "definition": "Une annuité constante conserve le même paiement périodique, avec intérêts décroissants et capital remboursé croissant."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "22",
+    "notion": "3.5.3",
+    "title": "Remboursement par amortissements constants",
+    "definition": "Dans un emprunt à amortissements constants, la même part de capital est remboursée à chaque période"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "22",
+    "notion": "3.5.4",
+    "title": "Remboursement in fine",
+    "definition": "Dans un emprunt in fine, le capital est remboursé en une seule fois à l'échéance"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "22",
+    "notion": "3.5.5",
+    "title": "Le coût du crédit",
+    "definition": "Le coût du crédit correspond aux sommes payées au-delà du capital emprunté."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "22",
+    "notion": "3.5.6",
+    "title": "Lire un tableau d’amortissement d’emprunt",
+    "definition": "Le tableau d'amortissement décrit période par période le capital restant dû, les intérêts, la part de capital remboursée et l'échéance totale."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "24",
+    "notion": "3.6.1",
+    "title": "Impact de l’emprunt sur le résultat et la CAF",
+    "definition": "Le financement par emprunt affecte le résultat par les charges d'intérêts."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "24",
+    "notion": "3.6.2",
+    "title": "Impact du financement sur les flux nets de trésorerie",
+    "definition": "le capital emprunté est une ressource au départ et les remboursements de capital sont des emplois ultérieurs."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "24",
+    "notion": "3.6.3",
+    "title": "Distinguer rentabilité du projet et choix de financement",
+    "definition": "La rentabilité économique du projet mesure la qualité intrinsèque de l'investissement"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "03",
+    "chapterTitle": "Budgets, investissements et financement",
+    "session": "24",
+    "notion": "3.6.4",
+    "title": "Construire une décision d’investissement argumentée",
+    "definition": "Une décision d’investissement relie besoins, flux, rentabilité, risques et financement."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "26",
+    "notion": "4.1.1",
+    "title": "Piloter la performance de l’unité commerciale",
+    "definition": "Piloter consiste à prévoir, mesurer, comparer, expliquer, agir puis contrôler."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "26",
+    "notion": "4.1.2",
+    "title": "Le tableau de bord",
+    "definition": "Le tableau de bord rassemble des indicateurs sélectionnés pour suivre la situation et décider."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "26",
+    "notion": "4.1.3",
+    "title": "Tableau de bord et reporting : deux usages complémentaires",
+    "definition": "le reporting organise la remontée et la présentation régulière de résultats à un responsable ou à la direction."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "26",
+    "notion": "4.1.4",
+    "title": "Choisir la périodicité du suivi",
+    "definition": "La périodicité est la fréquence à laquelle un indicateur est calculé, lu et commenté"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "26",
+    "notion": "4.1.5",
+    "title": "Collecter des données fiables et comparables",
+    "definition": "elle est comparable lorsque les périodes et périmètres étudiés sont cohérents."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "26",
+    "notion": "4.2.1",
+    "title": "Structurer un tableau de bord lisible",
+    "definition": "Structurer un tableau de bord consiste à organiser les indicateurs de manière claire, hiérarchisée et immédiatement exploitable."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "26",
+    "notion": "4.2.2",
+    "title": "Calculer l’écart et le taux de réalisation",
+    "definition": "L'écart mesure la différence en valeur entre une réalisation et un objectif"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "26",
+    "notion": "4.2.3",
+    "title": "Construire le tableau de bord sur tableur",
+    "definition": "Un tableur permet d'organiser les données, automatiser les calculs, actualiser les résultats et produire des visualisations simples de pilotage."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "26",
+    "notion": "4.2.4",
+    "title": "Utiliser la mise en forme conditionnelle",
+    "definition": "La mise en forme conditionnelle modifie l’apparence d’une cellule selon sa valeur."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "26",
+    "notion": "4.2.5",
+    "title": "Choisir un graphique adapté",
+    "definition": "Un graphique facilite la lecture d’une comparaison, d’une évolution ou d’une répartition."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.1",
+    "title": "Qu’est-ce qu’un indicateur de performance ?",
+    "definition": "Un indicateur de performance mesure un aspect précis de l’activité et le suivi d’un objectif."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.2",
+    "title": "Le chiffre d’affaires",
+    "definition": "Le chiffre d’affaires correspond au montant des ventes réalisées sur une période."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.3",
+    "title": "La marge commerciale",
+    "definition": "La marge commerciale mesure la différence entre les ventes de marchandises et le coût d'achat des marchandises effectivement vendues."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.4",
+    "title": "Taux de marge et taux de marque",
+    "definition": "Le taux de marge rapporte la marge commerciale au coût d'achat."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.5",
+    "title": "Le taux de rupture",
+    "definition": "Le taux de rupture mesure la proportion de références qui devraient être disponibles mais sont absentes au moment du contrôle."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.6",
+    "title": "Le panier moyen",
+    "definition": "Le panier moyen mesure le montant moyen dépensé par transaction ou ticket de caisse sur une période."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.7",
+    "title": "L’indice de vente",
+    "definition": "L'indice de vente mesure le nombre moyen d'articles vendus par ticket ou transaction."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.8",
+    "title": "La démarque et le taux de démarque",
+    "definition": "La démarque correspond aux pertes de marchandises qui réduisent le stock disponible sans générer de vente normale"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.9",
+    "title": "Le fonds de roulement net global (FRNG)",
+    "definition": "Le FRNG mesure l’excédent des ressources stables sur les emplois stables."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.10",
+    "title": "Le besoin en fonds de roulement (BFR)",
+    "definition": "Le BFR mesure le besoin de financement créé par les décalages d’exploitation."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.11",
+    "title": "La trésorerie nette",
+    "definition": "La trésorerie nette représente la différence entre le fonds de roulement net global et le besoin en fonds de roulement."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "28",
+    "notion": "4.3.12",
+    "title": "Lire ensemble FRNG, BFR et trésorerie",
+    "definition": "L'analyse financière devient pertinente lorsque FRNG, BFR et trésorerie nette sont lus ensemble plutôt que séparément."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "29",
+    "notion": "4.4.1",
+    "title": "Définir le bon périmètre d’analyse",
+    "definition": "Le périmètre d'analyse précise ce qui est mesuré : point de vente, rayon, vendeur, famille de produits, canal, période ou zone géographique."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "29",
+    "notion": "4.4.2",
+    "title": "Calculer un taux d’évolution",
+    "definition": "Le taux d'évolution mesure la variation relative d'une valeur entre une situation initiale et une situation finale."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "29",
+    "notion": "4.4.3",
+    "title": "Repérer une tendance et un écart significatif",
+    "definition": "Repérer une tendance consiste à identifier une évolution durable ou répétée"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "29",
+    "notion": "4.4.4",
+    "title": "Rechercher les causes d’un écart",
+    "definition": "Analyser un écart consiste à rechercher les facteurs qui expliquent la différence entre le résultat observé et le repère utilisé."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "29",
+    "notion": "4.4.5",
+    "title": "Transformer le diagnostic en mesure corrective",
+    "definition": "Une mesure corrective agit sur une cause identifiée pour réduire un écart ou renforcer une performance."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "30",
+    "notion": "4.5.1",
+    "title": "Le reporting individuel",
+    "definition": "Le reporting individuel suit les résultats d’un collaborateur et aide à comprendre ses écarts."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "30",
+    "notion": "4.5.2",
+    "title": "Le reporting collectif",
+    "definition": "Le reporting collectif agrège les résultats d’une équipe, d’un rayon ou d’une unité."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "30",
+    "notion": "4.5.3",
+    "title": "Construire un compte rendu de performance utile",
+    "definition": "Un compte rendu de performance présente de manière concise les résultats, les écarts, leur interprétation et les actions décidées ou proposées."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "31",
+    "notion": "4.6.1",
+    "title": "Le système d’information commercial (SIC)",
+    "definition": "Le SIC regroupe personnes, données, outils et procédures utiles à l’information commerciale."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "31",
+    "notion": "4.6.2",
+    "title": "Sources internes et sources externes d’information",
+    "definition": "Une source interne vient de l’organisation ; une source externe vient de son environnement."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "31",
+    "notion": "4.6.3",
+    "title": "Qualité, sécurité et droits d’accès du SIC",
+    "definition": "La qualité du SIC dépend de la fiabilité des données et de la maîtrise des accès."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "31",
+    "notion": "4.6.4",
+    "title": "Les données à caractère personnel",
+    "definition": "Une donnée à caractère personnel est une information se rapportant à une personne physique identifiée ou identifiable, directement ou indirectement."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "31",
+    "notion": "4.6.5",
+    "title": "Principes de protection des données",
+    "definition": "La protection des données repose sur finalité, minimisation, durée adaptée, sécurité et respect des droits."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "31",
+    "notion": "4.6.6",
+    "title": "Vidéosurveillance et vidéoprotection : gérer les images",
+    "definition": "Les images identifiant une personne sont des données personnelles soumises à des règles de collecte et conservation."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "32",
+    "notion": "4.7.1",
+    "title": "La rentabilité commerciale",
+    "definition": "La rentabilité commerciale rapporte le résultat net au chiffre d’affaires."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "32",
+    "notion": "4.7.2",
+    "title": "La rentabilité économique",
+    "definition": "La rentabilité économique rapporte la performance aux capitaux durablement engagés."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "32",
+    "notion": "4.7.3",
+    "title": "La rentabilité financière",
+    "definition": "La rentabilité financière rapporte le résultat net aux capitaux propres."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "32",
+    "notion": "4.7.4",
+    "title": "Lire ensemble les différents ratios de rentabilité",
+    "definition": "Lire les ratios ensemble aide à expliquer d’où vient la rentabilité et comment elle est financée."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "33",
+    "notion": "4.8.1",
+    "title": "Agir sur le chiffre d’affaires",
+    "definition": "Agir sur le chiffre d'affaires consiste à travailler sur ses déterminants"
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "33",
+    "notion": "4.8.2",
+    "title": "Augmenter le panier moyen et l’indice de vente",
+    "definition": "Augmenter panier moyen ou indice de vente revient à accroître valeur par ticket ou articles par ticket."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "33",
+    "notion": "4.8.3",
+    "title": "Développer la fidélisation",
+    "definition": "La fidélisation vise à maintenir et développer la relation pour favoriser les achats répétés."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "33",
+    "notion": "4.8.4",
+    "title": "Agir sur les compétences et l’implication de l’équipe",
+    "definition": "Une action managériale peut corriger un écart via compétences, organisation ou implication."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "33",
+    "notion": "4.8.5",
+    "title": "Agir sur les achats et les dépenses",
+    "definition": "Agir sur les dépenses vise à réduire les coûts sans dégrader la valeur créée."
+  },
+  {
+    "subject": "GO",
+    "year": "2e",
+    "chapter": "04",
+    "chapterTitle": "Pilotage de la performance",
+    "session": "33",
+    "notion": "4.8.6",
+    "title": "Construire et suivre un plan d’actions correctives",
+    "definition": "Un plan correctif précise objectif, action, responsable, moyens, échéance et indicateur."
   }
 ]

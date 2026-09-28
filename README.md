@@ -1,3 +1,11 @@
+NCR MCO Quiz Arena V2.6
+
+Ajout Gestion opérationnelle (GO) :
+- GO 1re année : 6 chapitres, 367 nouvelles questions
+- GO 2e année : 4 chapitres, 493 nouvelles questions
+- Banque totale : 2207 questions
+- Questions de notions + applications et calculs courts adaptés au live
+
 NCR MCO Quiz Arena V2.5
 
 - Salle d’attente redesignée : avatar et prénom des joueurs nettement plus grands
