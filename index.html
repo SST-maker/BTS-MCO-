@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#081226" />
+  <title>NCR MCO Quiz Arena</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <button class="brand brand-btn" id="brandHome" type="button" aria-label="Accueil">
+      <span class="brand-mark">N</span><span><strong>NCR MCO</strong><small>QUIZ ARENA</small></span>
+    </button>
+    <div class="status-pill" id="connectionPill"><span class="dot"></span><span id="connectionText">Initialisation</span></div>
+  </header>
+
+  <main class="app-shell">
+    <section class="view active" id="viewLanding">
+      <div class="hero">
+        <span class="eyebrow">BTS MCO • LIVE CLASSROOM</span>
+        <h1>Le quiz de cours<br><span>qui se joue en direct.</span></h1>
+        <p>Crée une partie, projette le QR code et fais répondre toute la classe depuis les téléphones. Classement et podium en temps réel.</p>
+        <div class="hero-stats">
+          <div><strong id="statQuestions">—</strong><span>questions</span></div>
+          <div><strong>4</strong><span>manuels</span></div>
+          <div><strong>Live</strong><span>temps réel</span></div>
+        </div>
+      </div>
+      <div class="role-grid">
+        <button class="role-card primary" id="hostEntry" type="button">
+          <span class="role-icon">🎛️</span><span><small>FORMATEUR</small><strong>Créer un live</strong><em>Choisir matière, chapitre et séance</em></span><b>→</b>
+        </button>
+        <button class="role-card" id="joinEntry" type="button">
+          <span class="role-icon">📱</span><span><small>ÉLÈVE</small><strong>Rejoindre une partie</strong><em>Avec le code affiché en classe</em></span><b>→</b>
+        </button>
+      </div>
+      <div class="source-note">Banque construite à partir des manuels NCR Solutions ADOC & DRCV 1re/2e année.</div>
+    </section>
+
+    <section class="view" id="viewHostSetup">
+      <div class="section-head"><button class="back" data-home>←</button><div><span class="eyebrow">ESPACE FORMATEUR</span><h2>Préparer la partie</h2></div></div>
+      <div class="setup-layout">
+        <div class="panel form-panel">
+          <div class="field-row"><label>Matière<select id="subjectSelect"><option>ADOC</option><option>DRCV</option></select></label><label>Année<select id="yearSelect"><option value="1re">1re année</option><option value="2e">2e année</option></select></label></div>
+          <label>Chapitre<select id="chapterSelect"></select></label>
+          <label>Séance<select id="sessionSelect"></select></label>
+          <div class="field-row"><label>Questions<select id="countSelect"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>30</option></select></label><label>Temps par question<select id="durationSelect"><option value="15">15 s</option><option value="20" selected>20 s</option><option value="30">30 s</option><option value="45">45 s</option><option value="60">60 s</option></select></label></div>
+          <div class="availability" id="availability"></div>
+          <button class="cta" id="createRoomBtn" type="button">Créer le live <span>→</span></button>
+        </div>
+        <aside class="panel preview-panel"><span class="eyebrow">APERÇU</span><div class="mini-screen"><div class="mini-kicker" id="previewMeta">ADOC • 1re année</div><h3 id="previewChapter">—</h3><div class="mini-options"><span></span><span></span><span></span><span></span></div></div><p>Les questions sont tirées aléatoirement de la banque correspondant au chapitre et à la séance sélectionnés.</p></aside>
+      </div>
+    </section>
+
+    <section class="view" id="viewLobby">
+      <div class="lobby-grid">
+        <div class="panel qr-panel"><span class="eyebrow">REJOINDRE LE LIVE</span><div class="room-code" id="roomCode">000 000</div><div id="qrCode" class="qr-box"></div><div class="join-url" id="joinUrl"></div></div>
+        <div class="panel players-panel"><div class="players-head"><div><span class="eyebrow">SALLE D’ATTENTE</span><h2><span id="playerCount">0</span> élève(s)</h2></div><span class="pulse-live">LIVE</span></div><div class="player-cloud" id="playerCloud"></div><button class="cta" id="startGameBtn" type="button" disabled>Lancer le quiz <span>▶</span></button></div>
+      </div>
+    </section>
+
+    <section class="view" id="viewHostGame">
+      <div class="game-top"><div><span class="eyebrow" id="hostGameMeta">—</span><strong id="hostProgress">Question —</strong></div><div class="answer-counter"><span id="hostAnswered">0</span>/<span id="hostTotalPlayers">0</span> réponses</div></div>
+      <div class="timer-wrap"><div class="timer-bar" id="hostTimerBar"></div></div>
+      <div class="question-stage"><div class="question-card"><div class="question-number" id="hostQuestionNumber">01</div><h2 id="hostQuestionText">—</h2><div class="answers-grid" id="hostChoices"></div></div></div>
+      <div class="host-actions"><button class="secondary" id="revealBtn" type="button">Afficher la réponse</button></div>
+    </section>
+
+    <section class="view" id="viewReveal">
+      <div class="reveal-layout">
+        <div class="panel reveal-card"><span class="eyebrow">CORRECTION</span><h2 id="revealQuestion">—</h2><div class="correct-answer" id="revealAnswer">—</div><p id="revealExplanation">—</p></div>
+        <div class="panel leaderboard"><span class="eyebrow">CLASSEMENT</span><div id="leaderboardList"></div><button class="cta" id="nextBtn" type="button">Question suivante <span>→</span></button></div>
+      </div>
+    </section>
+
+    <section class="view" id="viewPodium">
+      <div class="podium-wrap"><span class="eyebrow">PARTIE TERMINÉE</span><h1>Le podium 🏆</h1><div class="podium" id="podium"></div><div class="final-list panel" id="finalList"></div><button class="cta compact" id="newGameBtn" type="button">Nouvelle partie</button></div>
+    </section>
+
+    <section class="view" id="viewJoin">
+      <div class="mobile-card panel"><span class="eyebrow">NCR MCO QUIZ ARENA</span><h2>Rejoindre la partie</h2><label>Code de partie<input id="joinCodeInput" inputmode="numeric" maxlength="6" placeholder="482913" /></label><label>Ton prénom<input id="joinNameInput" maxlength="24" placeholder="Prénom" /></label><button class="cta" id="joinRoomBtn" type="button">Entrer dans la salle <span>→</span></button><p class="tiny" id="joinMessage"></p></div>
+    </section>
+
+    <section class="view" id="viewStudentWaiting"><div class="mobile-card panel center"><div class="waiting-orb"></div><span class="eyebrow">TU ES CONNECTÉ(E)</span><h2 id="studentName">—</h2><p>Regarde l’écran principal. Le quiz va commencer.</p><div class="score-chip">Score <strong id="waitingScore">0</strong></div></div></section>
+
+    <section class="view" id="viewStudentQuestion">
+      <div class="student-game"><div class="student-top"><span id="studentProgress">1/10</span><div class="round-timer" id="studentTimer">20</div><strong id="studentScore">0 pts</strong></div><h2 id="studentQuestion">—</h2><div class="student-answers" id="studentChoices"></div><div class="submitted hidden" id="submittedBox">✓ Réponse envoyée</div></div>
+    </section>
+
+    <section class="view" id="viewStudentReveal"><div class="mobile-card panel center"><span class="eyebrow">RÉSULTAT</span><div class="result-icon" id="studentResultIcon">✓</div><h2 id="studentResultTitle">Bonne réponse !</h2><p id="studentCorrectText"></p><div class="score-chip">Score <strong id="studentRevealScore">0</strong></div><p class="tiny">Regarde l’écran principal pour le classement.</p></div></section>
+
+    <section class="view" id="viewSetupNeeded"><div class="mobile-card panel"><span class="eyebrow">CONFIGURATION REQUISE</span><h2>Connecter Supabase</h2><p>Le live multi-téléphones a besoin de Supabase Realtime. Le package contient déjà le SQL et le fichier de configuration.</p><ol><li>Exécute <code>supabase.sql</code> dans ton projet.</li><li>Renseigne l’URL et la clé anon dans <code>config.js</code>.</li><li>Déploie le dossier sur ton hébergeur.</li></ol><button class="secondary" data-home type="button">Retour</button></div></section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

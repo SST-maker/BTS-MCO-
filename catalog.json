@@ -1,0 +1,960 @@
+{
+  "ADOC": {
+    "1re": {
+      "01": {
+        "title": "Réaliser une analyse de marché",
+        "sessions": {
+          "01": {
+            "notions": [
+              "1.1",
+              "1.2",
+              "1.3",
+              "1.4",
+              "1.5"
+            ],
+            "questionCount": 12
+          },
+          "02": {
+            "notions": [
+              "1.6",
+              "1.7",
+              "1.8"
+            ],
+            "questionCount": 6
+          },
+          "03": {
+            "notions": [
+              "1.9",
+              "1.10",
+              "1.11",
+              "1.12",
+              "1.13",
+              "1.14"
+            ],
+            "questionCount": 12
+          },
+          "05": {
+            "notions": [
+              "1.15",
+              "1.16"
+            ],
+            "questionCount": 4
+          }
+        }
+      },
+      "02": {
+        "title": "Construire une offre de produits et de services",
+        "sessions": {
+          "06": {
+            "notions": [
+              "2.1",
+              "2.2",
+              "2.3",
+              "2.4"
+            ],
+            "questionCount": 9
+          },
+          "07": {
+            "notions": [
+              "2.5",
+              "2.6",
+              "2.7",
+              "2.8"
+            ],
+            "questionCount": 8
+          },
+          "08": {
+            "notions": [
+              "2.9",
+              "2.10",
+              "2.11",
+              "2.12",
+              "2.13"
+            ],
+            "questionCount": 10
+          },
+          "10": {
+            "notions": [
+              "2.14"
+            ],
+            "questionCount": 2
+          },
+          "11": {
+            "notions": [
+              "2.15",
+              "2.16",
+              "2.17",
+              "2.18"
+            ],
+            "questionCount": 8
+          },
+          "12": {
+            "notions": [
+              "2.19",
+              "2.20",
+              "2.21"
+            ],
+            "questionCount": 6
+          }
+        }
+      },
+      "03": {
+        "title": "Fixer le prix des produits et des services",
+        "sessions": {
+          "13": {
+            "notions": [
+              "3.1",
+              "3.2",
+              "3.3",
+              "3.4",
+              "3.5"
+            ],
+            "questionCount": 10
+          },
+          "14": {
+            "notions": [
+              "3.6",
+              "3.7",
+              "3.8",
+              "3.9",
+              "3.10"
+            ],
+            "questionCount": 10
+          },
+          "16": {
+            "notions": [
+              "3.11",
+              "3.12"
+            ],
+            "questionCount": 4
+          },
+          "17": {
+            "notions": [
+              "3.13",
+              "3.14"
+            ],
+            "questionCount": 4
+          },
+          "19": {
+            "notions": [
+              "3.15",
+              "3.16",
+              "3.17",
+              "3.18",
+              "3.19"
+            ],
+            "questionCount": 12
+          }
+        }
+      },
+      "04": {
+        "title": "Distribuer l’offre de produits et de services",
+        "sessions": {
+          "20": {
+            "notions": [
+              "4.1",
+              "4.2",
+              "4.3",
+              "4.4",
+              "4.5"
+            ],
+            "questionCount": 11
+          },
+          "21": {
+            "notions": [
+              "4.6",
+              "4.7"
+            ],
+            "questionCount": 4
+          },
+          "22": {
+            "notions": [
+              "4.8"
+            ],
+            "questionCount": 2
+          },
+          "23": {
+            "notions": [
+              "4.9",
+              "4.10",
+              "4.11",
+              "4.12",
+              "4.13",
+              "4.14"
+            ],
+            "questionCount": 12
+          },
+          "24": {
+            "notions": [
+              "4.15",
+              "4.16",
+              "4.17",
+              "4.18",
+              "4.19",
+              "4.20",
+              "4.21",
+              "4.22"
+            ],
+            "questionCount": 16
+          },
+          "25": {
+            "notions": [
+              "4.23",
+              "4.24"
+            ],
+            "questionCount": 4
+          },
+          "27": {
+            "notions": [
+              "4.25",
+              "4.26",
+              "4.27"
+            ],
+            "questionCount": 6
+          },
+          "28": {
+            "notions": [
+              "4.28",
+              "4.29",
+              "4.30",
+              "4.34",
+              "4.35"
+            ],
+            "questionCount": 10
+          }
+        }
+      },
+      "05": {
+        "title": "Agencer l’unité commerciale physique",
+        "sessions": {
+          "29": {
+            "notions": [
+              "5.1",
+              "5.2",
+              "5.3",
+              "5.4",
+              "5.5"
+            ],
+            "questionCount": 11
+          },
+          "30": {
+            "notions": [
+              "5.6",
+              "5.7",
+              "5.8",
+              "5.9",
+              "5.10",
+              "5.11",
+              "5.12",
+              "5.13",
+              "5.14",
+              "5.15",
+              "5.16",
+              "5.17",
+              "5.18",
+              "5.19",
+              "5.20"
+            ],
+            "questionCount": 30
+          },
+          "32": {
+            "notions": [
+              "5.21",
+              "5.22"
+            ],
+            "questionCount": 4
+          },
+          "33": {
+            "notions": [
+              "5.23",
+              "5.24",
+              "5.25",
+              "5.26",
+              "5.27",
+              "5.28"
+            ],
+            "questionCount": 12
+          },
+          "34": {
+            "notions": [
+              "5.29",
+              "5.30",
+              "5.31",
+              "5.32",
+              "5.33",
+              "5.34",
+              "5.35",
+              "5.36",
+              "5.37",
+              "5.38",
+              "5.39",
+              "5.40",
+              "5.41"
+            ],
+            "questionCount": 26
+          }
+        }
+      }
+    },
+    "2e": {
+      "01": {
+        "title": "Implanter et mettre en valeur l’offre produits",
+        "sessions": {
+          "01": {
+            "notions": [
+              "1.1",
+              "1.2"
+            ],
+            "questionCount": 5
+          },
+          "02": {
+            "notions": [
+              "1.3"
+            ],
+            "questionCount": 2
+          },
+          "03": {
+            "notions": [
+              "1.4"
+            ],
+            "questionCount": 2
+          },
+          "05": {
+            "notions": [
+              "1.5"
+            ],
+            "questionCount": 2
+          },
+          "06": {
+            "notions": [
+              "1.6"
+            ],
+            "questionCount": 2
+          },
+          "07": {
+            "notions": [
+              "1.7",
+              "1.8"
+            ],
+            "questionCount": 5
+          }
+        }
+      },
+      "02": {
+        "title": "Organiser des opérations promotionnelles et des animations",
+        "sessions": {
+          "09": {
+            "notions": [
+              "2.1",
+              "2.2"
+            ],
+            "questionCount": 5
+          },
+          "10": {
+            "notions": [
+              "2.3"
+            ],
+            "questionCount": 2
+          },
+          "11": {
+            "notions": [
+              "2.4",
+              "2.5"
+            ],
+            "questionCount": 4
+          },
+          "13": {
+            "notions": [
+              "2.6"
+            ],
+            "questionCount": 2
+          }
+        }
+      },
+      "03": {
+        "title": "Concevoir et mettre en œuvre la communication sur le lieu de vente",
+        "sessions": {
+          "14": {
+            "notions": [
+              "3.1",
+              "3.2"
+            ],
+            "questionCount": 5
+          },
+          "15": {
+            "notions": [
+              "3.3",
+              "3.4"
+            ],
+            "questionCount": 4
+          },
+          "18": {
+            "notions": [
+              "3.5"
+            ],
+            "questionCount": 2
+          },
+          "19": {
+            "notions": [
+              "3.6"
+            ],
+            "questionCount": 2
+          }
+        }
+      },
+      "04": {
+        "title": "Concevoir et mettre en œuvre la communication externe",
+        "sessions": {
+          "20": {
+            "notions": [
+              "4.1"
+            ],
+            "questionCount": 3
+          },
+          "21": {
+            "notions": [
+              "4.2"
+            ],
+            "questionCount": 2
+          },
+          "22": {
+            "notions": [
+              "4.3",
+              "4.4"
+            ],
+            "questionCount": 4
+          },
+          "24": {
+            "notions": [
+              "4.5"
+            ],
+            "questionCount": 2
+          },
+          "26": {
+            "notions": [
+              "4.6"
+            ],
+            "questionCount": 2
+          }
+        }
+      },
+      "05": {
+        "title": "Analyser et suivre l’action commerciale",
+        "sessions": {
+          "27": {
+            "notions": [
+              "5.1"
+            ],
+            "questionCount": 2
+          },
+          "28": {
+            "notions": [
+              "5.2"
+            ],
+            "questionCount": 4
+          },
+          "30": {
+            "notions": [
+              "5.4"
+            ],
+            "questionCount": 2
+          },
+          "31": {
+            "notions": [
+              "5.3"
+            ],
+            "questionCount": 2
+          },
+          "32": {
+            "notions": [
+              "5.5"
+            ],
+            "questionCount": 2
+          }
+        }
+      }
+    }
+  },
+  "DRCV": {
+    "1re": {
+      "00": {
+        "title": "La relation commerciale",
+        "sessions": {
+          "01": {
+            "notions": [
+              "0.1",
+              "0.2",
+              "0.3",
+              "0.4",
+              "0.5",
+              "0.6",
+              "0.7"
+            ],
+            "questionCount": 16
+          }
+        }
+      },
+      "01": {
+        "title": "Assurer la veille informationnelle",
+        "sessions": {
+          "02": {
+            "notions": [
+              "1.1",
+              "1.2",
+              "1.3",
+              "1.4"
+            ],
+            "questionCount": 10
+          },
+          "03": {
+            "notions": [
+              "1.5",
+              "1.6",
+              "1.7",
+              "1.8"
+            ],
+            "questionCount": 8
+          },
+          "04": {
+            "notions": [
+              "1.9",
+              "1.10",
+              "1.11",
+              "1.12",
+              "1.13"
+            ],
+            "questionCount": 10
+          },
+          "05": {
+            "notions": [
+              "1.14",
+              "1.15"
+            ],
+            "questionCount": 4
+          }
+        }
+      },
+      "02": {
+        "title": "Réaliser et exploiter des études commerciales",
+        "sessions": {
+          "06": {
+            "notions": [
+              "2.1",
+              "2.2",
+              "2.3",
+              "2.4",
+              "2.5",
+              "2.6"
+            ],
+            "questionCount": 13
+          },
+          "07": {
+            "notions": [
+              "2.7",
+              "2.8",
+              "2.9",
+              "2.10",
+              "2.11",
+              "2.12"
+            ],
+            "questionCount": 12
+          },
+          "09": {
+            "notions": [
+              "2.13",
+              "2.14",
+              "2.15",
+              "2.16",
+              "2.17",
+              "2.18",
+              "2.19"
+            ],
+            "questionCount": 14
+          }
+        }
+      },
+      "03": {
+        "title": "Étudier la zone de chalandise",
+        "sessions": {
+          "11": {
+            "notions": [
+              "3.1",
+              "3.2",
+              "3.3",
+              "3.4",
+              "3.5",
+              "3.6"
+            ],
+            "questionCount": 12
+          },
+          "12": {
+            "notions": [
+              "3.1",
+              "3.7",
+              "3.8",
+              "3.9",
+              "3.10",
+              "3.11",
+              "3.12",
+              "3.13"
+            ],
+            "questionCount": 15
+          }
+        }
+      },
+      "04": {
+        "title": "Réaliser une étude de concurrence",
+        "sessions": {
+          "13": {
+            "notions": [
+              "4.1",
+              "4.2",
+              "4.3",
+              "4.4",
+              "4.5"
+            ],
+            "questionCount": 10
+          },
+          "14": {
+            "notions": [
+              "4.1",
+              "4.6",
+              "4.7",
+              "4.8",
+              "4.9",
+              "4.10"
+            ],
+            "questionCount": 11
+          }
+        }
+      },
+      "05": {
+        "title": "Connaître ses clients et comprendre l’achat",
+        "sessions": {
+          "15": {
+            "notions": [
+              "5.1",
+              "5.2",
+              "5.3",
+              "5.4",
+              "5.5",
+              "5.6",
+              "5.7"
+            ],
+            "questionCount": 15
+          },
+          "16": {
+            "notions": [
+              "5.8",
+              "5.9",
+              "5.10"
+            ],
+            "questionCount": 6
+          },
+          "18": {
+            "notions": [
+              "5.11",
+              "5.12",
+              "5.13",
+              "5.14",
+              "5.15",
+              "5.16",
+              "5.17"
+            ],
+            "questionCount": 14
+          }
+        }
+      },
+      "06": {
+        "title": "Vendre et conseiller dans un contexte omnicanal",
+        "sessions": {
+          "19": {
+            "notions": [
+              "6.1",
+              "6.2",
+              "6.3",
+              "6.4",
+              "6.5",
+              "6.6",
+              "6.7"
+            ],
+            "questionCount": 15
+          },
+          "20": {
+            "notions": [
+              "6.8",
+              "6.9",
+              "6.10",
+              "6.11"
+            ],
+            "questionCount": 8
+          },
+          "22": {
+            "notions": [
+              "6.12"
+            ],
+            "questionCount": 2
+          },
+          "23": {
+            "notions": [
+              "6.13",
+              "6.14"
+            ],
+            "questionCount": 4
+          },
+          "24": {
+            "notions": [
+              "6.15",
+              "6.16",
+              "6.17"
+            ],
+            "questionCount": 6
+          },
+          "25": {
+            "notions": [
+              "6.18",
+              "6.19",
+              "6.20"
+            ],
+            "questionCount": 6
+          },
+          "27": {
+            "notions": [
+              "6.21",
+              "6.22",
+              "6.23"
+            ],
+            "questionCount": 6
+          }
+        }
+      },
+      "07": {
+        "title": "Entretenir la relation client",
+        "sessions": {
+          "28": {
+            "notions": [
+              "7.1",
+              "7.2",
+              "7.3",
+              "7.4",
+              "7.5"
+            ],
+            "questionCount": 11
+          },
+          "29": {
+            "notions": [
+              "7.6",
+              "7.7",
+              "7.8"
+            ],
+            "questionCount": 6
+          },
+          "31": {
+            "notions": [
+              "7.9",
+              "7.10",
+              "7.11"
+            ],
+            "questionCount": 6
+          },
+          "32": {
+            "notions": [
+              "7.12",
+              "7.13"
+            ],
+            "questionCount": 4
+          },
+          "33": {
+            "notions": [
+              "7.14",
+              "7.15"
+            ],
+            "questionCount": 4
+          },
+          "34": {
+            "notions": [
+              "7.16",
+              "7.17",
+              "7.18"
+            ],
+            "questionCount": 6
+          }
+        }
+      }
+    },
+    "2e": {
+      "01": {
+        "title": "Réaliser des enquêtes commerciales",
+        "sessions": {
+          "01": {
+            "notions": [
+              "1.1",
+              "1.2"
+            ],
+            "questionCount": 6
+          },
+          "02": {
+            "notions": [
+              "1.3",
+              "1.4",
+              "1.5"
+            ],
+            "questionCount": 6
+          },
+          "03": {
+            "notions": [
+              "1.6"
+            ],
+            "questionCount": 2
+          },
+          "05": {
+            "notions": [
+              "1.7"
+            ],
+            "questionCount": 2
+          },
+          "06": {
+            "notions": [
+              "1.8",
+              "1.9",
+              "1.10"
+            ],
+            "questionCount": 6
+          },
+          "07": {
+            "notions": [
+              "1.11"
+            ],
+            "questionCount": 2
+          },
+          "10": {
+            "notions": [
+              "1.12"
+            ],
+            "questionCount": 2
+          },
+          "11": {
+            "notions": [
+              "1.20"
+            ],
+            "questionCount": 2
+          },
+          "13": {
+            "notions": [
+              "1.13",
+              "1.14",
+              "1.15",
+              "1.19"
+            ],
+            "questionCount": 8
+          },
+          "14": {
+            "notions": [
+              "1.16"
+            ],
+            "questionCount": 2
+          },
+          "15": {
+            "notions": [
+              "1.17",
+              "1.18",
+              "1.21"
+            ],
+            "questionCount": 6
+          }
+        }
+      },
+      "02": {
+        "title": "Développer la relation client après l’achat",
+        "sessions": {
+          "18": {
+            "notions": [
+              "2.1",
+              "2.2"
+            ],
+            "questionCount": 5
+          },
+          "19": {
+            "notions": [
+              "2.3",
+              "2.4"
+            ],
+            "questionCount": 4
+          },
+          "20": {
+            "notions": [
+              "2.5"
+            ],
+            "questionCount": 2
+          },
+          "21": {
+            "notions": [
+              "2.6"
+            ],
+            "questionCount": 2
+          },
+          "22": {
+            "notions": [
+              "2.7",
+              "2.8",
+              "2.9"
+            ],
+            "questionCount": 6
+          },
+          "24": {
+            "notions": [
+              "2.10",
+              "2.11"
+            ],
+            "questionCount": 4
+          },
+          "26": {
+            "notions": [
+              "2.12"
+            ],
+            "questionCount": 2
+          },
+          "27": {
+            "notions": [
+              "2.13",
+              "2.14",
+              "2.15"
+            ],
+            "questionCount": 7
+          },
+          "28": {
+            "notions": [
+              "2.16",
+              "2.23",
+              "2.24",
+              "2.25"
+            ],
+            "questionCount": 10
+          },
+          "30": {
+            "notions": [
+              "2.17"
+            ],
+            "questionCount": 2
+          },
+          "31": {
+            "notions": [
+              "2.18",
+              "2.19",
+              "2.20"
+            ],
+            "questionCount": 6
+          },
+          "32": {
+            "notions": [
+              "2.21",
+              "2.22",
+              "2.26"
+            ],
+            "questionCount": 7
+          }
+        }
+      }
+    }
+  }
+}
