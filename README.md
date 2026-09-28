@@ -1,3 +1,16 @@
+NCR MCO Quiz Arena V3.0 — niveaux de difficulté + anti-répétition
+
+Nouveautés :
+- 4 625 questions au total
+- Choix du niveau avant chaque partie : Révision / Intermédiaire / Difficile / Expert / Mixte
+- Niveau Difficile sélectionné par défaut
+- Banque enrichie avec des distracteurs proches et des associations notion-explication
+- Historique local anti-répétition : les questions récemment jouées sont évitées autant que possible
+- La difficulté est conservée quand le formateur relance une partie avec la même classe
+- Compte formateur Supabase Auth conservé
+
+Important : exécuter le nouveau supabase.sql une fois pour ajouter le champ difficulty aux salles existantes.
+
 NCR MCO Quiz Arena V2.9 — compte formateur
 
 Ajouts principaux :

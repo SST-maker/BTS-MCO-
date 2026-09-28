@@ -55,6 +55,18 @@
   function shuffle(a){
     const arr=[...a]; for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr;
   }
+  const difficultyLabels={mixed:'Mixte',easy:'Révision',medium:'Intermédiaire',hard:'Difficile',expert:'Expert'};
+  const HISTORY_KEY='ncr-quiz-question-history-v3';
+  function readQuestionHistory(){
+    try{ const v=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]'); return Array.isArray(v)?v:[]; }catch(_){ return []; }
+  }
+  function rememberQuestions(items){
+    try{
+      const previous=readQuestionHistory(); const ids=items.map(q=>q.id);
+      const merged=[...ids,...previous.filter(id=>!ids.includes(id))].slice(0,700);
+      localStorage.setItem(HISTORY_KEY,JSON.stringify(merged));
+    }catch(_){}
+  }
   function cleanCode(v){ return (v||'').replace(/\D/g,'').slice(0,6); }
   function formatCode(v){ const c=cleanCode(v); return c.length>3?`${c.slice(0,3)} ${c.slice(3)}`:c; }
   function currentQ(){
@@ -177,7 +189,7 @@
   }
 
   // HOST SETUP
-  const selectorIds=['subjectSelect','yearSelect','chapterSelect','sessionSelect','countSelect'];
+  const selectorIds=['subjectSelect','yearSelect','chapterSelect','sessionSelect','difficultySelect','countSelect'];
   selectorIds.forEach(id=>$(id).addEventListener('change',()=>{
     if(id==='subjectSelect'||id==='yearSelect') fillChapters();
     else if(id==='chapterSelect') fillSessions();
@@ -206,18 +218,33 @@
     });
     updateAvailability();
   }
-  function pickQuizQuestions(pool,count){
-    const advanced=shuffle(pool.filter(q=>q.difficulty==='advanced'));
-    const standard=shuffle(pool.filter(q=>q.difficulty!=='advanced'));
-    // V2.8 : difficulté renforcée dans toutes les matières.
-    // Environ 85 % de questions d'application, de distinction ou de formule quand la banque le permet.
-    const targetAdvanced=Math.min(advanced.length,Math.max(1,Math.round(count*0.85)));
-    const picked=[...advanced.slice(0,targetAdvanced),...standard.slice(0,Math.max(0,count-targetAdvanced))];
-    if(picked.length<count){
-      const used=new Set(picked.map(q=>q.id));
-      picked.push(...shuffle(pool.filter(q=>!used.has(q.id))).slice(0,count-picked.length));
+  function pickQuizQuestions(pool,count,level='mixed',excludeIds=[]){
+    const recent=new Set(readQuestionHistory());
+    const excluded=new Set(excludeIds||[]);
+    const selected=[]; const used=new Set();
+    const take=(candidates,n)=>{
+      if(n<=0)return;
+      const fresh=shuffle(candidates.filter(q=>!recent.has(q.id)&&!excluded.has(q.id)&&!used.has(q.id)));
+      const old=shuffle(candidates.filter(q=>!excluded.has(q.id)&&!used.has(q.id)&&!fresh.includes(q)));
+      for(const q of [...fresh,...old]){ if(selected.length>=count||n<=0)break; selected.push(q); used.add(q.id); n--; }
+    };
+    const by=l=>pool.filter(q=>q.difficulty===l);
+    if(level==='mixed'){
+      const targets={easy:Math.round(count*.10),medium:Math.round(count*.25),hard:Math.round(count*.40)};
+      targets.expert=Math.max(0,count-targets.easy-targets.medium-targets.hard);
+      ['easy','medium','hard','expert'].forEach(l=>take(by(l),targets[l]));
+      if(selected.length<count) take(pool,count-selected.length);
+    }else{
+      const priority={
+        easy:['easy','medium','hard'],
+        medium:['medium','hard','easy','expert'],
+        hard:['hard','expert','medium','easy'],
+        expert:['expert','hard','medium']
+      }[level]||['hard','expert','medium','easy'];
+      for(const l of priority){ if(selected.length>=count)break; take(by(l),count-selected.length); }
+      if(selected.length<count) take(pool,count-selected.length);
     }
-    return shuffle(picked).slice(0,count);
+    const result=shuffle(selected).slice(0,count); rememberQuestions(result); return result;
   }
   function filteredQuestions(){
     const s=$('subjectSelect').value,y=$('yearSelect').value,c=$('chapterSelect').value,sess=$('sessionSelect').value;
@@ -226,9 +253,10 @@
   function updateAvailability(){
     const available=filteredQuestions(); const n=Math.min(Number($('countSelect').value||10),available.length);
     const s=$('subjectSelect').value,y=$('yearSelect').value,c=$('chapterSelect').value,sess=$('sessionSelect').value;
-    const ch=state.catalog?.[s]?.[y]?.[c];
-    $('availability').innerHTML=`<strong>${available.length}</strong> questions disponibles • <strong>${n}</strong> seront jouées${available.length<n?'':' en aléatoire'}.`;
-    $('previewMeta').textContent=`${s} • ${y} année${sess==='all'?'':` • séance ${sess}`}`;
+    const level=$('difficultySelect').value||'hard'; const ch=state.catalog?.[s]?.[y]?.[c];
+    const counts={easy:0,medium:0,hard:0,expert:0}; available.forEach(q=>{if(counts[q.difficulty]!==undefined)counts[q.difficulty]++;});
+    $('availability').innerHTML=`<strong>${available.length}</strong> questions • Révision ${counts.easy} · Intermédiaire ${counts.medium} · Difficile ${counts.hard} · Expert ${counts.expert}<br><strong>${n}</strong> questions seront tirées • niveau <strong>${difficultyLabels[level]}</strong> • anti-répétition actif.`;
+    $('previewMeta').textContent=`${s} • ${y} année${sess==='all'?'':` • séance ${sess}`} • ${difficultyLabels[level]}`;
     $('previewChapter').textContent=ch?.title||'—';
   }
 
@@ -238,19 +266,20 @@
     const sb=supa(); if(!sb){show('viewSetupNeeded');return;}
     const pool=filteredQuestions(); if(!pool.length){toast('Aucune question disponible pour ce filtre.');return;}
     const count=Math.min(Number($('countSelect').value),pool.length);
-    const picked=pickQuizQuestions(pool,count);
+    const difficulty=$('difficultySelect').value||'hard';
+    const picked=pickQuizQuestions(pool,count,difficulty);
     $('createRoomBtn').disabled=true; $('createRoomBtn').innerHTML=state.reuseRoom?'Préparation de la manche…':'Création…';
     if(state.reuseRoom && state.room){
       const ok=await resetRoomWithPlayers(picked,{
         subject:$('subjectSelect').value,year:$('yearSelect').value,chapter:$('chapterSelect').value,
-        session:$('sessionSelect').value==='all'?null:$('sessionSelect').value,duration:Number($('durationSelect').value)
+        session:$('sessionSelect').value==='all'?null:$('sessionSelect').value,duration:Number($('durationSelect').value),difficulty
       });
       $('createRoomBtn').disabled=false; $('createRoomBtn').innerHTML='Créer le live <span>→</span>';
       if(ok){state.reuseRoom=false;renderLobby();requestWakeLock();show('viewLobby');}
       return;
     }
     const code=String(Math.floor(100000+Math.random()*900000));
-    const payload={code,subject:$('subjectSelect').value,year:$('yearSelect').value,chapter:$('chapterSelect').value,session:$('sessionSelect').value==='all'?null:$('sessionSelect').value,question_ids:picked.map(q=>q.id),duration:Number($('durationSelect').value),phase:'lobby',current_index:-1,question_started_at:null};
+    const payload={code,subject:$('subjectSelect').value,year:$('yearSelect').value,chapter:$('chapterSelect').value,session:$('sessionSelect').value==='all'?null:$('sessionSelect').value,question_ids:picked.map(q=>q.id),duration:Number($('durationSelect').value),difficulty,phase:'lobby',current_index:-1,question_started_at:null};
     let {data,error}=await sb.from('quiz_rooms').insert(payload).select().single();
     if(error && String(error.message).toLowerCase().includes('duplicate')){
       payload.code=String(Math.floor(100000+Math.random()*900000));
@@ -279,11 +308,10 @@
     if(!state.room || !await ensureTrainer(false))return;
     const room=state.room;
     const pool=state.questions.filter(q=>q.subject===room.subject&&q.year===room.year&&q.chapter===room.chapter&&(!room.session||q.session===room.session));
-    const count=Math.min(room.question_ids?.length||10,pool.length); const old=new Set(room.question_ids||[]);
-    const fresh=shuffle(pool.filter(q=>!old.has(q.id))); const previous=shuffle(pool.filter(q=>old.has(q.id)));
-    const picked=[...fresh,...previous].slice(0,count);
+    const count=Math.min(room.question_ids?.length||10,pool.length);
+    const picked=pickQuizQuestions(pool,count,room.difficulty||'hard',room.question_ids||[]);
     $('replaySameBtn').disabled=true; $('replaySameBtn').textContent='Préparation…';
-    const ok=await resetRoomWithPlayers(picked,{subject:room.subject,year:room.year,chapter:room.chapter,session:room.session,duration:room.duration});
+    const ok=await resetRoomWithPlayers(picked,{subject:room.subject,year:room.year,chapter:room.chapter,session:room.session,duration:room.duration,difficulty:room.difficulty||'hard'});
     $('replaySameBtn').disabled=false; $('replaySameBtn').textContent='↻ Rejouer avec la même classe';
     if(ok){renderLobby();show('viewLobby');}
   }
@@ -293,7 +321,7 @@
     $('subjectSelect').value=state.room.subject; $('yearSelect').value=state.room.year; fillChapters();
     $('chapterSelect').value=state.room.chapter; fillSessions(); $('sessionSelect').value=state.room.session||'all';
     const wanted=String(state.room.question_ids?.length||10); if([...$('countSelect').options].some(o=>o.value===wanted))$('countSelect').value=wanted;
-    $('durationSelect').value=String(state.room.duration||30); updateAvailability();
+    $('durationSelect').value=String(state.room.duration||30); $('difficultySelect').value=state.room.difficulty||'hard'; updateAvailability();
     $('createRoomBtn').innerHTML='Relancer avec la classe <span>→</span>'; show('viewHostSetup');
   }
 
@@ -357,7 +385,7 @@
   // HOST GAME
   async function renderHostQuestion(){
     const q=currentQ(); if(!q)return; requestWakeLock(); show('viewHostGame'); clearInterval(state.timer);
-    $('hostGameMeta').textContent=`${q.subject} • ${q.year} année • chapitre ${q.chapter} • séance ${q.session}`;
+    $('hostGameMeta').textContent=`${q.subject} • ${q.year} année • chapitre ${q.chapter} • séance ${q.session} • ${difficultyLabels[state.room.difficulty||'hard']}`;
     $('hostProgress').textContent=`Question ${state.room.current_index+1} / ${state.room.question_ids.length}`;
     $('hostQuestionNumber').textContent=String(state.room.current_index+1).padStart(2,'0'); $('hostQuestionText').textContent=q.question;
     const g=$('hostChoices');g.innerHTML='';q.choices.forEach((c,i)=>{const d=document.createElement('div');d.className='answer-tile';d.innerHTML=`<span class="shape">${shapes[i]}</span><span>${escapeHtml(c)}</span>`;g.appendChild(d);});

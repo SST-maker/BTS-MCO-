@@ -63,11 +63,12 @@
           <div class="field-row"><label>Matière<select id="subjectSelect"><option>ADOC</option><option>DRCV</option><option>GO</option></select></label><label>Année<select id="yearSelect"><option value="1re">1re année</option><option value="2e">2e année</option></select></label></div>
           <label>Chapitre<select id="chapterSelect"></select></label>
           <label>Séance<select id="sessionSelect"></select></label>
-          <div class="field-row"><label>Questions<select id="countSelect"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>30</option><option>40</option><option>50</option><option>60</option></select></label><label>Temps par question<select id="durationSelect"><option value="20">20 s • rapide</option><option value="30" selected>30 s • normal</option><option value="45">45 s • confort</option><option value="60">60 s • réflexion</option></select></label></div>
+          <div class="field-row"><label>Niveau de difficulté<select id="difficultySelect"><option value="mixed">Mixte • varié</option><option value="easy">Révision • accessible</option><option value="medium">Intermédiaire</option><option value="hard" selected>Difficile</option><option value="expert">Expert • pièges proches</option></select></label><label>Questions<select id="countSelect"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>30</option><option>40</option><option>50</option><option>60</option></select></label></div>
+          <label>Temps par question<select id="durationSelect"><option value="20">20 s • rapide</option><option value="30" selected>30 s • normal</option><option value="45">45 s • confort</option><option value="60">60 s • réflexion</option></select></label>
           <div class="availability" id="availability"></div>
           <button class="cta" id="createRoomBtn" type="button">Créer le live <span>→</span></button>
         </div>
-        <aside class="panel preview-panel"><span class="eyebrow">APERÇU</span><div class="mini-screen"><div class="mini-kicker" id="previewMeta">ADOC • 1re année</div><h3 id="previewChapter">—</h3><div class="mini-options"><span></span><span></span><span></span><span></span></div></div><p>Questions plus exigeantes : application, distinctions fines et choix de formules, avec correction détaillée.</p></aside>
+        <aside class="panel preview-panel"><span class="eyebrow">APERÇU</span><div class="mini-screen"><div class="mini-kicker" id="previewMeta">ADOC • 1re année</div><h3 id="previewChapter">—</h3><div class="mini-options"><span></span><span></span><span></span><span></span></div></div><p>Choisis le niveau : révision, intermédiaire, difficile ou expert. Les questions récentes sont évitées autant que possible pour renouveler chaque partie.</p></aside>
       </div>
     </section>
 
