@@ -1,3 +1,7 @@
+## V2.1 — formulations complètes, sans points de suspension
+
+Les questions et réponses du live sont désormais courtes mais complètes. Aucun texte de quiz n’est tronqué avec « … » et les noms se renvoient à la ligne au lieu d’être coupés.
+
 # NCR MCO Quiz Arena — V2 Responsive
 
 Application de quiz live BTS MCO pour une utilisation en classe : l’hôte projette la partie, les élèves rejoignent par QR code ou code à 6 chiffres, répondent depuis leur téléphone, puis le classement et le podium sont affichés.
