@@ -12,7 +12,7 @@
 
   function show(id){
     views.forEach(v => v.classList.toggle('active', v.id === id));
-    window.scrollTo({top:0,behavior:'smooth'});
+    window.scrollTo({top:0,behavior:'auto'});
   }
   function toast(msg){
     const t=$('toast'); t.textContent=msg; t.classList.add('show');
@@ -192,7 +192,7 @@
     await refreshPlayers(); await refreshAnswerCount(); startHostTimer();
   }
   function startHostTimer(){
-    clearInterval(state.timer); const duration=state.room.duration||20; const start=new Date(state.room.question_started_at).getTime();
+    clearInterval(state.timer); const duration=state.room.duration||30; const start=new Date(state.room.question_started_at).getTime();
     const tick=async()=>{
       if(state.room?.phase!=='question'){clearInterval(state.timer);return;}
       const elapsed=(Date.now()-start)/1000, remain=Math.max(0,duration-elapsed); $('hostTimerBar').style.width=`${Math.max(0,remain/duration*100)}%`;
@@ -261,12 +261,12 @@
     $('submittedBox').classList.toggle('hidden',!prior); startStudentTimer(q,!!prior);
   }
   function startStudentTimer(q,answered){
-    clearInterval(state.timer); const duration=state.room.duration||20; const start=new Date(state.room.question_started_at).getTime();
+    clearInterval(state.timer); const duration=state.room.duration||30; const start=new Date(state.room.question_started_at).getTime();
     const tick=()=>{const remain=Math.max(0,Math.ceil(duration-(Date.now()-start)/1000));$('studentTimer').textContent=remain;if(remain<=0){clearInterval(state.timer);[...$('studentChoices').children].forEach(b=>b.disabled=true);}};tick();state.timer=setInterval(tick,250);
   }
   async function submitAnswer(q,index){
     if(state.room.phase!=='question'||await alreadyAnswered(q.id))return;
-    const duration=state.room.duration||20; const elapsed=Math.max(0,Date.now()-new Date(state.room.question_started_at).getTime()); if(elapsed>duration*1000+750)return;
+    const duration=state.room.duration||30; const elapsed=Math.max(0,Date.now()-new Date(state.room.question_started_at).getTime()); if(elapsed>duration*1000+750)return;
     [...$('studentChoices').children].forEach(b=>b.disabled=true); $('submittedBox').classList.remove('hidden');
     const correct=index===q.answer; const prevStreak=state.player.streak||0; const newStreak=correct?prevStreak+1:0;
     const speed=Math.max(0,1-Math.min(1,elapsed/(duration*1000))); const base=correct?Math.round(500+500*speed):0; const streakBonus=correct?Math.min(200,Math.max(0,newStreak-1)*25):0; const points=base+streakBonus;

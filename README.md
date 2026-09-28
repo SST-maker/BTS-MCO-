@@ -1,32 +1,46 @@
-# NCR MCO Quiz Arena — V1
+# NCR MCO Quiz Arena — V2 Responsive
 
-Application web de quiz live pour BTS MCO, pensée pour un cours en présentiel : le formateur projette l'écran hôte, les étudiants rejoignent avec un QR code ou un code à 6 chiffres, répondent depuis leur téléphone, puis un classement et un podium sont affichés.
+Application de quiz live BTS MCO pour une utilisation en classe : l’hôte projette la partie, les élèves rejoignent par QR code ou code à 6 chiffres, répondent depuis leur téléphone, puis le classement et le podium sont affichés.
 
-## Contenu de cette V1
+## Ce qui change dans la V2
+
+- responsive mobile entièrement retravaillé pour les téléphones élèves ;
+- interface hôte optimisée pour vidéoprojecteur, tablette et petits écrans ;
+- lobby, écran de connexion, correction et podium adaptés aux écrans étroits ;
+- boutons de réponse plus grands et plus tactiles ;
+- gestion des petits téléphones et du mode paysage ;
+- barre supérieure et espacements réduits sur mobile pour laisser plus de place au quiz ;
+- questions fortement raccourcies pour une lecture rapide en live ;
+- réponses raccourcies, tandis que les explications détaillées restent visibles après la réponse ;
+- chrono par défaut porté à **30 secondes** ;
+- choix de chrono : 20 s rapide, 30 s normal, 45 s confort, 60 s réflexion.
+
+## Banque de questions
 
 - ADOC 1re année
 - ADOC 2e année
 - DRCV 1re année
 - DRCV 2e année
-- 689 questions dans la banque initiale
+- **689 questions** conservées
 - filtres matière > année > chapitre > séance
 - tirage aléatoire de 5, 10, 15, 20 ou 30 questions selon le volume disponible
-- chrono 15 / 20 / 30 / 45 / 60 secondes
-- lobby live avec les prénoms
-- QR code + code de salle
-- réponses synchronisées en temps réel
-- score prenant en compte justesse + rapidité + petit bonus de série
-- correction après chaque question
-- classement intermédiaire
-- podium final et classement complet
 
-La banque a été construite à partir des quatre manuels fournis. Deux variantes automatiques sont générées à partir des notions du manuel : reconnaissance de définition et reconnaissance de notion, complétées par des questions d'application/calcul rédigées spécifiquement.
+Les corrections et explications restent plus développées que les formulations affichées pendant le chrono : le but est que l’élève lise vite pendant la manche, puis que le formateur puisse exploiter la correction pédagogiquement.
+
+### Mesures de longueur V2
+
+Sur les 689 questions :
+
+- question médiane : environ 67 caractères ;
+- 90 % des questions : moins de 88 caractères ;
+- réponses : environ 49 caractères en médiane ;
+- 90 % des réponses : moins de 90 caractères.
 
 ## Installation Supabase
 
 1. Créer ou ouvrir un projet Supabase.
 2. Ouvrir **SQL Editor**.
-3. Copier/coller le contenu de `supabase.sql` et l'exécuter.
+3. Copier/coller le contenu de `supabase.sql` et l’exécuter.
 4. Dans **Project Settings > API**, récupérer :
    - Project URL
    - anon / public key
@@ -41,27 +55,25 @@ window.NCR_CONFIG = {
 
 ## Déploiement
 
-Le dossier est statique. Tu peux l'héberger sur Cloudflare Pages, GitHub Pages ou n'importe quel hébergeur statique HTTPS. Pour le QR code, le site doit être accessible depuis les téléphones des élèves.
+Le dossier est statique. Il peut être hébergé sur Cloudflare Pages, GitHub Pages ou tout hébergement statique HTTPS. Le site doit être accessible depuis les téléphones des élèves pour que le QR code fonctionne.
 
-Pour un test local sur ton ordinateur :
+Pour un test local :
 
 ```bash
 python -m http.server 8080
 ```
 
-Puis ouvre `http://localhost:8080` depuis le dossier du projet. Le multijoueur depuis plusieurs téléphones nécessitera toutefois une adresse réseau/publique accessible et Supabase configuré.
-
 ## Fichiers
 
-- `index.html` : interface complète
-- `style.css` : design responsive
-- `app.js` : logique hôte/élève, score, temps réel et podium
-- `questions.json` : banque de questions
-- `catalog.json` : matières, chapitres et séances disponibles
-- `source_index.json` : index des notions extrait des manuels
-- `supabase.sql` : base de données + Realtime + politiques RLS
-- `config.js` : URL et clé publique Supabase
+- `index.html` : interface
+- `style.css` : design responsive V2
+- `app.js` : logique hôte/élève, temps réel, score et podium
+- `questions.json` : banque de questions raccourcies
+- `catalog.json` : structure matières / chapitres / séances
+- `source_index.json` : index des notions des manuels
+- `supabase.sql` : base de données + Realtime + RLS
+- `config.js` : configuration Supabase
 
-## Limite de sécurité de la V1
+## Sécurité
 
-Cette version est faite pour l'entraînement en classe, pas pour un examen certifiant. Les réponses correctes sont présentes dans le bundle web afin que le jeu reste simple et rapide à déployer. Un élève très technique pourrait donc les retrouver via les outils développeur. Une V2 peut déplacer la validation et le calcul du score côté serveur si nécessaire.
+Cette version est destinée à l’entraînement en classe. Les réponses correctes restent dans le bundle web afin de garder un déploiement simple. Pour un examen certifiant, il faudrait déplacer la validation des réponses côté serveur.

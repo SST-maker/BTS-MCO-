@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#081226" />
-  <title>NCR MCO Quiz Arena</title>
+  <title>NCR MCO Quiz Arena — V2</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -46,11 +46,11 @@
           <div class="field-row"><label>Matière<select id="subjectSelect"><option>ADOC</option><option>DRCV</option></select></label><label>Année<select id="yearSelect"><option value="1re">1re année</option><option value="2e">2e année</option></select></label></div>
           <label>Chapitre<select id="chapterSelect"></select></label>
           <label>Séance<select id="sessionSelect"></select></label>
-          <div class="field-row"><label>Questions<select id="countSelect"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>30</option></select></label><label>Temps par question<select id="durationSelect"><option value="15">15 s</option><option value="20" selected>20 s</option><option value="30">30 s</option><option value="45">45 s</option><option value="60">60 s</option></select></label></div>
+          <div class="field-row"><label>Questions<select id="countSelect"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>30</option></select></label><label>Temps par question<select id="durationSelect"><option value="20">20 s • rapide</option><option value="30" selected>30 s • normal</option><option value="45">45 s • confort</option><option value="60">60 s • réflexion</option></select></label></div>
           <div class="availability" id="availability"></div>
           <button class="cta" id="createRoomBtn" type="button">Créer le live <span>→</span></button>
         </div>
-        <aside class="panel preview-panel"><span class="eyebrow">APERÇU</span><div class="mini-screen"><div class="mini-kicker" id="previewMeta">ADOC • 1re année</div><h3 id="previewChapter">—</h3><div class="mini-options"><span></span><span></span><span></span><span></span></div></div><p>Les questions sont tirées aléatoirement de la banque correspondant au chapitre et à la séance sélectionnés.</p></aside>
+        <aside class="panel preview-panel"><span class="eyebrow">APERÇU</span><div class="mini-screen"><div class="mini-kicker" id="previewMeta">ADOC • 1re année</div><h3 id="previewChapter">—</h3><div class="mini-options"><span></span><span></span><span></span><span></span></div></div><p>Questions courtes, réponses rapides et correction détaillée après chaque manche.</p></aside>
       </div>
     </section>
 
