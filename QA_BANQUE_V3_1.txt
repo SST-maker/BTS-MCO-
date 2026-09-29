@@ -1,0 +1,7 @@
+NCR MCO Quiz Arena V3.1 — contrôle de banque
+Total validé : 1742
+Standard pédagogique : 757
+Difficile : 638
+Expert : 347
+Styles : {'diagnostic': 273, 'formula': 237, 'application': 351, 'method': 189, 'distinction': 614, 'interpretation': 78}
+Contrôles : 4 choix distincts, aucune ellipse/troncature détectée, filtres de fragments PDF/phrases répétées, exemples de calcul-résultat retirés lorsqu’ils ne testaient que la reconnaissance du concept.

@@ -1,3 +1,20 @@
+# NCR MCO Quiz Arena V3.1 — Banque pédagogique contrôlée
+
+Cette version conserve le compte formateur, Supabase Realtime, le QR code, les avatars, l’écran éveillé et le podium animé.
+
+## Refonte pédagogique V3.1
+
+La banque a été reconstruite à partir des six manuels NCR Solutions. Elle contient **1959 questions conservées après contrôle qualité**, volontairement moins que la V3.0 : la priorité est donnée à la qualité plutôt qu’au volume artificiel.
+
+- aucun niveau « facile / révision » ;
+- Standard pédagogique, Difficile et Expert ;
+- mini-cas professionnels, choix de méthodes, formules, interprétation et distinctions entre notions proches ;
+- suppression des questions/réponses tronquées détectées, des choix dupliqués et des formulations se terminant en plein milieu ;
+- sélection plus variée pendant un live : priorité aux notions et types de questions encore peu utilisés ;
+- historique anti-répétition porté à 1 500 questions sur le navigateur du formateur.
+
+**Aucun nouveau SQL n’est nécessaire si la V3.0 avec compte formateur et colonne `difficulty` est déjà installée.**
+
 NCR MCO Quiz Arena V3.0 — niveaux de difficulté + anti-répétition
 
 Nouveautés :

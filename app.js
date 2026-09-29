@@ -55,15 +55,15 @@
   function shuffle(a){
     const arr=[...a]; for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr;
   }
-  const difficultyLabels={mixed:'Mixte',easy:'Révision',medium:'Intermédiaire',hard:'Difficile',expert:'Expert'};
-  const HISTORY_KEY='ncr-quiz-question-history-v3';
+  const difficultyLabels={mixed:'Mix pédagogique',easy:'Standard pédagogique',medium:'Standard pédagogique',hard:'Difficile',expert:'Expert'};
+  const HISTORY_KEY='ncr-quiz-question-history-v31';
   function readQuestionHistory(){
     try{ const v=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]'); return Array.isArray(v)?v:[]; }catch(_){ return []; }
   }
   function rememberQuestions(items){
     try{
       const previous=readQuestionHistory(); const ids=items.map(q=>q.id);
-      const merged=[...ids,...previous.filter(id=>!ids.includes(id))].slice(0,700);
+      const merged=[...ids,...previous.filter(id=>!ids.includes(id))].slice(0,1500);
       localStorage.setItem(HISTORY_KEY,JSON.stringify(merged));
     }catch(_){}
   }
@@ -222,30 +222,50 @@
     const recent=new Set(readQuestionHistory());
     const excluded=new Set(excludeIds||[]);
     const selected=[]; const used=new Set();
-    const take=(candidates,n)=>{
-      if(n<=0)return;
-      const fresh=shuffle(candidates.filter(q=>!recent.has(q.id)&&!excluded.has(q.id)&&!used.has(q.id)));
-      const old=shuffle(candidates.filter(q=>!excluded.has(q.id)&&!used.has(q.id)&&!fresh.includes(q)));
-      for(const q of [...fresh,...old]){ if(selected.length>=count||n<=0)break; selected.push(q); used.add(q.id); n--; }
+    const notionCount=new Map(); const styleCount=new Map();
+    const add=(q)=>{
+      selected.push(q); used.add(q.id);
+      const nk=`${q.subject}|${q.year}|${q.chapter}|${q.notion||q.notionTitle||''}`;
+      notionCount.set(nk,(notionCount.get(nk)||0)+1);
+      const sk=q.style||'other'; styleCount.set(sk,(styleCount.get(sk)||0)+1);
+    };
+    const choose=(candidates,n)=>{
+      for(let step=0;step<n && selected.length<count;step++){
+        const avail=candidates.filter(q=>!excluded.has(q.id)&&!used.has(q.id));
+        if(!avail.length) break;
+        let best=null,bestScore=-1e9;
+        for(const q of avail){
+          const nk=`${q.subject}|${q.year}|${q.chapter}|${q.notion||q.notionTitle||''}`;
+          const nc=notionCount.get(nk)||0, sc=styleCount.get(q.style||'other')||0;
+          let score=(recent.has(q.id)?0:120) - nc*42 - sc*11 + Math.random()*9;
+          if(nc===0) score+=28;
+          if(sc===0) score+=16;
+          // Avoid a quiz made almost entirely of the same pattern when alternatives exist.
+          if(sc>=Math.max(2,Math.ceil(count*.38))) score-=55;
+          if(score>bestScore){bestScore=score;best=q;}
+        }
+        if(!best) break; add(best);
+      }
     };
     const by=l=>pool.filter(q=>q.difficulty===l);
+    // Legacy rooms created with the old "easy" value are treated as standard pedagogy.
+    if(level==='easy') level='medium';
     if(level==='mixed'){
-      const targets={easy:Math.round(count*.10),medium:Math.round(count*.25),hard:Math.round(count*.40)};
-      targets.expert=Math.max(0,count-targets.easy-targets.medium-targets.hard);
-      ['easy','medium','hard','expert'].forEach(l=>take(by(l),targets[l]));
-      if(selected.length<count) take(pool,count-selected.length);
+      const targets={medium:Math.round(count*.25),hard:Math.round(count*.45)};
+      targets.expert=Math.max(0,count-targets.medium-targets.hard);
+      ['hard','expert','medium'].forEach(l=>choose(by(l),targets[l]));
     }else{
       const priority={
-        easy:['easy','medium','hard'],
-        medium:['medium','hard','easy','expert'],
-        hard:['hard','expert','medium','easy'],
+        medium:['medium','hard','expert'],
+        hard:['hard','expert','medium'],
         expert:['expert','hard','medium']
-      }[level]||['hard','expert','medium','easy'];
-      for(const l of priority){ if(selected.length>=count)break; take(by(l),count-selected.length); }
-      if(selected.length<count) take(pool,count-selected.length);
+      }[level]||['hard','expert','medium'];
+      for(const l of priority){ if(selected.length>=count)break; choose(by(l),count-selected.length); }
     }
+    if(selected.length<count) choose(pool,count-selected.length);
     const result=shuffle(selected).slice(0,count); rememberQuestions(result); return result;
   }
+
   function filteredQuestions(){
     const s=$('subjectSelect').value,y=$('yearSelect').value,c=$('chapterSelect').value,sess=$('sessionSelect').value;
     return state.questions.filter(q=>q.subject===s&&q.year===y&&q.chapter===c&&(sess==='all'||q.session===sess));
@@ -255,7 +275,7 @@
     const s=$('subjectSelect').value,y=$('yearSelect').value,c=$('chapterSelect').value,sess=$('sessionSelect').value;
     const level=$('difficultySelect').value||'hard'; const ch=state.catalog?.[s]?.[y]?.[c];
     const counts={easy:0,medium:0,hard:0,expert:0}; available.forEach(q=>{if(counts[q.difficulty]!==undefined)counts[q.difficulty]++;});
-    $('availability').innerHTML=`<strong>${available.length}</strong> questions • Révision ${counts.easy} · Intermédiaire ${counts.medium} · Difficile ${counts.hard} · Expert ${counts.expert}<br><strong>${n}</strong> questions seront tirées • niveau <strong>${difficultyLabels[level]}</strong> • anti-répétition actif.`;
+    $('availability').innerHTML=`<strong>${available.length}</strong> questions validées • Standard ${counts.medium} · Difficile ${counts.hard} · Expert ${counts.expert}<br><strong>${n}</strong> questions seront tirées • niveau <strong>${difficultyLabels[level]}</strong> • diversité des notions et anti-répétition actifs.`;
     $('previewMeta').textContent=`${s} • ${y} année${sess==='all'?'':` • séance ${sess}`} • ${difficultyLabels[level]}`;
     $('previewChapter').textContent=ch?.title||'—';
   }
