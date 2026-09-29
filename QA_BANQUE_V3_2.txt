@@ -1,0 +1,23 @@
+NCR MCO Quiz Arena V3.2 — banque élargie niveau pédagogique
+Total : 2123
+Nouvelles questions : 381
+Difficile ajoutées : 333
+Expert ajoutées : 48
+
+Nouveaux styles : {'double-diagnostic': 224, 'triple-distinction': 48, 'cumulative-distinction': 35, 'formula-mapping': 74}
+QA nouvelles questions : 0 anomalie(s)
+Les nouvelles questions conceptuelles comparent deux ou trois notions à partir de phrases complètes issues de source_index.
+Les calculs ajoutés demandent d’associer des formules à des indicateurs, pas de faire un calcul mécanique.
+Aucune ellipse ni découpe arbitraire de phrase.
+Historique anti-répétition : 2 500 questions.
+
+Répartition matière / année :
+- ADOC 1re : 319
+- ADOC 2e : 269
+- DRCV 1re : 309
+- DRCV 2e : 248
+- GO 1re : 401
+- GO 2e : 577
+
+Séances couvertes : 155
+Min / médiane / max par séance : 1 / 11 / 64

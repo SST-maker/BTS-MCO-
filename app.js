@@ -63,7 +63,7 @@
   function rememberQuestions(items){
     try{
       const previous=readQuestionHistory(); const ids=items.map(q=>q.id);
-      const merged=[...ids,...previous.filter(id=>!ids.includes(id))].slice(0,1500);
+      const merged=[...ids,...previous.filter(id=>!ids.includes(id))].slice(0,2500);
       localStorage.setItem(HISTORY_KEY,JSON.stringify(merged));
     }catch(_){}
   }

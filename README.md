@@ -1,3 +1,8 @@
+NCR MCO Quiz Arena V3.2 — Banque pédagogique élargie
+
+381 nouvelles questions, uniquement de niveau difficile ou expert. Elles demandent de distinguer deux ou trois notions ou d’associer plusieurs formules, sans revenir aux questions trop évidentes.
+Total : 2123 questions. Historique anti-répétition porté à 2 500 questions.
+
 # NCR MCO Quiz Arena V3.1 — Banque pédagogique contrôlée
 
 Cette version conserve le compte formateur, Supabase Realtime, le QR code, les avatars, l’écran éveillé et le podium animé.
