@@ -17,7 +17,8 @@
     questions: [], catalog: {}, sb: null, room: null, player: null,
     host: false, subscriptions: [], timer: null, hostSelected: [],
     answered: new Map(), currentQuestionId: null, players: [], selectedAvatar: defaultAvatar, reuseRoom: false,
-    wakeLock: null, wakeNoticeShown: false, session: null, user: null, authBound: false
+    wakeLock: null, wakeNoticeShown: false, session: null, user: null, authBound: false,
+    studentSyncTimer: null, studentSyncBusy: false
   };
 
   const wakeViews = new Set(['viewLobby','viewHostGame','viewReveal','viewPodium','viewStudentWaiting','viewStudentQuestion','viewStudentReveal']);
@@ -46,8 +47,12 @@
     else releaseWakeLock();
   }
   document.addEventListener('visibilitychange',()=>{
-    if(document.visibilityState==='visible') syncWakeLock(); else releaseWakeLock();
+    if(document.visibilityState==='visible'){ syncWakeLock(); syncStudentRoom(true); }
+    else releaseWakeLock();
   });
+  window.addEventListener('pageshow',()=>syncStudentRoom(true));
+  window.addEventListener('online',()=>syncStudentRoom(true));
+  window.addEventListener('focus',()=>syncStudentRoom(true));
   function toast(msg){
     const t=$('toast'); t.textContent=msg; t.classList.add('show');
     clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'),2600);
@@ -160,8 +165,40 @@
     if(goHome) home();
   }
 
+  function roomSignature(room){
+    if(!room) return '';
+    return JSON.stringify([room.phase,room.current_index,room.question_started_at,room.question_ids||[]]);
+  }
+  function stopStudentSync(){
+    if(state.studentSyncTimer){ clearInterval(state.studentSyncTimer); state.studentSyncTimer=null; }
+    state.studentSyncBusy=false;
+  }
+  function startStudentSync(){
+    stopStudentSync();
+    if(state.host || !state.room?.id || !state.player?.id) return;
+    state.studentSyncTimer=setInterval(()=>syncStudentRoom(false),2500);
+  }
+  async function syncStudentRoom(forceRender=false){
+    if(state.host || !state.room?.id || !state.player?.id || !hasConfig() || state.studentSyncBusy) return;
+    if(document.visibilityState==='hidden' && !forceRender) return;
+    state.studentSyncBusy=true;
+    try{
+      const sb=supa(); if(!sb) return;
+      const before=roomSignature(state.room);
+      const {data:room,error}=await sb.from('quiz_rooms').select('*').eq('id',state.room.id).maybeSingle();
+      if(error || !room) return;
+      const changed=before!==roomSignature(room);
+      state.room=room;
+      if(changed || forceRender) await renderStudentFromRoom();
+    }catch(err){
+      console.warn('Student sync fallback',err);
+    }finally{
+      state.studentSyncBusy=false;
+    }
+  }
+
   function home(){
-    cleanupSubscriptions(); state.host=false; state.room=null; state.player=null; state.players=[]; state.reuseRoom=false; state.answered.clear(); clearInterval(state.timer); releaseWakeLock(); show('viewLanding');
+    cleanupSubscriptions(); stopStudentSync(); state.host=false; state.room=null; state.player=null; state.players=[]; state.reuseRoom=false; state.answered.clear(); clearInterval(state.timer); releaseWakeLock(); show('viewLanding');
   }
   document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',home));
   $('brandHome').addEventListener('click',home);
@@ -384,7 +421,11 @@
       })
       .on('postgres_changes',{event:'*',schema:'public',table:'quiz_players',filter:`room_id=eq.${roomId}`},async()=>{await refreshPlayers(); if(state.host&&state.room?.phase==='lobby')renderPlayers(); if(state.host&&state.room?.phase==='reveal')await renderLeaderboard();})
       .on('postgres_changes',{event:'INSERT',schema:'public',table:'quiz_answers',filter:`room_id=eq.${roomId}`},async()=>{if(state.host&&state.room?.phase==='question')await refreshAnswerCount();});
-    channel.subscribe(); state.subscriptions=[channel];
+    channel.subscribe(status=>{
+      if(!state.host && ['CHANNEL_ERROR','TIMED_OUT','CLOSED'].includes(status)){
+        setTimeout(()=>syncStudentRoom(true),350);
+      }
+    }); state.subscriptions=[channel];
   }
   function cleanupSubscriptions(){
     const sb=state.sb; if(sb) state.subscriptions.forEach(c=>sb.removeChannel(c)); state.subscriptions=[];
@@ -477,7 +518,7 @@
     const {data:player,error:pErr}=await sb.from('quiz_players').insert({room_id:room.id,name:name.slice(0,24),avatar:state.selectedAvatar}).select().single();
     $('joinRoomBtn').disabled=false;
     if(pErr){console.error(pErr);msg.textContent='Impossible de rejoindre la partie.';return;}
-    state.room=room;state.player=player;state.host=false;localStorage.setItem(`ncr-player-${room.id}`,player.id);requestWakeLock();await subscribeRoom(room.id);await renderStudentFromRoom();
+    state.room=room;state.player=player;state.host=false;localStorage.setItem(`ncr-player-${room.id}`,player.id);requestWakeLock();await subscribeRoom(room.id);startStudentSync();await renderStudentFromRoom();
   }
 
   async function renderStudentFromRoom(){
@@ -521,11 +562,24 @@
   async function renderStudentReveal(){
     clearInterval(state.timer); const q=currentQ(); if(!q)return; const ans=await alreadyAnswered(q.id); await refreshPlayers(); requestWakeLock(); show('viewStudentReveal');
     const ok=!!ans?.is_correct; const icon=$('studentResultIcon');icon.textContent=ok?'✓':'×';icon.classList.toggle('wrong',!ok);$('studentResultTitle').textContent=ok?'Bonne réponse !':'Pas cette fois';
-    $('studentCorrectText').textContent=`Bonne réponse : ${q.choices[q.answer]}`;$('studentRevealScore').textContent=(state.player.score||0).toLocaleString('fr-FR');
+    $('studentCorrectionBox').classList.remove('hidden');
+    $('studentCorrectText').textContent=q.choices[q.answer];
+    $('studentExplanationText').textContent=(q.explanation||'').trim() || 'La correction détaillée est affichée sur l’écran principal.';
+    $('studentNotionText').textContent=q.notionTitle ? `Repère de cours : ${q.notionTitle}` : '';
+    const yourRow=$('studentYourAnswerRow');
+    if(ans && Number.isInteger(ans.answer_index)){
+      $('studentYourAnswerText').textContent=q.choices[ans.answer_index]||'—';
+      yourRow.classList.toggle('hidden',ok);
+    }else yourRow.classList.add('hidden');
+    $('studentRevealScore').textContent=(state.player.score||0).toLocaleString('fr-FR');
+    $('studentSyncNote').textContent='Synchronisation automatique : la prochaine question s’affichera ici dès que le formateur la lance.';
   }
   async function renderStudentFinal(){
     await refreshPlayers(); const sorted=[...state.players].sort((a,b)=>b.score-a.score); const rank=sorted.findIndex(p=>p.id===state.player.id)+1; requestWakeLock(); show('viewStudentReveal');
-    const icon=$('studentResultIcon');icon.textContent=rank===1?'🏆':rank<=3?'🥉':'✓';icon.classList.remove('wrong');$('studentResultTitle').textContent=`Tu termines ${rank}${rank===1?'er':'e'} !`;$('studentCorrectText').textContent=`${state.player.name} • ${(state.player.score||0).toLocaleString('fr-FR')} points`;$('studentRevealScore').textContent=(state.player.score||0).toLocaleString('fr-FR');
+    const icon=$('studentResultIcon');icon.textContent=rank===1?'🏆':rank<=3?'🥉':'✓';icon.classList.remove('wrong');$('studentResultTitle').textContent=`Tu termines ${rank}${rank===1?'er':'e'} !`;
+    $('studentCorrectionBox').classList.add('hidden');
+    $('studentRevealScore').textContent=(state.player.score||0).toLocaleString('fr-FR');
+    $('studentSyncNote').textContent=`${state.player.name} • ${(state.player.score||0).toLocaleString('fr-FR')} points`;
   }
 
   function escapeHtml(v){ return String(v??'').replace(/[&<>'"]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[s])); }
@@ -542,7 +596,7 @@
         const saved=localStorage.getItem(`ncr-player-${room.id}`);
         if(saved){
           const {data:player}=await supa().from('quiz_players').select('*').eq('id',saved).eq('room_id',room.id).maybeSingle();
-          if(player){state.room=room;state.player=player;state.selectedAvatar=avatars.some(a=>a.id===player.avatar)?player.avatar:defaultAvatar;initAvatarPicker();await subscribeRoom(room.id);await renderStudentFromRoom();return;}
+          if(player){state.room=room;state.player=player;state.selectedAvatar=avatars.some(a=>a.id===player.avatar)?player.avatar:defaultAvatar;initAvatarPicker();await subscribeRoom(room.id);startStudentSync();await renderStudentFromRoom();return;}
         }
       }
       show('viewJoin'); setTimeout(()=>$('joinNameInput')?.focus(),150); return;

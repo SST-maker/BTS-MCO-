@@ -1,3 +1,11 @@
+NCR MCO Quiz Arena V3.3 — Synchronisation élève + correction détaillée
+
+Nouveautés :
+- Filet de sécurité de synchronisation côté élève : vérification automatique de l’état de la salle toutes les 2,5 s en complément de Supabase Realtime.
+- Resynchronisation immédiate au retour dans l’app, au focus, au retour réseau et après une reprise iOS/Safari.
+- Correction élève enrichie : bonne réponse, réponse choisie en cas d’erreur, explication complète et repère de cours.
+- Aucun changement SQL nécessaire par rapport à la V3.2.
+
 NCR MCO Quiz Arena V3.2 — Banque pédagogique élargie
 
 381 nouvelles questions, uniquement de niveau difficile ou expert. Elles demandent de distinguer deux ou trois notions ou d’associer plusieurs formules, sans revenir aux questions trop évidentes.
