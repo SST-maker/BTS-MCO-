@@ -1,0 +1,36 @@
+NCR MCO Quiz Arena V3.4 — Audit qualité + banque étendue
+
+Banque V3.3 analysée : 2123 questions
+Questions supprimées après audit : 973
+  - familles trop directes ou mécaniques : 970
+  - fragments / artefacts de texte : 3
+Questions anciennes conservées : 1150
+Nouvelles questions ajoutées : 1421
+Questions finales : 2571
+
+Répartition par difficulté :
+  - medium : 595
+  - hard : 1240
+  - expert : 736
+
+Répartition par matière / année :
+  - ADOC 1re : 494
+  - ADOC 2e : 153
+  - DRCV 1re : 489
+  - DRCV 2e : 333
+  - GO 1re : 533
+  - GO 2e : 569
+
+Contrôles qualité effectués :
+  - 4 choix distincts par question
+  - index de réponse valide
+  - aucune question avec « ... » ou « … »
+  - détection des fragments, doublons de mots et réponses potentiellement tronquées
+  - limitation de la longueur des questions et réponses pour rester lisible en live
+  - suppression des familles de questions jugées trop évidentes ou trop mécaniques
+  - nouvelles questions centrées sur distinctions fines, doubles/triples raisonnements, mini-cas et diagnostic de formules
+  - contrôle spécifique des diagnostics de formules pour éviter les associations ambiguës
+
+Séances couvertes : 155
+Nombre de questions par séance : min 2 / médiane 18 / max 56
+La séance ADOC 1re année — chapitre 04 — séance 20 a été réécrite manuellement avec 24 questions propres après détection de formulations source dégradées.

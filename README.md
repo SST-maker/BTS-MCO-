@@ -1,3 +1,17 @@
+NCR MCO Quiz Arena V3.4 — Audit qualité + banque pédagogique étendue
+
+Cette version repart de la V3.3 avec un audit beaucoup plus sévère de la banque.
+
+- 973 questions supprimées car trop directes, trop mécaniques, tronquées ou peu pédagogiques.
+- 1421 nouvelles questions ajoutées.
+- 2571 questions au total.
+- Les nouvelles questions privilégient les associations de notions, distinctions fines, doubles/triples raisonnements, mini-cas et diagnostics de formules.
+- Les niveaux Standard pédagogique, Difficile et Expert restent disponibles.
+- La correction détaillée côté élève et le filet de sécurité de synchronisation de la V3.3 sont conservés.
+- Aucun nouveau SQL n’est nécessaire par rapport à la V3.3.
+
+Un rapport `QA_BANQUE_V3_4.txt` est inclus dans le dossier.
+
 NCR MCO Quiz Arena V3.3 — Synchronisation élève + correction détaillée
 
 Nouveautés :
