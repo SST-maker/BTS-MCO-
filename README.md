@@ -1,12 +1,12 @@
-# NCR MCO Quiz Arena V4
+# NCR MCO Quiz Arena V4.1
 
-Version statique pour GitHub Pages, sans compilation. Identité NCR, robot et 24 avatars conservés. Banque resserrée de **238 questions**, issue des six manuels fournis : 30 chapitres, 155 séances représentées, 198 notions. Une séance peut n’offrir qu’une question ou ne pas proposer tous les niveaux. Le nombre joué est annoncé avant création ; aucun niveau de remplacement n’est tiré silencieusement.
+Version statique V4.1 pour GitHub Pages, sans compilation. Base technique V4 conservée. Banque de **1 556 questions** exclusivement fondée sur les six manuels fournis : **155 séances, toutes à au moins 10 questions**, avec Standard, Difficile et Expert dans chaque séance. Les 238 questions V4 sont conservées à l’identique. Voir `COUVERTURE_SEANCES.csv` et `RELECTURE_PEDAGOGIQUE.md`.
 
 **Avant utilisation en classe : lire `QA_FINAL.md`.** Les parcours et le SQL ont été testés localement. Le rendu responsive en navigateur, Supabase en production et les téléphones réels n’ont pas pu être validés dans cet environnement. Cette livraison ne constitue donc pas une certification de fonctionnement multi-appareils.
 
 ## Installation sur ton projet existant
 
-1. Termine les parties V3 en cours. Conserve une copie de ton ancien déploiement.
+1. Termine les parties en cours. Conserve une copie de ton ancien déploiement.
 2. Ouvre **ton projet Supabase actuel → SQL Editor → New query**. Copie l’intégralité de `supabase.sql`, jusqu’au `commit;`, puis exécute-la. Le script crée un schéma privé `ncr_arena`, cinq RPC publiques et un signal Realtime. Il ne supprime pas les anciennes tables et ne transfère pas les parties V3. Il peut être réexécuté ; le registre de questions est fourni dans ce même fichier.
 3. Vérifie dans **Authentication → Users** que ton compte formateur existant est présent. Il reste utilisable avec son e-mail et son mot de passe. Aucun nouveau compte n’a été créé par cette livraison.
 4. Vérifie que l’inscription publique et les connexions anonymes ne sont pas ouvertes aux élèves si ce projet est dédié à ce quiz. La règle V4 considère un compte Auth avec e-mail comme un formateur ; elle n’implémente pas une liste de métiers ou de rôles NCR Suite. Si d’autres applications partagent ce projet et créent des comptes ordinaires, une autorisation métier spécifique doit être définie avant usage. Ne désactive pas un mécanisme nécessaire à une autre application sans examiner son impact.
@@ -44,7 +44,7 @@ Le live nécessite Internet et Supabase. Les bibliothèques sont locales, mais l
 | Connexion formateur refusée | Vérifier compte, mot de passe et accès réseau dans Authentication. Aucune récupération de mot de passe n’est ajoutée à cette V4. |
 | « Synchronisation de secours » | Le quiz utilise le polling. Vérifier la publication `supabase_realtime` et la table `public.ncr_v4_signals`, ainsi que les WebSockets du réseau. |
 | Salle expirée ou introuvable | Rejoindre une salle active avec son code ; après 24 heures, créer une nouvelle salle. |
-| Zéro question disponible | Choisir une autre séance ou le mix ; la banque ne couvre pas chaque niveau dans chaque séance. |
+| Zéro question disponible | Choisir une autre séance ou le mix ; vérifier les filtres et la cohérence des fichiers déployés. |
 | Assets ou JSON absents | Vérifier que les fichiers et `assets/` ont été copiés ensemble à la racine du dépôt ; conserver les noms exacts. |
 
 ## Architecture et maintenance
