@@ -1,609 +1,176 @@
 (() => {
-  'use strict';
-
-  const $ = (id) => document.getElementById(id);
-  const views = [...document.querySelectorAll('.view')];
-  const shapes = ['◆','●','▲','■'];
-  const avatars = [
-    ['avatar-01','Robot Boost'],['avatar-02','Robot Zen'],['avatar-03','Robot Wink'],['avatar-04','Robot Cool'],['avatar-05','Robot Scholar'],['avatar-06','Robot Hero'],
-    ['avatar-07','Chat'],['avatar-08','Chien'],['avatar-09','Panda'],['avatar-10','Pingouin'],['avatar-11','Renard'],['avatar-12','Lapin'],
-    ['avatar-13','Monstre Vert'],['avatar-14','Cyclope Violet'],['avatar-15','Monstre Bleu'],['avatar-16','Monstre Cœur'],['avatar-17','Alien Jaune'],['avatar-18','Monstre DJ'],
-    ['avatar-19','Robot Spatial'],['avatar-20','Alien UFO'],['avatar-21','Chat Astronaute'],['avatar-22','Requin Cool'],['avatar-23','Licorne'],['avatar-24','Hibou Diplômé']
-  ].map(([id,label])=>({id,label,src:`assets/avatars/${id}.webp`}));
-  const defaultAvatar = avatars[0].id;
-  function avatarPath(id){ return (avatars.find(a=>a.id===id)||avatars[0]).src; }
-  function avatarMarkup(id, cls=''){ return `<img${cls?` class="${cls}"`:''} src="${avatarPath(id)}" alt="" draggable="false">`; }
-  const state = {
-    questions: [], catalog: {}, sb: null, room: null, player: null,
-    host: false, subscriptions: [], timer: null, hostSelected: [],
-    answered: new Map(), currentQuestionId: null, players: [], selectedAvatar: defaultAvatar, reuseRoom: false,
-    wakeLock: null, wakeNoticeShown: false, session: null, user: null, authBound: false,
-    studentSyncTimer: null, studentSyncBusy: false
-  };
-
-  const wakeViews = new Set(['viewLobby','viewHostGame','viewReveal','viewPodium','viewStudentWaiting','viewStudentQuestion','viewStudentReveal']);
-  function show(id){
-    views.forEach(v => v.classList.toggle('active', v.id === id));
-    window.scrollTo({top:0,behavior:'auto'});
-    syncWakeLock(id);
-  }
-  async function requestWakeLock(){
-    try{
-      if(!('wakeLock' in navigator) || document.visibilityState !== 'visible') return;
-      if(state.wakeLock) return;
-      state.wakeLock = await navigator.wakeLock.request('screen');
-      state.wakeLock.addEventListener('release',()=>{ state.wakeLock=null; });
-      if(!state.wakeNoticeShown){ state.wakeNoticeShown=true; toast('Mode écran éveillé activé.'); }
-    }catch(err){
-      console.warn('WakeLock unavailable', err);
-    }
-  }
-  async function releaseWakeLock(){
-    try{ if(state.wakeLock){ await state.wakeLock.release(); state.wakeLock=null; } }catch(err){ console.warn(err); }
-  }
-  function syncWakeLock(activeId){
-    const id = activeId || document.querySelector('.view.active')?.id;
-    if(wakeViews.has(id)) requestWakeLock();
-    else releaseWakeLock();
-  }
-  document.addEventListener('visibilitychange',()=>{
-    if(document.visibilityState==='visible'){ syncWakeLock(); syncStudentRoom(true); }
-    else releaseWakeLock();
-  });
-  window.addEventListener('pageshow',()=>syncStudentRoom(true));
-  window.addEventListener('online',()=>syncStudentRoom(true));
-  window.addEventListener('focus',()=>syncStudentRoom(true));
-  function toast(msg){
-    const t=$('toast'); t.textContent=msg; t.classList.add('show');
-    clearTimeout(t._timer); t._timer=setTimeout(()=>t.classList.remove('show'),2600);
-  }
-  function shuffle(a){
-    const arr=[...a]; for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr;
-  }
-  const difficultyLabels={mixed:'Mix pédagogique',easy:'Standard pédagogique',medium:'Standard pédagogique',hard:'Difficile',expert:'Expert'};
-  const HISTORY_KEY='ncr-quiz-question-history-v31';
-  function readQuestionHistory(){
-    try{ const v=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]'); return Array.isArray(v)?v:[]; }catch(_){ return []; }
-  }
-  function rememberQuestions(items){
-    try{
-      const previous=readQuestionHistory(); const ids=items.map(q=>q.id);
-      const merged=[...ids,...previous.filter(id=>!ids.includes(id))].slice(0,2500);
-      localStorage.setItem(HISTORY_KEY,JSON.stringify(merged));
-    }catch(_){}
-  }
-  function cleanCode(v){ return (v||'').replace(/\D/g,'').slice(0,6); }
-  function formatCode(v){ const c=cleanCode(v); return c.length>3?`${c.slice(0,3)} ${c.slice(3)}`:c; }
-  function currentQ(){
-    if(!state.room || state.room.current_index < 0) return null;
-    const id=state.room.question_ids?.[state.room.current_index];
-    return state.questions.find(q=>q.id===id) || null;
-  }
-  function hasConfig(){
-    const c=window.NCR_CONFIG||{};
-    return !!(c.SUPABASE_URL && c.SUPABASE_ANON_KEY && !c.SUPABASE_URL.includes('YOUR_'));
-  }
-  function setConnection(status,text){
-    const p=$('connectionPill'); p.classList.remove('online','offline'); p.classList.add(status); $('connectionText').textContent=text;
-  }
-  function supa(){
-    if(!state.sb){
-      if(!hasConfig()) return null;
-      state.sb=window.supabase.createClient(window.NCR_CONFIG.SUPABASE_URL,window.NCR_CONFIG.SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true},realtime:{params:{eventsPerSecond:15}}});
-      if(!state.authBound){
-        state.authBound=true;
-        state.sb.auth.onAuthStateChange(async (_event, session)=>{
-          state.session=session||null; state.user=session?.user||null; updateTrainerUi();
-          if(!session && (state.host || document.querySelector('.view.active')?.id==='viewHostSetup')){
-            state.host=false; state.room=null; state.reuseRoom=false; show('viewLanding');
-          }
-        });
-      }
-    }
-    return state.sb;
-  }
-  async function loadData(){
-    const [q,c]=await Promise.all([fetch('questions.json').then(r=>r.json()),fetch('catalog.json').then(r=>r.json())]);
-    state.questions=q; state.catalog=c; initAvatarPicker();
-    $('statQuestions').textContent=q.length.toLocaleString('fr-FR');
-    if(hasConfig()){ setConnection('online','Prêt pour le live'); supa(); }
-    else setConnection('offline','Supabase à connecter');
-  }
-
-
-  function updateTrainerUi(){
-    const active=!!state.user;
-    const email=state.user?.email||'Formateur connecté';
-    $('trainerEmailLabel') && ($('trainerEmailLabel').textContent=email);
-    const chip=$('trainerSessionBtn');
-    if(chip){
-      chip.classList.toggle('hidden', !active);
-      $('trainerSessionText').textContent=active ? email : 'Formateur connecté';
-    }
-  }
-  async function refreshSession(){
-    if(!hasConfig()) return null;
-    const sb=supa();
-    const {data:{session}}=await sb.auth.getSession();
-    state.session=session||null; state.user=session?.user||null; updateTrainerUi();
-    return session||null;
-  }
-  async function ensureTrainer(redirect=true){
-    if(!hasConfig()){
-      if(redirect) show('viewSetupNeeded');
-      return false;
-    }
-    const session = state.session || await refreshSession();
-    if(session?.user) return true;
-    if(redirect){
-      $('trainerLoginMessage').textContent='';
-      $('trainerPasswordInput').value='';
-      show('viewTrainerLogin');
-      setTimeout(()=>$('trainerEmailInput')?.focus(),120);
-    }
-    return false;
-  }
-  async function signInTrainer(){
-    const email=$('trainerEmailInput').value.trim();
-    const password=$('trainerPasswordInput').value;
-    const msg=$('trainerLoginMessage'); msg.textContent='';
-    if(!email || !password){ msg.textContent='Renseigne l’adresse e-mail et le mot de passe.'; return; }
-    const sb=supa(); if(!sb){ show('viewSetupNeeded'); return; }
-    $('trainerLoginBtn').disabled=true;
-    const {data,error}=await sb.auth.signInWithPassword({email,password});
-    $('trainerLoginBtn').disabled=false;
-    if(error){ console.error(error); msg.textContent='Connexion impossible. Vérifie tes identifiants.'; return; }
-    state.session=data.session||null; state.user=data.user||null; state.host=true; state.reuseRoom=false; updateTrainerUi();
-    $('trainerPasswordInput').value='';
-    $('createRoomBtn').innerHTML='Créer le live <span>→</span>'; refreshHostSelectors(); show('viewHostSetup');
-  }
-  async function signOutTrainer(goHome=true){
-    const sb=supa();
-    if(sb) await sb.auth.signOut();
-    state.session=null; state.user=null; state.host=false; state.room=null; state.reuseRoom=false;
-    updateTrainerUi();
-    if(goHome) home();
-  }
-
-  function roomSignature(room){
-    if(!room) return '';
-    return JSON.stringify([room.phase,room.current_index,room.question_started_at,room.question_ids||[]]);
-  }
-  function stopStudentSync(){
-    if(state.studentSyncTimer){ clearInterval(state.studentSyncTimer); state.studentSyncTimer=null; }
-    state.studentSyncBusy=false;
-  }
-  function startStudentSync(){
-    stopStudentSync();
-    if(state.host || !state.room?.id || !state.player?.id) return;
-    state.studentSyncTimer=setInterval(()=>syncStudentRoom(false),2500);
-  }
-  async function syncStudentRoom(forceRender=false){
-    if(state.host || !state.room?.id || !state.player?.id || !hasConfig() || state.studentSyncBusy) return;
-    if(document.visibilityState==='hidden' && !forceRender) return;
-    state.studentSyncBusy=true;
-    try{
-      const sb=supa(); if(!sb) return;
-      const before=roomSignature(state.room);
-      const {data:room,error}=await sb.from('quiz_rooms').select('*').eq('id',state.room.id).maybeSingle();
-      if(error || !room) return;
-      const changed=before!==roomSignature(room);
-      state.room=room;
-      if(changed || forceRender) await renderStudentFromRoom();
-    }catch(err){
-      console.warn('Student sync fallback',err);
-    }finally{
-      state.studentSyncBusy=false;
-    }
-  }
-
-  function home(){
-    cleanupSubscriptions(); stopStudentSync(); state.host=false; state.room=null; state.player=null; state.players=[]; state.reuseRoom=false; state.answered.clear(); clearInterval(state.timer); releaseWakeLock(); show('viewLanding');
-  }
-  document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',home));
-  $('brandHome').addEventListener('click',home);
-  $('newGameBtn').addEventListener('click',async()=>{ if(!await ensureTrainer(true)) return; cleanupSubscriptions();state.room=null;state.player=null;state.players=[];state.reuseRoom=false;state.answered.clear();state.host=true;$('createRoomBtn').innerHTML='Créer le live <span>→</span>';refreshHostSelectors();show('viewHostSetup');});
-
-  $('hostEntry').addEventListener('click',async()=>{
-    if(!hasConfig()){ show('viewSetupNeeded'); return; }
-    if(!await ensureTrainer(true)) return;
-    state.host=true; state.reuseRoom=false; $('createRoomBtn').innerHTML='Créer le live <span>→</span>'; refreshHostSelectors(); show('viewHostSetup');
-  });
-  $('joinEntry').addEventListener('click',()=>{
-    if(!hasConfig()){ show('viewSetupNeeded'); return; }
-    state.host=false; show('viewJoin');
-  });
-  $('trainerLoginBtn').addEventListener('click',signInTrainer);
-  $('trainerLoginBackBtn').addEventListener('click',()=>show('viewLanding'));
-  $('trainerLogoutBtn').addEventListener('click',()=>signOutTrainer(true));
-  $('trainerSessionBtn').addEventListener('click',async()=>{ if(await ensureTrainer(true)){ state.host=true; refreshHostSelectors(); show('viewHostSetup'); } });
-  $('trainerPasswordInput').addEventListener('keydown',e=>{ if(e.key==='Enter') signInTrainer(); });
-
-
-  function initAvatarPicker(){
-    const box=$('avatarPicker'); if(!box)return; box.innerHTML='';
-    avatars.forEach((avatar,i)=>{const b=document.createElement('button');b.type='button';b.className='avatar-option';b.dataset.avatar=avatar.id;b.innerHTML=avatarMarkup(avatar.id);b.setAttribute('aria-label',avatar.label);b.setAttribute('title',avatar.label);b.setAttribute('aria-pressed',avatar.id===state.selectedAvatar?'true':'false');b.classList.toggle('selected',avatar.id===state.selectedAvatar);b.addEventListener('click',()=>{state.selectedAvatar=avatar.id;[...box.children].forEach(x=>{const on=x.dataset.avatar===avatar.id;x.classList.toggle('selected',on);x.setAttribute('aria-pressed',on?'true':'false');});});box.appendChild(b);});
-  }
-
-  // HOST SETUP
-  const selectorIds=['subjectSelect','yearSelect','chapterSelect','sessionSelect','difficultySelect','countSelect'];
-  selectorIds.forEach(id=>$(id).addEventListener('change',()=>{
-    if(id==='subjectSelect'||id==='yearSelect') fillChapters();
-    else if(id==='chapterSelect') fillSessions();
-    updateAvailability();
-  }));
-  function refreshHostSelectors(){
-    fillChapters(); fillSessions(); updateAvailability();
-  }
-  function fillChapters(){
-    const subject=$('subjectSelect').value, year=$('yearSelect').value;
-    const chapters=state.catalog?.[subject]?.[year]||{};
-    const select=$('chapterSelect'); const prev=select.value; select.innerHTML='';
-    Object.entries(chapters).sort((a,b)=>Number(a[0])-Number(b[0])).forEach(([code,data])=>{
-      const o=document.createElement('option');o.value=code;o.textContent=`Chapitre ${code} — ${data.title}`;select.appendChild(o);
-    });
-    if([...select.options].some(o=>o.value===prev)) select.value=prev;
-    fillSessions();
-  }
-  function fillSessions(){
-    const s=$('subjectSelect').value,y=$('yearSelect').value,c=$('chapterSelect').value;
-    const sessions=state.catalog?.[s]?.[y]?.[c]?.sessions||{};
-    const select=$('sessionSelect');select.innerHTML='';
-    const all=document.createElement('option');all.value='all';all.textContent='Tout le chapitre';select.appendChild(all);
-    Object.keys(sessions).sort((a,b)=>Number(a)-Number(b)).forEach(sess=>{
-      const o=document.createElement('option');o.value=sess;o.textContent=`Séance ${sess} • ${sessions[sess].questionCount} questions`;select.appendChild(o);
-    });
-    updateAvailability();
-  }
-  function pickQuizQuestions(pool,count,level='mixed',excludeIds=[]){
-    const recent=new Set(readQuestionHistory());
-    const excluded=new Set(excludeIds||[]);
-    const selected=[]; const used=new Set();
-    const notionCount=new Map(); const styleCount=new Map();
-    const add=(q)=>{
-      selected.push(q); used.add(q.id);
-      const nk=`${q.subject}|${q.year}|${q.chapter}|${q.notion||q.notionTitle||''}`;
-      notionCount.set(nk,(notionCount.get(nk)||0)+1);
-      const sk=q.style||'other'; styleCount.set(sk,(styleCount.get(sk)||0)+1);
-    };
-    const choose=(candidates,n)=>{
-      for(let step=0;step<n && selected.length<count;step++){
-        const avail=candidates.filter(q=>!excluded.has(q.id)&&!used.has(q.id));
-        if(!avail.length) break;
-        let best=null,bestScore=-1e9;
-        for(const q of avail){
-          const nk=`${q.subject}|${q.year}|${q.chapter}|${q.notion||q.notionTitle||''}`;
-          const nc=notionCount.get(nk)||0, sc=styleCount.get(q.style||'other')||0;
-          let score=(recent.has(q.id)?0:120) - nc*42 - sc*11 + Math.random()*9;
-          if(nc===0) score+=28;
-          if(sc===0) score+=16;
-          // Avoid a quiz made almost entirely of the same pattern when alternatives exist.
-          if(sc>=Math.max(2,Math.ceil(count*.38))) score-=55;
-          if(score>bestScore){bestScore=score;best=q;}
-        }
-        if(!best) break; add(best);
-      }
-    };
-    const by=l=>pool.filter(q=>q.difficulty===l);
-    // Legacy rooms created with the old "easy" value are treated as standard pedagogy.
-    if(level==='easy') level='medium';
-    if(level==='mixed'){
-      const targets={medium:Math.round(count*.25),hard:Math.round(count*.45)};
-      targets.expert=Math.max(0,count-targets.medium-targets.hard);
-      ['hard','expert','medium'].forEach(l=>choose(by(l),targets[l]));
-    }else{
-      const priority={
-        medium:['medium','hard','expert'],
-        hard:['hard','expert','medium'],
-        expert:['expert','hard','medium']
-      }[level]||['hard','expert','medium'];
-      for(const l of priority){ if(selected.length>=count)break; choose(by(l),count-selected.length); }
-    }
-    if(selected.length<count) choose(pool,count-selected.length);
-    const result=shuffle(selected).slice(0,count); rememberQuestions(result); return result;
-  }
-
-  function filteredQuestions(){
-    const s=$('subjectSelect').value,y=$('yearSelect').value,c=$('chapterSelect').value,sess=$('sessionSelect').value;
-    return state.questions.filter(q=>q.subject===s&&q.year===y&&q.chapter===c&&(sess==='all'||q.session===sess));
-  }
-  function updateAvailability(){
-    const available=filteredQuestions(); const n=Math.min(Number($('countSelect').value||10),available.length);
-    const s=$('subjectSelect').value,y=$('yearSelect').value,c=$('chapterSelect').value,sess=$('sessionSelect').value;
-    const level=$('difficultySelect').value||'hard'; const ch=state.catalog?.[s]?.[y]?.[c];
-    const counts={easy:0,medium:0,hard:0,expert:0}; available.forEach(q=>{if(counts[q.difficulty]!==undefined)counts[q.difficulty]++;});
-    $('availability').innerHTML=`<strong>${available.length}</strong> questions validées • Standard ${counts.medium} · Difficile ${counts.hard} · Expert ${counts.expert}<br><strong>${n}</strong> questions seront tirées • niveau <strong>${difficultyLabels[level]}</strong> • diversité des notions et anti-répétition actifs.`;
-    $('previewMeta').textContent=`${s} • ${y} année${sess==='all'?'':` • séance ${sess}`} • ${difficultyLabels[level]}`;
-    $('previewChapter').textContent=ch?.title||'—';
-  }
-
-  $('createRoomBtn').addEventListener('click',createRoom);
-  async function createRoom(){
-    if(!await ensureTrainer(true)) return;
-    const sb=supa(); if(!sb){show('viewSetupNeeded');return;}
-    const pool=filteredQuestions(); if(!pool.length){toast('Aucune question disponible pour ce filtre.');return;}
-    const count=Math.min(Number($('countSelect').value),pool.length);
-    const difficulty=$('difficultySelect').value||'hard';
-    const picked=pickQuizQuestions(pool,count,difficulty);
-    $('createRoomBtn').disabled=true; $('createRoomBtn').innerHTML=state.reuseRoom?'Préparation de la manche…':'Création…';
-    if(state.reuseRoom && state.room){
-      const ok=await resetRoomWithPlayers(picked,{
-        subject:$('subjectSelect').value,year:$('yearSelect').value,chapter:$('chapterSelect').value,
-        session:$('sessionSelect').value==='all'?null:$('sessionSelect').value,duration:Number($('durationSelect').value),difficulty
-      });
-      $('createRoomBtn').disabled=false; $('createRoomBtn').innerHTML='Créer le live <span>→</span>';
-      if(ok){state.reuseRoom=false;renderLobby();requestWakeLock();show('viewLobby');}
-      return;
-    }
-    const code=String(Math.floor(100000+Math.random()*900000));
-    const payload={code,subject:$('subjectSelect').value,year:$('yearSelect').value,chapter:$('chapterSelect').value,session:$('sessionSelect').value==='all'?null:$('sessionSelect').value,question_ids:picked.map(q=>q.id),duration:Number($('durationSelect').value),difficulty,phase:'lobby',current_index:-1,question_started_at:null};
-    let {data,error}=await sb.from('quiz_rooms').insert(payload).select().single();
-    if(error && String(error.message).toLowerCase().includes('duplicate')){
-      payload.code=String(Math.floor(100000+Math.random()*900000));
-      ({data,error}=await sb.from('quiz_rooms').insert(payload).select().single());
-    }
-    $('createRoomBtn').disabled=false; $('createRoomBtn').innerHTML='Créer le live <span>→</span>';
-    if(error){console.error(error);toast('Impossible de créer la salle. Vérifie Supabase.');return;}
-    state.room=data; state.hostSelected=picked; state.host=true; state.answered.clear();
-    await subscribeRoom(data.id); await refreshPlayers(); renderLobby(); requestWakeLock(); show('viewLobby');
-  }
-
-  async function resetRoomWithPlayers(picked,settings){
-    if(!await ensureTrainer(false)) return false;
-    const sb=supa(); if(!sb||!state.room)return false;
-    const roomId=state.room.id;
-    const {error:aErr}=await sb.from('quiz_answers').delete().eq('room_id',roomId);
-    if(aErr){console.error(aErr);toast('Impossible de remettre les réponses à zéro. Mets à jour supabase.sql.');return false;}
-    const {error:pErr}=await sb.from('quiz_players').update({score:0,streak:0}).eq('room_id',roomId);
-    if(pErr){console.error(pErr);toast('Impossible de remettre les scores à zéro.');return false;}
-    state.answered.clear(); state.hostSelected=picked;
-    const data=await updateRoom({...settings,question_ids:picked.map(q=>q.id),phase:'lobby',current_index:-1,question_started_at:null});
-    if(!data)return false; await refreshPlayers(); return true;
-  }
-
-  async function replaySameClass(){
-    if(!state.room || !await ensureTrainer(false))return;
-    const room=state.room;
-    const pool=state.questions.filter(q=>q.subject===room.subject&&q.year===room.year&&q.chapter===room.chapter&&(!room.session||q.session===room.session));
-    const count=Math.min(room.question_ids?.length||10,pool.length);
-    const picked=pickQuizQuestions(pool,count,room.difficulty||'hard',room.question_ids||[]);
-    $('replaySameBtn').disabled=true; $('replaySameBtn').textContent='Préparation…';
-    const ok=await resetRoomWithPlayers(picked,{subject:room.subject,year:room.year,chapter:room.chapter,session:room.session,duration:room.duration,difficulty:room.difficulty||'hard'});
-    $('replaySameBtn').disabled=false; $('replaySameBtn').textContent='↻ Rejouer avec la même classe';
-    if(ok){renderLobby();show('viewLobby');}
-  }
-
-  async function changeQuizKeepPlayers(){
-    if(!state.room || !await ensureTrainer(false))return; state.reuseRoom=true; state.host=true;
-    $('subjectSelect').value=state.room.subject; $('yearSelect').value=state.room.year; fillChapters();
-    $('chapterSelect').value=state.room.chapter; fillSessions(); $('sessionSelect').value=state.room.session||'all';
-    const wanted=String(state.room.question_ids?.length||10); if([...$('countSelect').options].some(o=>o.value===wanted))$('countSelect').value=wanted;
-    $('durationSelect').value=String(state.room.duration||30); $('difficultySelect').value=state.room.difficulty||'hard'; updateAvailability();
-    $('createRoomBtn').innerHTML='Relancer avec la classe <span>→</span>'; show('viewHostSetup');
-  }
-
-  $('replaySameBtn').addEventListener('click',replaySameClass);
-  $('changeQuizKeepPlayersBtn').addEventListener('click',changeQuizKeepPlayers);
-
-  function renderLobby(){
-    if(!state.room)return;
-    $('roomCode').textContent=formatCode(state.room.code);
-    const base=location.protocol==='file:'?'':`${location.origin}${location.pathname}`;
-    const url=base?`${base}?join=${state.room.code}`:`Déploie le dossier pour générer le lien élève`;
-    $('joinUrl').textContent=url;
-    $('qrCode').innerHTML='';
-    if(base && window.QRCode) new QRCode($('qrCode'),{text:url,width:220,height:220,colorDark:'#071326',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
-    renderPlayers();
-  }
-  function renderPlayers(){
-    $('playerCount').textContent=state.players.length; $('hostTotalPlayers').textContent=state.players.length;
-    const cloud=$('playerCloud');cloud.innerHTML='';
-    state.players.forEach(p=>{const el=document.createElement('span');el.className='player-chip';el.innerHTML=`<i>${avatarMarkup(p.avatar,'avatar-thumb')}</i><span>${escapeHtml(p.name)}</span>`;cloud.appendChild(el);});
-    $('startGameBtn').disabled=state.players.length===0;
-  }
-  $('startGameBtn').addEventListener('click',async()=>{
-    if(!state.room||!state.players.length||!await ensureTrainer(false))return;
-    await updateRoom({phase:'question',current_index:0,question_started_at:new Date().toISOString()});
-  });
-
-  // REALTIME
-  async function subscribeRoom(roomId){
-    cleanupSubscriptions(); const sb=supa(); if(!sb)return;
-    const channel=sb.channel(`ncr-room-${roomId}-${Math.random()}`)
-      .on('postgres_changes',{event:'UPDATE',schema:'public',table:'quiz_rooms',filter:`id=eq.${roomId}`},async payload=>{
-        state.room=payload.new;
-        if(state.host){
-          if(state.room.phase==='question') await renderHostQuestion();
-          else if(state.room.phase==='reveal') await renderHostReveal();
-          else if(state.room.phase==='finished') await renderPodium();
-          else if(state.room.phase==='lobby'){await refreshPlayers();renderLobby();show('viewLobby');}
-        }else await renderStudentFromRoom();
-      })
-      .on('postgres_changes',{event:'*',schema:'public',table:'quiz_players',filter:`room_id=eq.${roomId}`},async()=>{await refreshPlayers(); if(state.host&&state.room?.phase==='lobby')renderPlayers(); if(state.host&&state.room?.phase==='reveal')await renderLeaderboard();})
-      .on('postgres_changes',{event:'INSERT',schema:'public',table:'quiz_answers',filter:`room_id=eq.${roomId}`},async()=>{if(state.host&&state.room?.phase==='question')await refreshAnswerCount();});
-    channel.subscribe(status=>{
-      if(!state.host && ['CHANNEL_ERROR','TIMED_OUT','CLOSED'].includes(status)){
-        setTimeout(()=>syncStudentRoom(true),350);
-      }
-    }); state.subscriptions=[channel];
-  }
-  function cleanupSubscriptions(){
-    const sb=state.sb; if(sb) state.subscriptions.forEach(c=>sb.removeChannel(c)); state.subscriptions=[];
-  }
-  async function updateRoom(patch){
-    if(!await ensureTrainer(false)){ toast('Connexion formateur requise.'); return null; }
-    const {data,error}=await supa().from('quiz_rooms').update(patch).eq('id',state.room.id).select().single();
-    if(error){console.error(error);toast('Erreur de synchronisation.');return null;} state.room=data; return data;
-  }
-  async function refreshPlayers(){
-    if(!state.room)return; const {data}=await supa().from('quiz_players').select('*').eq('room_id',state.room.id).order('score',{ascending:false}).order('created_at',{ascending:true}); state.players=data||[];
-    if(state.player){ const fresh=state.players.find(p=>p.id===state.player.id); if(fresh)state.player=fresh; }
-  }
-  async function refreshAnswerCount(){
-    const q=currentQ(); if(!q)return; const {count}=await supa().from('quiz_answers').select('*',{count:'exact',head:true}).eq('room_id',state.room.id).eq('question_id',q.id); $('hostAnswered').textContent=count||0;
-  }
-
-  // HOST GAME
-  async function renderHostQuestion(){
-    const q=currentQ(); if(!q)return; requestWakeLock(); show('viewHostGame'); clearInterval(state.timer);
-    $('hostGameMeta').textContent=`${q.subject} • ${q.year} année • chapitre ${q.chapter} • séance ${q.session} • ${difficultyLabels[state.room.difficulty||'hard']}`;
-    $('hostProgress').textContent=`Question ${state.room.current_index+1} / ${state.room.question_ids.length}`;
-    $('hostQuestionNumber').textContent=String(state.room.current_index+1).padStart(2,'0'); $('hostQuestionText').textContent=q.question;
-    const g=$('hostChoices');g.innerHTML='';q.choices.forEach((c,i)=>{const d=document.createElement('div');d.className='answer-tile';d.innerHTML=`<span class="shape">${shapes[i]}</span><span>${escapeHtml(c)}</span>`;g.appendChild(d);});
-    await refreshPlayers(); await refreshAnswerCount(); startHostTimer();
-  }
-  function startHostTimer(){
-    clearInterval(state.timer); const duration=state.room.duration||30; const start=new Date(state.room.question_started_at).getTime();
-    const tick=async()=>{
-      if(state.room?.phase!=='question'){clearInterval(state.timer);return;}
-      const elapsed=(Date.now()-start)/1000, remain=Math.max(0,duration-elapsed); $('hostTimerBar').style.width=`${Math.max(0,remain/duration*100)}%`;
-      if(remain<=0){clearInterval(state.timer); if(state.host) await revealQuestion();}
-    }; tick(); state.timer=setInterval(tick,200);
-  }
-  $('revealBtn').addEventListener('click',revealQuestion);
-  async function revealQuestion(){ if(state.room?.phase==='question') await updateRoom({phase:'reveal'}); }
-  async function renderHostReveal(){
-    clearInterval(state.timer); const q=currentQ(); if(!q)return; requestWakeLock(); show('viewReveal');
-    $('revealQuestion').textContent=q.question; $('revealAnswer').textContent=`${shapes[q.answer]} ${q.choices[q.answer]}`; $('revealExplanation').textContent=q.explanation;
-    await refreshPlayers(); await renderLeaderboard();
-    const last=state.room.current_index>=state.room.question_ids.length-1; $('nextBtn').innerHTML=last?'Afficher le podium <span>🏆</span>':'Question suivante <span>→</span>';
-  }
-  async function renderLeaderboard(){
-    await refreshPlayers(); const list=$('leaderboardList'); list.innerHTML='';
-    state.players.slice(0,8).forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span class="leader-name"><i>${avatarMarkup(p.avatar,'avatar-thumb')}</i>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;list.appendChild(r);});
-  }
-  $('nextBtn').addEventListener('click',async()=>{
-    if(!state.room)return; const last=state.room.current_index>=state.room.question_ids.length-1;
-    if(last) await updateRoom({phase:'finished'}); else await updateRoom({phase:'question',current_index:state.room.current_index+1,question_started_at:new Date().toISOString()});
-  });
-  async function renderPodium(){
-    clearInterval(state.timer); await refreshPlayers(); requestWakeLock(); show('viewPodium'); triggerPodiumFx(); const sorted=[...state.players].sort((a,b)=>b.score-a.score);
-    const podium=$('podium'); podium.innerHTML=''; const order=[1,0,2];
-    order.forEach(idx=>{const p=sorted[idx];if(!p)return;const place=idx+1;const d=document.createElement('div');d.className=`podium-slot p${place}`;d.innerHTML=`<div class="avatar">${avatarMarkup(p.avatar,'podium-avatar-img')}</div><strong>${escapeHtml(p.name)}</strong><span>${p.score.toLocaleString('fr-FR')} pts</span><div class="podium-block">${place===1?'🥇':place===2?'🥈':'🥉'}</div>`;podium.appendChild(d);});
-    const final=$('finalList');final.innerHTML='<span class="eyebrow">CLASSEMENT COMPLET</span>';sorted.forEach((p,i)=>{const r=document.createElement('div');r.className='leader-row';r.innerHTML=`<b>${i+1}</b><span class="leader-name"><i>${avatarMarkup(p.avatar,'avatar-thumb')}</i>${escapeHtml(p.name)}</span><span>${p.score.toLocaleString('fr-FR')} pts</span>`;final.appendChild(r);});
-  }
-
-
-  function triggerPodiumFx(){
-    const box=$('podiumFx'); if(!box) return; box.innerHTML='';
-    const total=52;
-    for(let i=0;i<total;i++){
-      const piece=document.createElement('span');
-      piece.className='confetti';
-      const left=(i*(100/total)) + (Math.random()*4-2);
-      const delay=(Math.random()*1.3).toFixed(2);
-      const dur=(2.7 + Math.random()*2.3).toFixed(2);
-      const drift=(Math.random()*160-80).toFixed(0);
-      const rot=(Math.random()*540-270).toFixed(0);
-      piece.style.left=`${Math.max(-4,Math.min(100,left))}%`;
-      piece.style.setProperty('--delay', `${delay}s`);
-      piece.style.setProperty('--dur', `${dur}s`);
-      piece.style.setProperty('--drift', `${drift}px`);
-      piece.style.setProperty('--rot', `${rot}deg`);
-      box.appendChild(piece);
-    }
-  }
-
-  // STUDENT JOIN
-  $('joinCodeInput').addEventListener('input',e=>{e.target.value=cleanCode(e.target.value)});
-  $('joinRoomBtn').addEventListener('click',joinRoom);
-  async function joinRoom(){
-    const code=cleanCode($('joinCodeInput').value), name=$('joinNameInput').value.trim(); const msg=$('joinMessage');msg.textContent='';
-    if(code.length!==6||name.length<2){msg.textContent='Entre le code à 6 chiffres et ton prénom.';return;}
-    const sb=supa(); if(!sb){show('viewSetupNeeded');return;}
-    $('joinRoomBtn').disabled=true;
-    const {data:room,error}=await sb.from('quiz_rooms').select('*').eq('code',code).maybeSingle();
-    if(error||!room){msg.textContent='Partie introuvable. Vérifie le code.';$('joinRoomBtn').disabled=false;return;}
-    if(room.phase==='finished'){msg.textContent='Cette partie est terminée.';$('joinRoomBtn').disabled=false;return;}
-    const {data:player,error:pErr}=await sb.from('quiz_players').insert({room_id:room.id,name:name.slice(0,24),avatar:state.selectedAvatar}).select().single();
-    $('joinRoomBtn').disabled=false;
-    if(pErr){console.error(pErr);msg.textContent='Impossible de rejoindre la partie.';return;}
-    state.room=room;state.player=player;state.host=false;localStorage.setItem(`ncr-player-${room.id}`,player.id);requestWakeLock();await subscribeRoom(room.id);startStudentSync();await renderStudentFromRoom();
-  }
-
-  async function renderStudentFromRoom(){
-    if(!state.room||!state.player)return; await refreshPlayers();
-    if(state.room.phase==='lobby'){
-      if(state.room.current_index===-1)state.answered.clear(); $('studentName').textContent=state.player.name;$('studentAvatar').innerHTML=avatarMarkup(state.player.avatar,'student-avatar-img');$('waitingScore').textContent=state.player.score;requestWakeLock();show('viewStudentWaiting');return;
-    }
-    if(state.room.phase==='question'){ await renderStudentQuestion(); return; }
-    if(state.room.phase==='reveal'){ await renderStudentReveal(); return; }
-    if(state.room.phase==='finished'){ await renderStudentFinal(); }
-  }
-  async function alreadyAnswered(qid){
-    if(state.answered.has(qid))return state.answered.get(qid);
-    const {data}=await supa().from('quiz_answers').select('*').eq('room_id',state.room.id).eq('player_id',state.player.id).eq('question_id',qid).maybeSingle();
-    if(data)state.answered.set(qid,data); return data||null;
-  }
-  async function renderStudentQuestion(){
-    const q=currentQ(); if(!q)return; state.currentQuestionId=q.id; requestWakeLock(); show('viewStudentQuestion');
-    $('studentProgress').textContent=`${state.room.current_index+1}/${state.room.question_ids.length}`;$('studentScore').textContent=`${state.player.score||0} pts`;$('studentQuestion').textContent=q.question;
-    const box=$('studentChoices');box.innerHTML='';const prior=await alreadyAnswered(q.id);
-    q.choices.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.className='student-answer';b.innerHTML=`${shapes[i]} &nbsp; ${escapeHtml(c)}`;b.disabled=!!prior;b.addEventListener('click',()=>submitAnswer(q,i));box.appendChild(b);});
-    $('submittedBox').classList.toggle('hidden',!prior); startStudentTimer(q,!!prior);
-  }
-  function startStudentTimer(q,answered){
-    clearInterval(state.timer); const duration=state.room.duration||30; const start=new Date(state.room.question_started_at).getTime();
-    const tick=()=>{const remain=Math.max(0,Math.ceil(duration-(Date.now()-start)/1000));$('studentTimer').textContent=remain;if(remain<=0){clearInterval(state.timer);[...$('studentChoices').children].forEach(b=>b.disabled=true);}};tick();state.timer=setInterval(tick,250);
-  }
-  async function submitAnswer(q,index){
-    if(state.room.phase!=='question'||await alreadyAnswered(q.id))return;
-    const duration=state.room.duration||30; const elapsed=Math.max(0,Date.now()-new Date(state.room.question_started_at).getTime()); if(elapsed>duration*1000+750)return;
-    [...$('studentChoices').children].forEach(b=>b.disabled=true); $('submittedBox').classList.remove('hidden');
-    const correct=index===q.answer; const prevStreak=state.player.streak||0; const newStreak=correct?prevStreak+1:0;
-    const speed=Math.max(0,1-Math.min(1,elapsed/(duration*1000))); const base=correct?Math.round(500+500*speed):0; const streakBonus=correct?Math.min(200,Math.max(0,newStreak-1)*25):0; const points=base+streakBonus;
-    const answerRow={room_id:state.room.id,player_id:state.player.id,question_id:q.id,answer_index:index,is_correct:correct,points,response_ms:Math.round(elapsed)};
-    const {data,error}=await supa().from('quiz_answers').insert(answerRow).select().single();
-    if(error){console.error(error);return;}
-    state.answered.set(q.id,data); const newScore=(state.player.score||0)+points;
-    const {data:p}=await supa().from('quiz_players').update({score:newScore,streak:newStreak}).eq('id',state.player.id).select().single(); if(p)state.player=p;
-    $('studentScore').textContent=`${newScore} pts`;
-  }
-  async function renderStudentReveal(){
-    clearInterval(state.timer); const q=currentQ(); if(!q)return; const ans=await alreadyAnswered(q.id); await refreshPlayers(); requestWakeLock(); show('viewStudentReveal');
-    const ok=!!ans?.is_correct; const icon=$('studentResultIcon');icon.textContent=ok?'✓':'×';icon.classList.toggle('wrong',!ok);$('studentResultTitle').textContent=ok?'Bonne réponse !':'Pas cette fois';
-    $('studentCorrectionBox').classList.remove('hidden');
-    $('studentCorrectText').textContent=q.choices[q.answer];
-    $('studentExplanationText').textContent=(q.explanation||'').trim() || 'La correction détaillée est affichée sur l’écran principal.';
-    $('studentNotionText').textContent=q.notionTitle ? `Repère de cours : ${q.notionTitle}` : '';
-    const yourRow=$('studentYourAnswerRow');
-    if(ans && Number.isInteger(ans.answer_index)){
-      $('studentYourAnswerText').textContent=q.choices[ans.answer_index]||'—';
-      yourRow.classList.toggle('hidden',ok);
-    }else yourRow.classList.add('hidden');
-    $('studentRevealScore').textContent=(state.player.score||0).toLocaleString('fr-FR');
-    $('studentSyncNote').textContent='Synchronisation automatique : la prochaine question s’affichera ici dès que le formateur la lance.';
-  }
-  async function renderStudentFinal(){
-    await refreshPlayers(); const sorted=[...state.players].sort((a,b)=>b.score-a.score); const rank=sorted.findIndex(p=>p.id===state.player.id)+1; requestWakeLock(); show('viewStudentReveal');
-    const icon=$('studentResultIcon');icon.textContent=rank===1?'🏆':rank<=3?'🥉':'✓';icon.classList.remove('wrong');$('studentResultTitle').textContent=`Tu termines ${rank}${rank===1?'er':'e'} !`;
-    $('studentCorrectionBox').classList.add('hidden');
-    $('studentRevealScore').textContent=(state.player.score||0).toLocaleString('fr-FR');
-    $('studentSyncNote').textContent=`${state.player.name} • ${(state.player.score||0).toLocaleString('fr-FR')} points`;
-  }
-
-  function escapeHtml(v){ return String(v??'').replace(/[&<>'"]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[s])); }
-
-  // Deep link from QR code.
-  async function boot(){
-    try{await loadData();}catch(e){console.error(e);setConnection('offline','Erreur de chargement');toast('Impossible de charger la banque de questions.');return;}
-    if(hasConfig()) await refreshSession();
-    const join=new URLSearchParams(location.search).get('join');
-    if(join && hasConfig()){
-      const code=cleanCode(join); $('joinCodeInput').value=code; state.host=false;
-      const {data:room}=await supa().from('quiz_rooms').select('*').eq('code',code).maybeSingle();
-      if(room){
-        const saved=localStorage.getItem(`ncr-player-${room.id}`);
-        if(saved){
-          const {data:player}=await supa().from('quiz_players').select('*').eq('id',saved).eq('room_id',room.id).maybeSingle();
-          if(player){state.room=room;state.player=player;state.selectedAvatar=avatars.some(a=>a.id===player.avatar)?player.avatar:defaultAvatar;initAvatarPicker();await subscribeRoom(room.id);startStudentSync();await renderStudentFromRoom();return;}
-        }
-      }
-      show('viewJoin'); setTimeout(()=>$('joinNameInput')?.focus(),150); return;
-    }
-    if(join){$('joinCodeInput').value=cleanCode(join);state.host=false;show('viewSetupNeeded');return;}
-    show('viewLanding');
-  }
-
-  boot();
+'use strict';
+const $=id=>document.getElementById(id), C=window.ArenaCore;
+const shapes=['◆','●','▲','■'], labels={mixed:'Mix pédagogique',medium:'Standard pédagogique',hard:'Difficile',expert:'Expert'};
+const S={questions:[],catalog:{},room:null,players:[],player:null,host:false,answer:null,session:null,view:'viewLanding',offset:0,signature:'',sending:false,reuse:false,wake:null,wakePending:false};
+const storage={get(k,session=false){try{return JSON.parse((session?sessionStorage:localStorage).getItem(k)||'null');}catch{return null;}},set(k,v,session=false){try{(session?sessionStorage:localStorage).setItem(k,JSON.stringify(v));return true;}catch{return false;}},del(k,session=false){try{(session?sessionStorage:localStorage).removeItem(k);}catch{}}};
+let sb,sync,timer,toastTimer,commandBusy=false,avatar='avatar-01',pendingCreate=null,lastQR='',generation=0;
+const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const avatarPath=id=>`assets/avatars/${/^avatar-(0[1-9]|1[0-9]|2[0-4])$/.test(id)?id:'avatar-01'}.webp`;
+const avatarHTML=(id,cls='avatar-thumb')=>`<img class="${cls}" src="${avatarPath(id)}" alt="" draggable="false">`;
+const qNow=()=>S.questions.find(q=>q.id===S.room?.question_ids?.[S.room.current_index]);
+const now=()=>Date.now()+S.offset;
+function toast(text){$('toast').textContent=text;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),6000);}
+function status(type,text){$('connectionPill').className='status-pill '+type;$('connectionText').textContent=text;}
+function show(id){if(S.view!==id){S.view=id;document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));window.scrollTo(0,0);}wake();}
+async function wake(){
+ const useful=!!S.room&&['lobby','question','reveal'].includes(S.room.phase)&&document.visibilityState==='visible'&&S.view!=='viewLanding';
+ if(!useful){if(S.wake){const lock=S.wake;S.wake=null;try{await lock.release();}catch{}}return;}
+ if(!navigator.wakeLock||S.wake||S.wakePending)return;
+ S.wakePending=true;
+ try{const lock=await navigator.wakeLock.request('screen');S.wake=lock;lock.addEventListener('release',()=>{if(S.wake===lock)S.wake=null;});if(!S.room||!['lobby','question','reveal'].includes(S.room.phase)||S.view==='viewLanding'||document.visibilityState!=='visible')await lock.release();}catch{}finally{S.wakePending=false;}
+}
+function clearLive(){generation++;sync?.stop();clearInterval(timer);S.room=null;S.players=[];S.player=null;S.answer=null;S.signature='';S.sending=false;S.reuse=false;lastQR='';wake();}
+function home(){clearLive();storage.del('ncr-v4-active',true);S.host=false;show('viewLanding');if(sb)status('polling','Prêt à rejoindre un live');}
+function saveActive(token=null){storage.set('ncr-v4-active',{room:S.room?.id,host:S.host,token},true);}
+function authUI(){const user=S.session?.user;$('trainerSessionBtn').classList.toggle('hidden',!user);$('trainerSessionText').textContent=user?.email||'Formateur';$('trainerEmailLabel').textContent=user?.email||'';}
+async function trainer(){if(!sb){show('viewSetupNeeded');return false;}const {data,error}=await sb.auth.getSession();if(error)throw error;S.session=data.session;authUI();if(!S.session){show('viewTrainerLogin');return false;}return true;}
+function friendly(e){const m=e?.message||'Erreur réseau';if(/ncr_v4|schema cache|function.*exist/i.test(m))return 'Installation V4 requise : exécute le fichier supabase.sql fourni dans ton projet Supabase.';if(/abort|fetch|network/i.test(m))return 'Connexion interrompue. Réessaie : les envois sont protégés contre les doublons.';return m;}
+async function action(id,fn){if(commandBusy)return;commandBusy=true;const b=$(id);if(b)b.disabled=true;try{await fn();}catch(e){console.warn(e);toast(friendly(e));}finally{commandBusy=false;if(b)b.disabled=false;}}
+function bind(id,fn){$(id).addEventListener('click',()=>action(id,fn));}
+async function attach(room,host,token){clearLive();S.host=host;S.token=token;storage.set('ncr-v4-active',{room,host,token},true);status('polling','Connexion à la salle');await sync.attach(room,token);}
+function accept(snapshot,offset){
+ const r=snapshot.room;
+ if(S.room&&r.id===S.room.id&&r.revision<S.room.revision)return;
+ S.offset=offset;S.room=r;S.players=snapshot.players;S.answer=snapshot.answer;S.player=S.players.find(p=>p.id===snapshot.player_id)||null;S.answerCount=snapshot.answer_count;
+ saveActive(S.token);
+ if(r.phase==='closed'){toast('Le formateur a fermé cette salle.');home();return;}
+ if(!S.host&&!S.player){toast('Profil élève introuvable. Rejoins la salle avec son code.');home();return;}
+ wake();
+ const signature=[r.id,r.round,r.revision,S.host].join('/');const changed=signature!==S.signature;S.signature=signature;
+ if(S.reuse&&r.phase==='finished')return;
+ render(changed);
+}
+function render(changed){
+ const r=S.room;if(!r)return;
+ if(r.phase==='lobby'){
+  if(S.host){renderLobby();show('viewLobby');}else{$('studentName').textContent=S.player.name;$('studentAvatar').innerHTML=avatarHTML(S.player.avatar,'student-avatar-img');$('waitingScore').textContent=S.player.score;show('viewStudentWaiting');}
+ }else if(r.phase==='question'){
+  const q=qNow();if(!q){toast('Cette question est absente du fichier local. Recharge la version V4.');return;}
+  if(changed)renderQuestion(q);
+  if(S.host){$('hostAnswered').textContent=S.answerCount;$('hostTotalPlayers').textContent=S.players.length;}else{updateAnswerState();$('studentScore').textContent=`${S.player.score} pts`;}
+ }else if(r.phase==='reveal')renderReveal();
+ else if(r.phase==='finished'){if(S.host)renderPodium(changed);else renderStudentFinal();}
+ if(changed)startTimer();
+}
+function renderLobby(){
+ $('roomCode').textContent=S.room.code.slice(0,3)+' '+S.room.code.slice(3);
+ const url=new URL(location.href);url.search='';url.hash='';url.searchParams.set('join',S.room.code);
+ $('joinUrl').textContent=url.href;
+ if(lastQR!==url.href){$('qrCode').replaceChildren();new QRCode($('qrCode'),{text:url.href,width:240,height:240,colorDark:'#081629',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});lastQR=url.href;}
+ $('playerCount').textContent=S.players.length;
+ const cloud=$('playerCloud'),existing=new Map([...cloud.children].map(el=>[el.dataset.id,el]));
+ S.players.forEach(p=>{let el=existing.get(p.id);if(!el){el=document.createElement('div');el.className='player-chip';el.dataset.id=p.id;el.innerHTML=avatarHTML(p.avatar)+`<span>${escape(p.name)}</span>`;cloud.append(el);}existing.delete(p.id);});existing.forEach(el=>el.remove());
+ $('emptyLobby').classList.toggle('hidden',S.players.length>0);$('startGameBtn').disabled=!S.players.length;
+}
+function renderQuestion(q){
+ const r=S.room;S.sending=false;
+ if(S.host){
+  $('hostGameMeta').textContent=`${q.subject} · ${q.year} année · Chapitre ${q.chapter} · ${labels[q.difficulty]}`;
+  $('hostProgress').textContent=`Question ${r.current_index+1} / ${r.question_ids.length}`;$('hostQuestionNumber').textContent=String(r.current_index+1).padStart(2,'0');$('hostQuestionText').textContent=q.question;
+  $('hostChoices').innerHTML=q.choices.map((c,i)=>`<div class="answer-tile"><span class="shape">${shapes[i]}</span><span>${escape(c)}</span></div>`).join('');show('viewHostGame');
+ }else{
+  $('studentProgress').textContent=`Question ${r.current_index+1} / ${r.question_ids.length}`;$('studentQuestion').textContent=q.question;
+  const choices=$('studentChoices');choices.replaceChildren();const key=C.questionKey(r);
+  q.choices.forEach((c,i)=>{const b=document.createElement('button');b.className='student-answer';b.type='button';b.innerHTML=`<span class="shape">${shapes[i]}</span><span>${escape(c)}</span>`;b.addEventListener('click',()=>submit(i,key));choices.append(b);});show('viewStudentQuestion');
+ }
+}
+function updateAnswerState(){
+ const expired=C.remaining(S.room,now())<=0,disabled=!!S.answer||S.sending||expired;
+ [...$('studentChoices').children].forEach((b,i)=>{b.disabled=disabled;b.classList.toggle('selected',S.answer?.answer_index===i);});
+ const msg=$('submittedBox');msg.classList.toggle('hidden',!disabled);msg.textContent=S.answer?'✓ Réponse enregistrée':S.sending?'Envoi en cours':expired?'Temps écoulé · en attente de correction':'';
+}
+async function submit(choice,key){
+ if(!S.room||S.host||S.sending||S.answer||S.room.phase!=='question'||C.questionKey(S.room)!==key||C.remaining(S.room,now())<=0)return;
+ const room=S.room,token=S.token,epoch=generation;S.sending=true;updateAnswerState();
+ try{
+  const answer=await sync.rpc('answer',{p_room:room.id,p_token:token,p_round:room.round,p_index:room.current_index,p_choice:choice});
+  if(epoch!==generation||C.questionKey(S.room)!==key)return;
+  S.answer=answer;sync.request();
+ }catch(e){if(epoch===generation){toast(friendly(e));sync.request();}}
+ finally{if(epoch===generation&&C.questionKey(S.room)===key){S.sending=false;if(S.room.phase==='question')updateAnswerState();}}
+}
+function startTimer(){
+ clearInterval(timer);if(S.room?.phase!=='question')return;
+ const key=C.questionKey(S.room);let autoAt=0;
+ const tick=()=>{if(S.room?.phase!=='question'||C.questionKey(S.room)!==key){clearInterval(timer);return;}
+  const ms=C.remaining(S.room,now());
+  if(S.host){$('hostTimerBar').style.width=`${ms/(S.room.duration*1000)*100}%`;$('hostTimerText').textContent=`${Math.ceil(ms/1000)} s`;
+   if(ms<=0&&Date.now()-autoAt>4000&&!commandBusy){autoAt=Date.now();action('revealBtn',()=>transition('reveal'));}
+  }else{$('studentTimer').textContent=Math.ceil(ms/1000);if(ms<=0)updateAnswerState();}
+ };tick();timer=setInterval(tick,250);
+}
+function correction(q){return `${q.explanation}${q.trap?' Piège : '+q.trap:''}`;}
+function renderReveal(){
+ clearInterval(timer);const q=qNow();if(!q)return;
+ if(S.host){$('revealQuestion').textContent=q.question;$('revealAnswer').textContent=q.choices[q.answer];$('revealExplanation').textContent=correction(q);$('hostSource').textContent=sourceLabel(q);renderLeaders('leaderboardList',8);$('nextBtn').textContent=S.room.current_index===S.room.question_ids.length-1?'Afficher le podium →':'Question suivante →';show('viewReveal');}
+ else{
+  $('studentCorrectionBox').classList.remove('hidden');const ok=S.answer?.is_correct;$('studentResultIcon').textContent=ok?'✓':S.answer?'×':'—';$('studentResultIcon').classList.toggle('wrong',!ok);$('studentResultTitle').textContent=ok?'Bien joué !':S.answer?'À retenir':'Temps écoulé';
+  $('studentCorrectText').textContent=q.choices[q.answer];$('studentExplanationText').textContent=q.explanation;$('studentTrapText').textContent=q.trap?'Piège : '+q.trap:'';$('studentNotionText').textContent=`${q.notionTitle} · ${sourceLabel(q)}`;
+  $('studentYourAnswerRow').classList.toggle('hidden',!S.answer||ok);$('studentYourAnswerText').textContent=S.answer?q.choices[S.answer.answer_index]:'';
+  $('studentRevealScore').textContent=S.player.score;$('studentSyncNote').textContent=ok?`+${S.answer.points} points · La suite arrive automatiquement.`:'La suite arrive automatiquement.';show('viewStudentReveal');
+ }
+}
+function sourceLabel(q){return `Manuel ${q.subject} ${q.year} · p. ${q.source.page}${q.source.endPage>q.source.page?'–'+q.source.endPage:''} · repère ${q.notion}`;}
+function renderLeaders(id,limit=100){$(id).innerHTML=S.players.slice(0,limit).map((p,i)=>`<div class="leader-row"><b>${i+1}</b><span class="leader-name">${avatarHTML(p.avatar)}<span>${escape(p.name)}</span></span><span>${p.score.toLocaleString('fr-FR')} pts</span></div>`).join('');}
+function renderPodium(changed){
+ clearInterval(timer);show('viewPodium');if(!changed)return;
+ $('podium').innerHTML=[1,0,2].filter(i=>S.players[i]).map(i=>{const p=S.players[i];return `<div class="podium-slot p${i+1}"><div class="avatar">${avatarHTML(p.avatar,'podium-avatar-img')}</div><strong>${escape(p.name)}</strong><span>${p.score} pts</span><div class="podium-block">${i+1}</div></div>`;}).join('');
+ renderLeaders('finalList');const fx=$('podiumFx');fx.replaceChildren();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)for(let i=0;i<22;i++){const d=document.createElement('span');d.className='confetti';d.style.left=`${i*4.5}%`;d.style.animationDelay=`${i%4*.15}s`;fx.append(d);}
+}
+function renderStudentFinal(){clearInterval(timer);const rank=S.players.findIndex(p=>p.id===S.player.id)+1;$('studentCorrectionBox').classList.add('hidden');$('studentResultIcon').textContent=rank===1?'★':'✓';$('studentResultIcon').classList.remove('wrong');$('studentResultTitle').textContent=`${rank}${rank===1?'er':'e'} sur ${S.players.length}`;$('studentRevealScore').textContent=S.player.score;$('studentSyncNote').textContent='Manche terminée. Reste ici : ton formateur peut relancer avec la même classe.';show('viewStudentReveal');}
+async function transition(action,settings=null){if(!S.room||!S.host||!await trainer())return;const r=S.room;await sync.rpc('transition',{p_room:r.id,p_revision:r.revision,p_action:action,p_settings:settings});if(S.room?.id===r.id){S.reuse=false;await sync.pull();sync.request();}}
+function pool(){return S.questions.filter(q=>q.subject===$('subjectSelect').value&&q.year===$('yearSelect').value&&q.chapter===$('chapterSelect').value&&($('sessionSelect').value==='all'||q.session===$('sessionSelect').value));}
+function fillChapters(){const chapters=S.catalog[$('subjectSelect').value]?.[$('yearSelect').value]||{};$('chapterSelect').innerHTML=Object.entries(chapters).map(([id,c])=>`<option value="${id}">Chapitre ${id} — ${escape(c.title)}</option>`).join('');fillSessions();}
+function fillSessions(){const ch=S.catalog[$('subjectSelect').value]?.[$('yearSelect').value]?.[$('chapterSelect').value];$('sessionSelect').innerHTML='<option value="all">Tout le chapitre</option>'+Object.entries(ch?.sessions||{}).map(([id,s])=>`<option value="${id}">Séance ${id} · ${s.questionCount} questions</option>`).join('');availability();}
+function availability(){pendingCreate=null;const qs=pool(),level=$('difficultySelect').value,eligible=qs.filter(q=>level==='mixed'||q.difficulty===level),n=C.pick(eligible,+$('countSelect').value,level).length;const counts=Object.fromEntries(['medium','hard','expert'].map(l=>[l,qs.filter(q=>q.difficulty===l).length]));
+ $('availability').innerHTML=`<strong>${n} questions seront jouées</strong><br>Standard ${counts.medium} · Difficile ${counts.hard} · Expert ${counts.expert}${n<+$('countSelect').value?'<br>La sélection est réduite pour respecter le niveau et éviter les variantes proches.':''}`;
+ $('createRoomBtn').disabled=!n;$('previewMeta').textContent=`${$('subjectSelect').value} · ${$('yearSelect').value} année · ${labels[level]}`;$('previewChapter').textContent=S.catalog[$('subjectSelect').value]?.[$('yearSelect').value]?.[$('chapterSelect').value]?.title||'—';
+}
+function settingsFromForm(){return {subject:$('subjectSelect').value,year:$('yearSelect').value,chapter:$('chapterSelect').value,session:$('sessionSelect').value==='all'?null:$('sessionSelect').value,difficulty:$('difficultySelect').value,duration:+$('durationSelect').value};}
+function selectQuestions(settings,count,previous=[]){const qs=S.questions.filter(q=>q.subject===settings.subject&&q.year===settings.year&&q.chapter===settings.chapter&&(!settings.session||q.session===settings.session));return C.pick(qs,count,settings.difficulty,storage.get('ncr-v4-history')||[],previous);}
+function remember(picked){const ids=picked.map(q=>q.id),history=storage.get('ncr-v4-history')||[];storage.set('ncr-v4-history',[...ids,...history.filter(id=>!ids.includes(id))].slice(0,1200));}
+function setup(reuse=false){S.reuse=reuse;$('createRoomBtn').textContent=reuse?'Préparer la nouvelle manche →':'Créer le live →';fillChapters();show('viewHostSetup');}
+async function create(){if(!await trainer())return;const settings=settingsFromForm(),picked=selectQuestions(settings,+$('countSelect').value);if(!picked.length){toast('Aucune question pour ce filtre. Change la séance ou le niveau.');return;}settings.question_ids=picked.map(q=>q.id);
+ if(S.reuse&&S.room){await transition('reset',settings);remember(picked);return;}
+ if(!pendingCreate)pendingCreate={id:crypto.randomUUID(),settings};
+ const id=await sync.rpc('create',{p_settings:pendingCreate.settings,p_request:pendingCreate.id});remember(picked);pendingCreate=null;await attach(id,true,null);
+}
+async function join(){if(!sb){show('viewSetupNeeded');return;}const code=$('joinCodeInput').value.replace(/\D/g,''),name=$('joinNameInput').value.trim();if(code.length!==6||name.length<2){$('joinMessage').textContent='Entre un code à 6 chiffres et un prénom (2 à 24 caractères).';return;}
+ const key='ncr-v4-device-'+code;let token=storage.get(key);if(!token){token=Array.from(crypto.getRandomValues(new Uint8Array(32)),b=>b.toString(16).padStart(2,'0')).join('');if(!storage.set(key,token))toast('Stockage indisponible : garde cet onglet ouvert pour conserver ton profil.');}
+ const id=await sync.rpc('join',{p_code:code,p_name:name,p_avatar:avatar,p_token:token});await attach(id,false,token);
+}
+async function boot(){
+ try{
+  const files=await Promise.all(['questions.json','catalog.json'].map(async f=>{const r=await fetch(f,{cache:'no-cache'});if(!r.ok)throw Error('Fichier manquant : '+f);return r.json();}));
+  S.questions=files[0];S.catalog=files[1];C.validateBank(S.questions);$('statQuestions').textContent=S.questions.length.toLocaleString('fr-FR');
+  const config=window.NCR_CONFIG;if(!config?.SUPABASE_URL||!config?.SUPABASE_ANON_KEY||!window.supabase){status('offline','Configuration requise');return;}
+  sb=window.supabase.createClient(config.SUPABASE_URL,config.SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+  sync=new ArenaSync(sb,accept,status,e=>{home();toast(friendly(e));});
+  sb.auth.onAuthStateChange((event,session)=>{S.session=session;authUI();if(event==='SIGNED_OUT'&&S.host){home();show('viewTrainerLogin');}});
+  const {data}=await sb.auth.getSession();S.session=data.session;authUI();status('polling','Prêt à rejoindre un live');
+  const joinCode=new URL(location.href).searchParams.get('join');const saved=storage.get('ncr-v4-active',true);
+  if(saved?.room&&(!saved.host||S.session)&&(!joinCode||storage.get('ncr-v4-device-'+joinCode)===saved.token)){await attach(saved.room,saved.host,saved.token);return;}
+  if(joinCode){$('joinCodeInput').value=joinCode.replace(/\D/g,'').slice(0,6);show('viewJoin');}
+ }catch(e){status('offline','Chargement impossible');toast(friendly(e));}
+}
+// Événements permanents, installés une seule fois.
+document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',home));$('brandHome').addEventListener('click',home);
+bind('hostEntry',async()=>{if(await trainer()){clearLive();S.host=true;setup();}});
+bind('joinEntry',async()=>{clearLive();S.host=false;show(sb?'viewJoin':'viewSetupNeeded');});
+bind('trainerLoginBtn',async()=>{const email=$('trainerEmailInput').value.trim(),password=$('trainerPasswordInput').value;if(!email||!password){$('trainerLoginMessage').textContent='Renseigne ton e-mail et ton mot de passe.';return;}const {data,error}=await sb.auth.signInWithPassword({email,password});if(error){$('trainerLoginMessage').textContent='Connexion impossible. Vérifie tes identifiants et le réseau.';return;}S.session=data.session;$('trainerPasswordInput').value='';authUI();S.host=true;setup();});
+$('trainerPasswordInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('trainerLoginBtn').click();});
+$('trainerLoginBackBtn').addEventListener('click',home);
+bind('trainerLogoutBtn',async()=>{const {error}=await sb.auth.signOut();if(error)throw error;home();});
+bind('trainerSessionBtn',async()=>{if(await trainer()){if(S.room&&S.host){S.reuse=false;S.signature='';render(true);}else{clearLive();S.host=true;setup();}}});
+['subjectSelect','yearSelect'].forEach(id=>$(id).addEventListener('change',fillChapters));$('chapterSelect').addEventListener('change',fillSessions);['sessionSelect','difficultySelect','countSelect','durationSelect'].forEach(id=>$(id).addEventListener('change',availability));
+bind('createRoomBtn',create);bind('joinRoomBtn',join);$('joinCodeInput').addEventListener('input',e=>e.target.value=e.target.value.replace(/\D/g,'').slice(0,6));
+for(let i=1;i<=24;i++){const id='avatar-'+String(i).padStart(2,'0'),b=document.createElement('button');b.type='button';b.className='avatar-option'+(i===1?' selected':'');b.setAttribute('aria-label','Avatar '+i);b.setAttribute('aria-pressed',i===1?'true':'false');b.innerHTML=avatarHTML(id);b.addEventListener('click',()=>{avatar=id;[...$('avatarPicker').children].forEach(el=>{el.classList.toggle('selected',el===b);el.setAttribute('aria-pressed',el===b?'true':'false');});});$('avatarPicker').append(b);}
+bind('startGameBtn',()=>transition('start'));bind('revealBtn',()=>transition('reveal'));bind('nextBtn',()=>transition('next'));
+bind('replaySameBtn',async()=>{const r=S.room;if(!r)return;const picked=selectQuestions(r,r.question_ids.length,r.question_ids);await transition('reset',{...r,question_ids:picked.map(q=>q.id)});remember(picked);});
+bind('changeQuizKeepPlayersBtn',async()=>{if(await trainer()){setup(true);$('subjectSelect').value=S.room.subject;$('yearSelect').value=S.room.year;fillChapters();$('chapterSelect').value=S.room.chapter;fillSessions();$('sessionSelect').value=S.room.session||'all';$('difficultySelect').value=S.room.difficulty;availability();}});
+bind('newGameBtn',async()=>{if(!await trainer())return;await transition('close');clearLive();S.host=true;setup();});
+bind('closeRoomBtn',()=>transition('close'));
+const resume=()=>{wake();sync?.request();};document.addEventListener('visibilitychange',resume);['pageshow','online','focus'].forEach(e=>window.addEventListener(e,resume));window.addEventListener('offline',()=>status('offline','Hors connexion · reprise automatique'));window.addEventListener('pagehide',()=>{if(S.wake)S.wake.release().catch(()=>{});});
+boot();
 })();

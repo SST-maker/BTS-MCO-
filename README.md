@@ -1,164 +1,76 @@
-NCR MCO Quiz Arena V3.4 — Audit qualité + banque pédagogique étendue
+# NCR MCO Quiz Arena V4
 
-Cette version repart de la V3.3 avec un audit beaucoup plus sévère de la banque.
+Version statique pour GitHub Pages, sans compilation. Identité NCR, robot et 24 avatars conservés. Banque resserrée de **238 questions**, issue des six manuels fournis : 30 chapitres, 155 séances représentées, 198 notions. Une séance peut n’offrir qu’une question ou ne pas proposer tous les niveaux. Le nombre joué est annoncé avant création ; aucun niveau de remplacement n’est tiré silencieusement.
 
-- 973 questions supprimées car trop directes, trop mécaniques, tronquées ou peu pédagogiques.
-- 1421 nouvelles questions ajoutées.
-- 2571 questions au total.
-- Les nouvelles questions privilégient les associations de notions, distinctions fines, doubles/triples raisonnements, mini-cas et diagnostics de formules.
-- Les niveaux Standard pédagogique, Difficile et Expert restent disponibles.
-- La correction détaillée côté élève et le filet de sécurité de synchronisation de la V3.3 sont conservés.
-- Aucun nouveau SQL n’est nécessaire par rapport à la V3.3.
+**Avant utilisation en classe : lire `QA_FINAL.md`.** Les parcours et le SQL ont été testés localement. Le rendu responsive en navigateur, Supabase en production et les téléphones réels n’ont pas pu être validés dans cet environnement. Cette livraison ne constitue donc pas une certification de fonctionnement multi-appareils.
 
-Un rapport `QA_BANQUE_V3_4.txt` est inclus dans le dossier.
+## Installation sur ton projet existant
 
-NCR MCO Quiz Arena V3.3 — Synchronisation élève + correction détaillée
+1. Termine les parties V3 en cours. Conserve une copie de ton ancien déploiement.
+2. Ouvre **ton projet Supabase actuel → SQL Editor → New query**. Copie l’intégralité de `supabase.sql`, jusqu’au `commit;`, puis exécute-la. Le script crée un schéma privé `ncr_arena`, cinq RPC publiques et un signal Realtime. Il ne supprime pas les anciennes tables et ne transfère pas les parties V3. Il peut être réexécuté ; le registre de questions est fourni dans ce même fichier.
+3. Vérifie dans **Authentication → Users** que ton compte formateur existant est présent. Il reste utilisable avec son e-mail et son mot de passe. Aucun nouveau compte n’a été créé par cette livraison.
+4. Vérifie que l’inscription publique et les connexions anonymes ne sont pas ouvertes aux élèves si ce projet est dédié à ce quiz. La règle V4 considère un compte Auth avec e-mail comme un formateur ; elle n’implémente pas une liste de métiers ou de rôles NCR Suite. Si d’autres applications partagent ce projet et créent des comptes ordinaires, une autorisation métier spécifique doit être définie avant usage. Ne désactive pas un mécanisme nécessaire à une autre application sans examiner son impact.
+5. `config.js` conserve l’URL et la **clé publishable publique** reçues dans l’archive. Vérifie qu’elles correspondent au projet où tu exécutes le SQL. N’utilise jamais une clé `service_role` ou `sb_secret_` dans ce fichier.
+6. Décompresse le ZIP. Dépose son **contenu à la racine** de ton dépôt GitHub, sans dossier supplémentaire. Dans **Settings → Pages**, choisis la branche contenant ces fichiers, dossier `/ (root)`. Aucun `npm build` n’est nécessaire. Rien n’a été envoyé sur GitHub par l’assistant.
+7. Ouvre l’URL HTTPS de Pages, par exemple `https://utilisateur.github.io/nom-du-repo/`. Les chemins sont relatifs et le QR reprend le véritable chemin hébergé. Fais un rechargement complet après remplacement des fichiers.
 
-Nouveautés :
-- Filet de sécurité de synchronisation côté élève : vérification automatique de l’état de la salle toutes les 2,5 s en complément de Supabase Realtime.
-- Resynchronisation immédiate au retour dans l’app, au focus, au retour réseau et après une reprise iOS/Safari.
-- Correction élève enrichie : bonne réponse, réponse choisie en cas d’erreur, explication complète et repère de cours.
-- Aucun changement SQL nécessaire par rapport à la V3.2.
+## Vérification avant le premier cours
 
-NCR MCO Quiz Arena V3.2 — Banque pédagogique élargie
+- Ouvre l’espace Formateur, connecte-toi, crée un quiz et vérifie le nombre de questions annoncé.
+- Scanne le QR avec deux téléphones ; vérifie le prénom, l’avatar, l’apparition dans le lobby et le lancement.
+- Fais une bonne réponse, une mauvaise réponse et une expiration sans réponse. Vérifie les corrections et les scores.
+- Mets un téléphone en arrière-plan, reviens, puis coupe/rétablis brièvement son réseau. Il doit récupérer la phase serveur ; le secours prend normalement quelques secondes, davantage après plusieurs échecs.
+- Recharge les pages élève et formateur. Vérifie le podium, le replay et le changement de quiz avec les mêmes joueurs.
+- Vérifie le portrait et le paysage sur les appareils réellement utilisés. Wake Lock dépend du navigateur et ne doit pas bloquer le quiz lorsqu’il est indisponible.
 
-381 nouvelles questions, uniquement de niveau difficile ou expert. Elles demandent de distinguer deux ou trois notions ou d’associer plusieurs formules, sans revenir aux questions trop évidentes.
-Total : 2123 questions. Historique anti-répétition porté à 2 500 questions.
+## Utilisation
 
-# NCR MCO Quiz Arena V3.1 — Banque pédagogique contrôlée
+Le formateur choisit matière, année, chapitre, séance, niveau, quantité et durée. Seul le propriétaire authentifié de la salle pilote le live. Les élèves rejoignent avec un code à six chiffres et un prénom ; ils n’ont pas besoin de compte.
 
-Cette version conserve le compte formateur, Supabase Realtime, le QR code, les avatars, l’écran éveillé et le podium animé.
+Les réponses et les points sont validés côté serveur. Une bonne réponse rapporte 800 points de connaissance, jusqu’à 200 de rapidité et jusqu’à 100 de série ; une mauvaise réponse vaut zéro. Une absence de réponse rompt la série lors de la correction. La première réponse acceptée est définitive. Le replay remet les scores à zéro en gardant les identités ; une nouvelle classe ferme l’ancienne salle.
 
-## Refonte pédagogique V3.1
+L’identité élève utilise un secret aléatoire propre au navigateur et au code, enregistré avant l’envoi. Le serveur ne stocke que son empreinte. La salle active est conservée dans `sessionStorage` pour le rechargement de l’onglet. Un autre téléphone, un autre navigateur ou l’effacement du stockage peut créer une autre identité. Les salles expirent après 24 heures ; limite de 100 profils par salle et 20 salles actives par formateur.
 
-La banque a été reconstruite à partir des six manuels NCR Solutions. Elle contient **1959 questions conservées après contrôle qualité**, volontairement moins que la V3.0 : la priorité est donnée à la qualité plutôt qu’au volume artificiel.
+Realtime signale qu’il faut relire l’état ; seul le snapshot serveur fait autorité. Un seul snapshot est envoyé à la fois. Repli : environ 7 secondes lorsque Realtime est connecté, 3 secondes lorsqu’il ne l’est pas, puis temporisation progressive jusqu’à environ 30 secondes après échec. Les pages cachées ne lancent pas de lecture réseau périodique. Retour au premier plan et réseau rétabli déclenchent une reprise. À l’échéance, un snapshot peut faire passer automatiquement la salle en correction, même si le formateur est en arrière-plan.
 
-- aucun niveau « facile / révision » ;
-- Standard pédagogique, Difficile et Expert ;
-- mini-cas professionnels, choix de méthodes, formules, interprétation et distinctions entre notions proches ;
-- suppression des questions/réponses tronquées détectées, des choix dupliqués et des formulations se terminant en plein milieu ;
-- sélection plus variée pendant un live : priorité aux notions et types de questions encore peu utilisés ;
-- historique anti-répétition porté à 1 500 questions sur le navigateur du formateur.
+Le live nécessite Internet et Supabase. Les bibliothèques sont locales, mais l’application n’est pas un mode multijoueur hors connexion. La banque et ses réponses sont publiques dans le site statique : il s’agit d’un outil d’entraînement, pas d’un dispositif d’examen anti-triche.
 
-**Aucun nouveau SQL n’est nécessaire si la V3.0 avec compte formateur et colonne `difficulty` est déjà installée.**
+## En cas de problème
 
-NCR MCO Quiz Arena V3.0 — niveaux de difficulté + anti-répétition
+| Symptôme | Action |
+|---|---|
+| « Installation V4 requise » | Exécuter le SQL complet dans le même projet que `config.js`, attendre la mise à jour de l’API puis recharger. |
+| « Banque ou filtres incompatibles » | Déployer `questions.json` et le SQL du même ZIP. Ne pas mélanger deux versions. |
+| Connexion formateur refusée | Vérifier compte, mot de passe et accès réseau dans Authentication. Aucune récupération de mot de passe n’est ajoutée à cette V4. |
+| « Synchronisation de secours » | Le quiz utilise le polling. Vérifier la publication `supabase_realtime` et la table `public.ncr_v4_signals`, ainsi que les WebSockets du réseau. |
+| Salle expirée ou introuvable | Rejoindre une salle active avec son code ; après 24 heures, créer une nouvelle salle. |
+| Zéro question disponible | Choisir une autre séance ou le mix ; la banque ne couvre pas chaque niveau dans chaque séance. |
+| Assets ou JSON absents | Vérifier que les fichiers et `assets/` ont été copiés ensemble à la racine du dépôt ; conserver les noms exacts. |
 
-Nouveautés :
-- 4 625 questions au total
-- Choix du niveau avant chaque partie : Révision / Intermédiaire / Difficile / Expert / Mixte
-- Niveau Difficile sélectionné par défaut
-- Banque enrichie avec des distracteurs proches et des associations notion-explication
-- Historique local anti-répétition : les questions récemment jouées sont évitées autant que possible
-- La difficulté est conservée quand le formateur relance une partie avec la même classe
-- Compte formateur Supabase Auth conservé
+## Architecture et maintenance
 
-Important : exécuter le nouveau supabase.sql une fois pour ajouter le champ difficulty aux salles existantes.
+- `index.html`, `style.css`, `app.js` : vues et interactions.
+- `core.js` : sélection, niveaux, variété, familles de raisonnements, validation et temps restant.
+- `sync.js` : snapshots, Realtime, repli, timeout et protection contre les réponses obsolètes.
+- `questions.json`, `catalog.json`, `source_index.json` : contenu et repères de cours. Les manuels PDF ne sont pas redistribués dans ce ZIP.
+- `supabase.sql` : schéma privé, autorisations, transitions, score atomique et registre de réponses.
+- `vendor/` : Supabase JS 2.57.4, QRCode.js 1.0.0 et licences. Versions fixes, aucun CDN nécessaire au chargement.
 
-NCR MCO Quiz Arena V2.9 — compte formateur
+Contrôles facultatifs avec Node.js 18 ou ultérieur, depuis le dossier extrait :
 
-Ajouts principaux :
-- Connexion formateur par e-mail / mot de passe via Supabase Auth
-- Seul un formateur connecté peut créer et piloter une partie
-- Les élèves peuvent toujours rejoindre la partie avec le code / QR code
-
-Mise en place :
-1. Exécuter supabase.sql
-2. Renseigner config.js
-3. Dans Supabase > Authentication > Users, créer le compte formateur
-4. Déployer le dossier sur GitHub Pages / hébergeur
-
-NCR MCO Quiz Arena V2.8 — Difficulté renforcée
-
-- Difficulté renforcée dans ADOC, DRCV et GO
-- Environ 85 % de questions avancées lors du tirage quand la séance le permet
-- Questions contextualisées avec distracteurs proches issus du même chapitre / de la même séance
-- Davantage de reconnaissance de formules sans demander le calcul numérique
-- Les anciens QCM simples restent disponibles mais sont moins souvent tirés
-- Aucun changement Supabase requis par rapport à la V2.7
-
-NCR MCO Quiz Arena V2.7
-
-Évolution GO :
-- calculs directs remplacés par des questions de choix de formule ;
-- 188 nouvelles questions de formule avancées ;
-- distracteurs proches pour obliger à identifier la bonne base et le bon dénominateur ;
-- sélection GO équilibrée pour proposer environ 55 % de questions avancées quand la séance le permet.
-
-NCR MCO Quiz Arena V2.6
-
-Ajout Gestion opérationnelle (GO) :
-- GO 1re année : 6 chapitres, 367 nouvelles questions
-- GO 2e année : 4 chapitres, 493 nouvelles questions
-- Banque totale : 2207 questions
-- Questions de notions + applications et calculs courts adaptés au live
-
-NCR MCO Quiz Arena V2.5
-
-- Salle d’attente redesignée : avatar et prénom des joueurs nettement plus grands
-- Grille responsive pensée pour une classe complète
-
-NCR MCO Quiz Arena V2.4
-
-- Wake lock écran éveillé sur les vues live compatibles
-- Podium animé avec confettis
-- Icône/logo robot utilisé comme favicon et identité visuelle
-
-# NCR MCO Quiz Arena — V2.3
-
-Version prête à déployer sur GitHub Pages pour un quiz BTS MCO live en classe.
-
-## Contenu
-
-- **1 347 questions** ADOC/DRCV, 1re et 2e année ;
-- questions courtes adaptées au live ;
-- QR code + code à 6 chiffres ;
-- réponses synchronisées depuis les téléphones ;
-- chrono, score, séries, classement et podium ;
-- **24 avatars illustrés** exactement issus de l’aperçu validé (robots NCR, animaux, monstres, espace) ;
-- choix de l’avatar à la connexion avec le prénom ;
-- avatar visible dans le lobby, le classement, l’attente élève et le podium ;
-- bouton **Rejouer avec la même classe** ;
-- bouton **Changer le quiz • garder les joueurs** ;
-- reconnexion automatique d’un élève sur le même téléphone.
-
-## Installation Supabase
-
-1. Ouvrir le projet Supabase.
-2. Aller dans **SQL Editor**.
-3. Exécuter `supabase.sql` (également si une ancienne version était déjà installée).
-4. Dans **Project Settings > API**, récupérer le Project URL et la clé anon/public.
-5. Renseigner `config.js` :
-
-```js
-window.NCR_CONFIG = {
-  SUPABASE_URL: "https://xxxx.supabase.co",
-  SUPABASE_ANON_KEY: "eyJ..."
-};
+```sh
+node maintenance/check.cjs
+node maintenance/engine-tests.cjs
 ```
 
-## Déploiement GitHub Pages
+Après une modification pédagogique volontaire de `questions.json`, conserver les métadonnées de séance/source et faire une relecture du manuel. Ajouter une source à `source_index.json` si nécessaire. Puis :
 
-1. Envoyer **le contenu du dossier** à la racine du dépôt GitHub.
-2. Dans GitHub : **Settings > Pages**.
-3. Choisir **Deploy from a branch**, branche `main`, dossier `/ (root)`.
-4. Ouvrir l’URL GitHub Pages obtenue.
+```sh
+node maintenance/check.cjs --sync
+node maintenance/check.cjs
+node maintenance/engine-tests.cjs
+```
 
-Le QR code généré par l’hôte pointera automatiquement vers cette URL avec le code de la salle.
+`--sync` recalcule les compteurs et le registre SQL. Déployer SQL et fichiers ensemble, entre deux cours, sans modifier les réponses d’une partie en cours. Les identifiants doivent rester stables lorsque le contenu est inchangé ; utiliser un nouvel identifiant en cas de changement de sens ou de correction. Le moteur conserve au maximum 1 200 identifiants récents dans le navigateur du formateur. L’anti-répétition réduit les répétitions lorsque le stock le permet, sans inventer de questions ni changer le niveau.
 
-## Fichiers
-
-- `index.html` : interface
-- `style.css` : design responsive
-- `app.js` : logique hôte/élève + avatars + live
-- `questions.json` : banque de 1 347 questions
-- `catalog.json` : matières / chapitres / séances
-- `source_index.json` : index pédagogique
-- `assets/avatars/` : les 24 avatars WebP
-- `supabase.sql` : tables, RLS et Realtime
-- `config.js` : paramètres Supabase
-- `.nojekyll` : déploiement GitHub Pages sans traitement Jekyll
-
-## Important
-
-La clé `anon/public` Supabase est conçue pour être exposée côté navigateur lorsque les politiques RLS sont correctement configurées. Ne jamais mettre une clé `service_role` dans `config.js`.
+Aucune purge automatique des anciennes parties n’est exécutée. Une politique de conservation et de suppression des prénoms/résultats doit être choisie par l’administrateur selon son usage. Les comptes, données et règles des anciennes tables restent sous sa gestion.

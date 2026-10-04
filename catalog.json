@@ -5,115 +5,115 @@
         "title": "Réaliser une analyse de marché",
         "sessions": {
           "01": {
-            "questionCount": 14
+            "questionCount": 3
           },
           "02": {
-            "questionCount": 20
+            "questionCount": 2
           },
           "03": {
-            "questionCount": 21
+            "questionCount": 1
           },
           "05": {
-            "questionCount": 18
+            "questionCount": 1
           }
         },
-        "questionCount": 73
+        "questionCount": 7
       },
       "02": {
         "title": "Construire une offre de produits et de services",
         "sessions": {
-          "06": {
-            "questionCount": 9
-          },
-          "07": {
-            "questionCount": 15
-          },
-          "08": {
-            "questionCount": 18
-          },
           "10": {
-            "questionCount": 12
+            "questionCount": 1
           },
           "11": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "12": {
-            "questionCount": 18
+            "questionCount": 1
+          },
+          "06": {
+            "questionCount": 1
+          },
+          "07": {
+            "questionCount": 2
+          },
+          "08": {
+            "questionCount": 2
           }
         },
-        "questionCount": 90
+        "questionCount": 8
       },
       "03": {
         "title": "Fixer le prix des produits et des services",
         "sessions": {
           "13": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "14": {
-            "questionCount": 21
+            "questionCount": 5
           },
           "16": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "17": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "19": {
-            "questionCount": 18
+            "questionCount": 1
           }
         },
-        "questionCount": 93
+        "questionCount": 9
       },
       "04": {
         "title": "Distribuer l’offre de produits et de services",
         "sessions": {
           "20": {
-            "questionCount": 24
+            "questionCount": 1
           },
           "21": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "22": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "23": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "24": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "25": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "27": {
-            "questionCount": 18
+            "questionCount": 2
           },
           "28": {
-            "questionCount": 18
+            "questionCount": 1
           }
         },
-        "questionCount": 140
+        "questionCount": 9
       },
       "05": {
         "title": "Agencer l’unité commerciale physique",
         "sessions": {
           "29": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "30": {
-            "questionCount": 25
+            "questionCount": 2
           },
           "32": {
-            "questionCount": 19
+            "questionCount": 1
           },
           "33": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "34": {
-            "questionCount": 18
+            "questionCount": 2
           }
         },
-        "questionCount": 98
+        "questionCount": 7
       }
     },
     "2e": {
@@ -121,103 +121,103 @@
         "title": "Implanter et mettre en valeur l’offre produits",
         "sessions": {
           "01": {
-            "questionCount": 12
+            "questionCount": 1
           },
           "02": {
-            "questionCount": 2
+            "questionCount": 1
           },
           "03": {
-            "questionCount": 10
+            "questionCount": 2
           },
           "05": {
-            "questionCount": 10
+            "questionCount": 2
           },
           "06": {
-            "questionCount": 9
+            "questionCount": 1
           },
           "07": {
-            "questionCount": 13
+            "questionCount": 1
           }
         },
-        "questionCount": 56
+        "questionCount": 8
       },
       "02": {
         "title": "Organiser des opérations promotionnelles et des animations",
         "sessions": {
-          "09": {
-            "questionCount": 9
-          },
           "10": {
-            "questionCount": 5
+            "questionCount": 2
           },
           "11": {
-            "questionCount": 8
+            "questionCount": 1
           },
           "13": {
-            "questionCount": 4
+            "questionCount": 2
+          },
+          "09": {
+            "questionCount": 2
           }
         },
-        "questionCount": 26
+        "questionCount": 7
       },
       "03": {
         "title": "Concevoir et mettre en œuvre la communication sur le lieu de vente",
         "sessions": {
           "14": {
-            "questionCount": 7
+            "questionCount": 2
           },
           "15": {
-            "questionCount": 6
+            "questionCount": 1
           },
           "18": {
-            "questionCount": 4
+            "questionCount": 1
           },
           "19": {
             "questionCount": 3
           }
         },
-        "questionCount": 20
+        "questionCount": 7
       },
       "04": {
         "title": "Concevoir et mettre en œuvre la communication externe",
         "sessions": {
           "20": {
-            "questionCount": 4
+            "questionCount": 1
           },
           "21": {
-            "questionCount": 5
+            "questionCount": 1
           },
           "22": {
-            "questionCount": 9
+            "questionCount": 1
           },
           "24": {
-            "questionCount": 5
+            "questionCount": 2
           },
           "26": {
-            "questionCount": 5
+            "questionCount": 2
           }
         },
-        "questionCount": 28
+        "questionCount": 7
       },
       "05": {
         "title": "Analyser et suivre l’action commerciale",
         "sessions": {
           "27": {
-            "questionCount": 3
+            "questionCount": 1
           },
           "28": {
-            "questionCount": 11
+            "questionCount": 2
           },
           "30": {
-            "questionCount": 3
+            "questionCount": 1
           },
           "31": {
-            "questionCount": 3
+            "questionCount": 1
           },
           "32": {
-            "questionCount": 3
+            "questionCount": 1
           }
         },
-        "questionCount": 23
+        "questionCount": 6
       }
     }
   },
@@ -227,216 +227,216 @@
         "title": "La relation commerciale",
         "sessions": {
           "01": {
-            "questionCount": 15
+            "questionCount": 6
           }
         },
-        "questionCount": 15
+        "questionCount": 6
       },
       "01": {
         "title": "Assurer la veille informationnelle",
         "sessions": {
           "02": {
-            "questionCount": 9
+            "questionCount": 5
           },
           "03": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "04": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "05": {
-            "questionCount": 18
+            "questionCount": 1
           }
         },
-        "questionCount": 63
+        "questionCount": 8
       },
       "02": {
         "title": "Réaliser et exploiter des études commerciales",
         "sessions": {
           "06": {
-            "questionCount": 18
+            "questionCount": 2
           },
           "07": {
-            "questionCount": 18
+            "questionCount": 2
           },
           "09": {
-            "questionCount": 21
+            "questionCount": 2
           }
         },
-        "questionCount": 57
+        "questionCount": 6
       },
       "03": {
         "title": "Étudier la zone de chalandise",
         "sessions": {
           "11": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "12": {
-            "questionCount": 22
+            "questionCount": 5
           }
         },
-        "questionCount": 35
+        "questionCount": 6
       },
       "04": {
         "title": "Réaliser une étude de concurrence",
         "sessions": {
           "13": {
-            "questionCount": 18
+            "questionCount": 3
           },
           "14": {
-            "questionCount": 18
+            "questionCount": 3
           }
         },
-        "questionCount": 36
+        "questionCount": 6
       },
       "05": {
         "title": "Connaître ses clients et comprendre l’achat",
         "sessions": {
           "15": {
-            "questionCount": 18
+            "questionCount": 4
           },
           "16": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "18": {
-            "questionCount": 18
+            "questionCount": 1
           }
         },
-        "questionCount": 54
+        "questionCount": 6
       },
       "06": {
         "title": "Vendre et conseiller dans un contexte omnicanal",
         "sessions": {
           "19": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "20": {
-            "questionCount": 18
+            "questionCount": 2
           },
           "22": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "23": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "24": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "25": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "27": {
-            "questionCount": 18
+            "questionCount": 1
           }
         },
-        "questionCount": 121
+        "questionCount": 8
       },
       "07": {
         "title": "Entretenir la relation client",
         "sessions": {
           "28": {
-            "questionCount": 18
+            "questionCount": 3
           },
           "29": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "31": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "32": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "33": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "34": {
-            "questionCount": 18
+            "questionCount": 1
           }
         },
-        "questionCount": 108
+        "questionCount": 8
       }
     },
     "2e": {
       "01": {
         "title": "Réaliser des enquêtes commerciales",
         "sessions": {
-          "01": {
-            "questionCount": 14
-          },
-          "02": {
-            "questionCount": 18
-          },
-          "03": {
-            "questionCount": 13
-          },
-          "05": {
-            "questionCount": 3
-          },
-          "06": {
-            "questionCount": 18
-          },
-          "07": {
-            "questionCount": 13
-          },
           "10": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "11": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "13": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "14": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "15": {
-            "questionCount": 24
+            "questionCount": 2
+          },
+          "01": {
+            "questionCount": 1
+          },
+          "02": {
+            "questionCount": 2
+          },
+          "03": {
+            "questionCount": 1
+          },
+          "05": {
+            "questionCount": 2
+          },
+          "06": {
+            "questionCount": 1
+          },
+          "07": {
+            "questionCount": 1
           }
         },
-        "questionCount": 160
+        "questionCount": 14
       },
       "02": {
         "title": "Développer la relation client après l’achat",
         "sessions": {
           "18": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "19": {
-            "questionCount": 2
+            "questionCount": 1
           },
           "20": {
-            "questionCount": 9
+            "questionCount": 1
           },
           "21": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "22": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "24": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "26": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "27": {
-            "questionCount": 13
+            "questionCount": 2
           },
           "28": {
-            "questionCount": 20
+            "questionCount": 1
           },
           "30": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "31": {
-            "questionCount": 18
+            "questionCount": 2
           },
           "32": {
-            "questionCount": 18
+            "questionCount": 2
           }
         },
-        "questionCount": 173
+        "questionCount": 15
       }
     }
   },
@@ -446,121 +446,121 @@
         "title": "Documents commerciaux et règlements",
         "sessions": {
           "01": {
-            "questionCount": 18
+            "questionCount": 3
           },
           "02": {
-            "questionCount": 32
+            "questionCount": 3
           },
           "03": {
-            "questionCount": 18
+            "questionCount": 1
           }
         },
-        "questionCount": 68
+        "questionCount": 7
       },
       "02": {
         "title": "Cycle d’exploitation et trésorerie",
         "sessions": {
           "04": {
-            "questionCount": 26
+            "questionCount": 2
           },
           "05": {
-            "questionCount": 18
+            "questionCount": 4
           }
         },
-        "questionCount": 44
+        "questionCount": 6
       },
       "03": {
         "title": "Stocks, approvisionnements et règlements",
         "sessions": {
-          "06": {
-            "questionCount": 13
-          },
-          "07": {
-            "questionCount": 27
-          },
           "10": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "11": {
-            "questionCount": 20
+            "questionCount": 1
           },
           "12": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "13": {
-            "questionCount": 28
+            "questionCount": 1
+          },
+          "06": {
+            "questionCount": 2
+          },
+          "07": {
+            "questionCount": 2
           }
         },
-        "questionCount": 124
+        "questionCount": 8
       },
       "04": {
         "title": "Analyse comptable et financière",
         "sessions": {
           "14": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "15": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "16": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "18": {
-            "questionCount": 21
+            "questionCount": 4
           },
           "19": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "20": {
-            "questionCount": 29
+            "questionCount": 1
           },
           "22": {
-            "questionCount": 13
+            "questionCount": 1
           }
         },
-        "questionCount": 130
+        "questionCount": 10
       },
       "05": {
         "title": "Coûts et rentabilité",
         "sessions": {
           "23": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "24": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "25": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "27": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "28": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "29": {
-            "questionCount": 21
+            "questionCount": 2
           }
         },
-        "questionCount": 96
+        "questionCount": 7
       },
       "06": {
         "title": "Fixation et modulation des prix",
         "sessions": {
           "31": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "32": {
-            "questionCount": 22
+            "questionCount": 2
           },
           "33": {
-            "questionCount": 18
+            "questionCount": 4
           },
           "34": {
-            "questionCount": 13
+            "questionCount": 1
           }
         },
-        "questionCount": 71
+        "questionCount": 8
       }
     },
     "2e": {
@@ -568,97 +568,97 @@
         "title": "Gestion des risques et obligations de prévention",
         "sessions": {
           "01": {
-            "questionCount": 33
+            "questionCount": 3
           },
           "02": {
-            "questionCount": 18
+            "questionCount": 3
           },
           "03": {
-            "questionCount": 18
+            "questionCount": 1
           }
         },
-        "questionCount": 69
+        "questionCount": 7
       },
       "02": {
         "title": "Prévisions des ventes et saisonnalité",
         "sessions": {
+          "10": {
+            "questionCount": 3
+          },
           "04": {
-            "questionCount": 19
+            "questionCount": 1
           },
           "05": {
-            "questionCount": 13
+            "questionCount": 1
           },
           "06": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "09": {
-            "questionCount": 18
-          },
-          "10": {
-            "questionCount": 28
+            "questionCount": 1
           }
         },
-        "questionCount": 96
+        "questionCount": 7
       },
       "03": {
         "title": "Budgets, investissements et financement",
         "sessions": {
           "12": {
-            "questionCount": 28
+            "questionCount": 1
           },
           "13": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "15": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "16": {
-            "questionCount": 32
+            "questionCount": 1
           },
           "19": {
-            "questionCount": 33
+            "questionCount": 2
           },
           "21": {
-            "questionCount": 20
+            "questionCount": 1
           },
           "22": {
-            "questionCount": 23
+            "questionCount": 2
           },
           "23": {
-            "questionCount": 17
+            "questionCount": 1
           },
           "24": {
-            "questionCount": 18
+            "questionCount": 1
           }
         },
-        "questionCount": 207
+        "questionCount": 11
       },
       "04": {
         "title": "Pilotage de la performance",
         "sessions": {
           "26": {
-            "questionCount": 28
+            "questionCount": 1
           },
           "28": {
-            "questionCount": 56
+            "questionCount": 2
           },
           "29": {
-            "questionCount": 29
+            "questionCount": 1
           },
           "30": {
-            "questionCount": 18
+            "questionCount": 1
           },
           "31": {
-            "questionCount": 20
+            "questionCount": 1
           },
           "32": {
-            "questionCount": 24
+            "questionCount": 2
           },
           "33": {
-            "questionCount": 22
+            "questionCount": 1
           }
         },
-        "questionCount": 197
+        "questionCount": 9
       }
     }
   }
