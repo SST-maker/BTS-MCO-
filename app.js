@@ -20,7 +20,7 @@ async function wake(){
  S.wakePending=true;
  try{const lock=await navigator.wakeLock.request('screen');S.wake=lock;lock.addEventListener('release',()=>{if(S.wake===lock)S.wake=null;});if(!S.room||!['lobby','question','reveal'].includes(S.room.phase)||S.view==='viewLanding'||document.visibilityState!=='visible')await lock.release();}catch{}finally{S.wakePending=false;}
 }
-function clearLive(){generation++;sync?.stop();clearInterval(timer);S.room=null;S.players=[];S.player=null;S.answer=null;S.signature='';S.sending=false;S.reuse=false;lastQR='';wake();}
+function clearLive(){window.ArenaClassroom.clear();generation++;sync?.stop();clearInterval(timer);S.room=null;S.players=[];S.player=null;S.answer=null;S.signature='';S.sending=false;S.reuse=false;lastQR='';wake();}
 function home(){clearLive();storage.del('ncr-v4-active',true);S.host=false;show('viewLanding');if(sb)status('polling','Prêt à rejoindre un live');}
 function saveActive(token=null){storage.set('ncr-v4-active',{room:S.room?.id,host:S.host,token},true);}
 function authUI(){const user=S.session?.user;$('trainerSessionBtn').classList.toggle('hidden',!user);$('trainerSessionText').textContent=user?.email||'Formateur';$('trainerEmailLabel').textContent=user?.email||'';}
@@ -32,14 +32,14 @@ async function attach(room,host,token){clearLive();S.host=host;S.token=token;sto
 function accept(snapshot,offset){
  const r=snapshot.room;
  if(S.room&&r.id===S.room.id&&r.revision<S.room.revision)return;
- S.offset=offset;S.room=r;S.players=snapshot.players;S.answer=snapshot.answer;S.player=S.players.find(p=>p.id===snapshot.player_id)||null;S.answerCount=snapshot.answer_count;
+ S.offset=offset;S.room=r;S.players=snapshot.players;S.answer=snapshot.answer;S.player=S.players.find(p=>p.id===snapshot.player_id)||null;S.answerCount=snapshot.answer_count;S.distribution=snapshot.distribution;
  saveActive(S.token);
  if(r.phase==='closed'){toast('Le formateur a fermé cette salle.');home();return;}
  if(!S.host&&!S.player){toast('Profil élève introuvable. Rejoins la salle avec son code.');home();return;}
  wake();
  const signature=[r.id,r.round,r.revision,S.host].join('/');const changed=signature!==S.signature;S.signature=signature;
  if(S.reuse&&r.phase==='finished')return;
- render(changed);
+ window.ArenaClassroom.observe(S);render(changed);window.ArenaClassroom.render(S,qNow());
 }
 function render(changed){
  const r=S.room;if(!r)return;
@@ -68,11 +68,11 @@ function renderQuestion(q){
  if(S.host){
   $('hostGameMeta').textContent=`${q.subject} · ${q.year} année · Chapitre ${q.chapter} · ${labels[q.difficulty]}`;
   $('hostProgress').textContent=`Question ${r.current_index+1} / ${r.question_ids.length}`;$('hostQuestionNumber').textContent=String(r.current_index+1).padStart(2,'0');$('hostQuestionText').textContent=q.question;
-  $('hostChoices').innerHTML=q.choices.map((c,i)=>`<div class="answer-tile"><span class="shape">${shapes[i]}</span><span>${escape(c)}</span></div>`).join('');show('viewHostGame');
+  $('hostChoices').innerHTML=q.choices.map((c,i)=>`<div class="answer-tile"><span class="shape">${"ABCD"[i]} ${shapes[i]}</span><span>${escape(c)}</span></div>`).join('');show('viewHostGame');
  }else{
   $('studentProgress').textContent=`Question ${r.current_index+1} / ${r.question_ids.length}`;$('studentQuestion').textContent=q.question;
   const choices=$('studentChoices');choices.replaceChildren();const key=C.questionKey(r);
-  q.choices.forEach((c,i)=>{const b=document.createElement('button');b.className='student-answer';b.type='button';b.innerHTML=`<span class="shape">${shapes[i]}</span><span>${escape(c)}</span>`;b.addEventListener('click',()=>submit(i,key));choices.append(b);});show('viewStudentQuestion');
+  q.choices.forEach((c,i)=>{const b=document.createElement('button');b.className='student-answer';b.type='button';b.innerHTML=`<span class="shape">${"ABCD"[i]} ${shapes[i]}</span><span>${escape(c)}</span>`;b.addEventListener('click',()=>submit(i,key));choices.append(b);});show('viewStudentQuestion');
  }
 }
 function updateAnswerState(){
@@ -94,7 +94,7 @@ function startTimer(){
  clearInterval(timer);if(S.room?.phase!=='question')return;
  const key=C.questionKey(S.room);let autoAt=0;
  const tick=()=>{if(S.room?.phase!=='question'||C.questionKey(S.room)!==key){clearInterval(timer);return;}
-  const ms=C.remaining(S.room,now());
+  const ms=C.remaining(S.room,now());window.ArenaClassroom.tick(S,ms);
   if(S.host){$('hostTimerBar').style.width=`${ms/(S.room.duration*1000)*100}%`;$('hostTimerText').textContent=`${Math.ceil(ms/1000)} s`;
    if(ms<=0&&Date.now()-autoAt>4000&&!commandBusy){autoAt=Date.now();action('revealBtn',()=>transition('reveal'));}
   }else{$('studentTimer').textContent=Math.ceil(ms/1000);if(ms<=0)updateAnswerState();}
@@ -112,7 +112,7 @@ function renderReveal(){
  }
 }
 function sourceLabel(q){return `Manuel ${q.subject} ${q.year} · p. ${q.source.page}${q.source.endPage>q.source.page?'–'+q.source.endPage:''} · repère ${q.notion}`;}
-function renderLeaders(id,limit=100){$(id).innerHTML=S.players.slice(0,limit).map((p,i)=>`<div class="leader-row"><b>${i+1}</b><span class="leader-name">${avatarHTML(p.avatar)}<span>${escape(p.name)}</span></span><span>${p.score.toLocaleString('fr-FR')} pts</span></div>`).join('');}
+function renderLeaders(id,limit=100){window.ArenaClassroom.leaders($(id),S.players.slice(0,limit),avatarPath);}
 function renderPodium(changed){
  clearInterval(timer);show('viewPodium');if(!changed)return;
  $('podium').innerHTML=[1,0,2].filter(i=>S.players[i]).map(i=>{const p=S.players[i];return `<div class="podium-slot p${i+1}"><div class="avatar">${avatarHTML(p.avatar,'podium-avatar-img')}</div><strong>${escape(p.name)}</strong><span>${p.score} pts</span><div class="podium-block">${i+1}</div></div>`;}).join('');

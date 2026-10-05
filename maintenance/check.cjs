@@ -31,7 +31,8 @@ else assert.equal(sql.split(marker)[1],seed,'Registre SQL décalé : exécuter -
 const html=read('index.html'),ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);assert.equal(ids.length,new Set(ids).size,'IDs HTML dupliqués');
 for(const m of html.matchAll(/(?:src|href)="([^"]+)"/g)){if(!/^(https?:|#|data:)/.test(m[1]))assert(fs.existsSync(path.join(root,m[1])),'Asset absent '+m[1]);}
 for(let i=1;i<=24;i++)assert(fs.existsSync(path.join(root,`assets/avatars/avatar-${String(i).padStart(2,'0')}.webp`)));
-for(const f of ['app.js','sync.js','core.js','config.js'])new Function(read(f));
+for(const f of ['app.js','sync.js','core.js','config.js','classroom.js'])new Function(read(f));
+for(const name of ['lobby','tick','good','wrong','reveal','podium'])assert(fs.existsSync(path.join(root,'assets/sounds/'+name+'.wav')),'Son absent '+name);
 assert(!/text-overflow\s*:\s*ellipsis|line-clamp/.test(read('style.css')));
 assert(!/sb_secret_|eyJ[^\s"']*service_role/.test(read('config.js')));
 console.log(JSON.stringify({questions:bank.length,sessions,emptySessions:empty,avatars:24,sqlBank:'aligned',status:'PASS'},null,2));

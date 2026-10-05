@@ -1,13 +1,19 @@
-# NCR MCO Quiz Arena V4.1
+# NCR MCO Quiz Arena V5 — Classroom Experience
 
-Version statique V4.1 pour GitHub Pages, sans compilation. Base technique V4 conservée. Banque de **1 556 questions** exclusivement fondée sur les six manuels fournis : **155 séances, toutes à au moins 10 questions**, avec Standard, Difficile et Expert dans chaque séance. Les 238 questions V4 sont conservées à l’identique. Voir `COUVERTURE_SEANCES.csv` et `RELECTURE_PEDAGOGIQUE.md`.
+Version statique V5 pour GitHub Pages, sans compilation. Base technique et banque officielle V4.1 conservées. Banque de **1 556 questions** exclusivement fondée sur les six manuels fournis : **155 séances, toutes à au moins 10 questions**, avec Standard, Difficile et Expert dans chaque séance. Les 238 questions V4 sont conservées à l’identique. Voir `COUVERTURE_SEANCES.csv` et `RELECTURE_PEDAGOGIQUE.md`.
 
-**Avant utilisation en classe : lire `QA_FINAL.md`.** Les parcours et le SQL ont été testés localement. Le rendu responsive en navigateur, Supabase en production et les téléphones réels n’ont pas pu être validés dans cet environnement. Cette livraison ne constitue donc pas une certification de fonctionnement multi-appareils.
+**Lire `QA_FINAL_V5.md` avant utilisation.** Tests moteur, SQL et parcours locaux réussis, avec contrôle visuel dans le navigateur intégré. Supabase distant et téléphones physiques non testés ; rendu sous 480 px non vérifié. Le rapport détaille les limites réelles.
+
+## Expérience Classroom
+
+Histogramme A/B/C/D uniquement après fermeture, feedback élève avec points et badges justifiés, classement conservant ses lignes, six sons locaux avec bouton ON/OFF, podium progressif et présentations Expert/dernière question. Le réglage de présentation concerne l’écran formateur. Le son est désactivé par défaut et peut être activé par chaque navigateur ; un blocage audio n’interrompt pas le quiz.
+
+Le temps, les points et les règles de sécurité restent ceux de V4.1. Flash, Double points, Réflexion et équipes sont reportés. Les PDF sources ne sont pas inclus dans le ZIP.
 
 ## Installation sur ton projet existant
 
 1. Termine les parties en cours. Conserve une copie de ton ancien déploiement.
-2. Ouvre **ton projet Supabase actuel → SQL Editor → New query**. Copie l’intégralité de `supabase.sql`, jusqu’au `commit;`, puis exécute-la. Le script crée un schéma privé `ncr_arena`, cinq RPC publiques et un signal Realtime. Il ne supprime pas les anciennes tables et ne transfère pas les parties V3. Il peut être réexécuté ; le registre de questions est fourni dans ce même fichier.
+2. Ouvre **ton projet Supabase actuel → SQL Editor → New query**. Copie l’intégralité de `supabase.sql`, jusqu’au `commit;`, puis exécute-la. Sur une installation V4.1, cette étape ajoute le champ agrégé au snapshot pour l’histogramme, sans changer les autres RPC ni les droits. Le script crée si nécessaire un schéma privé `ncr_arena`, cinq RPC publiques et un signal Realtime. Il ne supprime pas les anciennes tables et ne transfère pas les parties V3. Il peut être réexécuté ; le registre de questions est fourni dans ce même fichier.
 3. Vérifie dans **Authentication → Users** que ton compte formateur existant est présent. Il reste utilisable avec son e-mail et son mot de passe. Aucun nouveau compte n’a été créé par cette livraison.
 4. Vérifie que l’inscription publique et les connexions anonymes ne sont pas ouvertes aux élèves si ce projet est dédié à ce quiz. La règle V4 considère un compte Auth avec e-mail comme un formateur ; elle n’implémente pas une liste de métiers ou de rôles NCR Suite. Si d’autres applications partagent ce projet et créent des comptes ordinaires, une autorisation métier spécifique doit être définie avant usage. Ne désactive pas un mécanisme nécessaire à une autre application sans examiner son impact.
 5. `config.js` conserve l’URL et la **clé publishable publique** reçues dans l’archive. Vérifie qu’elles correspondent au projet où tu exécutes le SQL. N’utilise jamais une clé `service_role` ou `sb_secret_` dans ce fichier.
@@ -39,6 +45,7 @@ Le live nécessite Internet et Supabase. Les bibliothèques sont locales, mais l
 
 | Symptôme | Action |
 |---|---|
+| Répartition indisponible | Exécuter le `supabase.sql` V5 fourni dans le projet existant, puis recharger. |
 | « Installation V4 requise » | Exécuter le SQL complet dans le même projet que `config.js`, attendre la mise à jour de l’API puis recharger. |
 | « Banque ou filtres incompatibles » | Déployer `questions.json` et le SQL du même ZIP. Ne pas mélanger deux versions. |
 | Connexion formateur refusée | Vérifier compte, mot de passe et accès réseau dans Authentication. Aucune récupération de mot de passe n’est ajoutée à cette V4. |
@@ -50,6 +57,7 @@ Le live nécessite Internet et Supabase. Les bibliothèques sont locales, mais l
 ## Architecture et maintenance
 
 - `index.html`, `style.css`, `app.js` : vues et interactions.
+- `classroom.js`, `classroom.css`, `assets/sounds/` : feedback, classement, histogramme, présentations et sons locaux.
 - `core.js` : sélection, niveaux, variété, familles de raisonnements, validation et temps restant.
 - `sync.js` : snapshots, Realtime, repli, timeout et protection contre les réponses obsolètes.
 - `questions.json`, `catalog.json`, `source_index.json` : contenu et repères de cours. Les manuels PDF ne sont pas redistribués dans ce ZIP.

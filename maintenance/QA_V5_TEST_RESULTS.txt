@@ -1,0 +1,97 @@
+Tests locaux V5 — 5 octobre 2026
+Auth et Realtime distants non validés.
+
+bank-tests.log
+{
+  "questions": 1556,
+  "sessions": 155,
+  "emptySessions": 0,
+  "avatars": 24,
+  "sqlBank": "aligned",
+  "status": "PASS"
+}
+
+
+engine-tests.log
+PASS All six manuals and three levels selected strictly
+PASS Reasoning families excluded from same selection
+PASS Mixed level balance when pool allows it
+PASS Recent questions and previous round penalized
+PASS Empty pool and insufficient level do not fall back
+PASS Deadline and round identity
+PASS Choice validation preserves numeric signs
+PASS One in-flight snapshot
+PASS Out-of-order snapshot rejected
+PASS Old room response ignored, subscription removed
+PASS Hidden and offline do not poll
+PASS Invalid room stops cleanly
+TOTAL 12
+
+
+db-tests.log
+PASS Anonymous cannot create
+PASS Anonymous Auth account cannot create
+PASS Trainer create + retry idempotent
+PASS Wrong trainer cannot command
+PASS Join + retry preserve player
+PASS Student cannot transition/directly write/read private tables
+PASS Start and stale command cannot skip
+PASS Correct answer + duplicate points exactly once
+PASS Wrong answer zero
+PASS V5 distribution absent while question is open, including owner
+PASS V5 manual reveal aggregates server answers for owner only
+PASS Reveal next + stale index denied
+PASS Server expiry rejects late answer and wrong choice
+PASS No answer resets streak + finish
+PASS Reset atomic preserves identities, clears scores, changes round
+PASS Close prohibits new joins
+PASS Bank mismatch rejects setup
+PASS 100 joins, retry at capacity, overflow denied
+PASS Automatic expiry can be read by student, without premature reveal
+PASS Server rejects invalid avatar and null identity
+PASS Migration rerun preserves existing players and rooms
+PASS Realtime publication membership remains unique
+PASS V5 five correct answers: real streak, exact formula, duplicate safety, then wrong resets
+TOTAL 23
+
+
+dom-tests.log
+PASS Boot assets and 24 avatars, trainer protection
+PASS Trainer login and session persistence
+PASS Filters all six manuals and three difficulty levels
+PASS Create lobby QR payload and subdirectory URL
+PASS Three independent students, avatar, waiting room and fallback
+PASS Start and shared question
+PASS Correct, wrong, rapid double answer and server score
+PASS V5 total counter only while open
+PASS Teacher and student refresh retain room, identity, score and locked answer
+PASS Deadline automatically reveals with teacher hidden; no-answer correction
+PASS V5 histogram reflects recorded votes, percentages, correct answer and student privacy
+PASS Missed transport events, offline, return and next question
+PASS Multiple questions, full ranking and podium
+PASS Replay retains class and resets scores with new round
+PASS Change quiz, manual, year, difficulty retains all players
+PASS New class closes previous room and clears student live
+PASS Logout and login again
+PASS Expired or invalid saved room exits cleanly
+PASS No runtime JavaScript errors in DOM harness
+TOTAL 19 DOM functional groups PASS; rendering, real Auth and Realtime not simulated as verified.
+
+
+classroom-tests.log
+PASS Rank baseline from lobby survives question, reorder and refresh
+PASS Series 3 and 5 and rapid badge use recorded correct answer only
+PASS Slow or absent answer gets no rapid badge, gap Top5 is factual
+PASS Audio OFF, ON persisted, blocked autoplay rejection absorbed, tick once per second
+PASS No audio without gesture after reload; no vibration without API
+PASS Positive and negative vibration once, reduced motion suppresses it
+PASS Histogram 4/13/6/2 =>16/52/24/8; zeros safe; no rendering during question
+PASS Student never gets histogram even if supplied aggregate; missing SQL handled
+PASS Leaderboard keeps keyed nodes, escaped names, order and score
+PASS Expert occasional, last question and host local opt-out
+TOTAL 10
+
+
+qr-tests.log
+PASS generated QR matrix decodes exact subdirectory URL, leading zero preserved
+PASS generated QR matrix decodes exact subdirectory URL, leading zero preserved

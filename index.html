@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#081226" />
-  <title>NCR MCO Quiz Arena · V4</title>
+  <title>NCR MCO Quiz Arena · V5 Classroom</title>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" /><link rel="stylesheet" href="classroom.css" />
 </head>
 <body>
   <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
@@ -16,16 +16,16 @@
     <button class="brand brand-btn" id="brandHome" type="button" aria-label="Accueil">
       <span class="brand-mark"><img src="assets/app-icon.png" alt="Logo NCR MCO Quiz Arena"></span><span><strong>NCR MCO</strong><small>QUIZ ARENA</small></span>
     </button>
-    <div class="topbar-actions"><div class="status-pill" id="connectionPill"><span class="dot"></span><span id="connectionText">Initialisation</span></div><button class="auth-chip hidden" id="trainerSessionBtn" type="button" title="Ouvrir l’espace formateur"><span>🔒</span><span id="trainerSessionText">Formateur connecté</span></button></div>
+    <div class="topbar-actions"><button id="soundToggle" class="secondary classroom-toggle" type="button" aria-pressed="false">🔇 Son coupé</button><div class="status-pill" id="connectionPill"><span class="dot"></span><span id="connectionText">Initialisation</span></div><button class="auth-chip hidden" id="trainerSessionBtn" type="button" title="Ouvrir l’espace formateur"><span>🔒</span><span id="trainerSessionText">Formateur connecté</span></button></div>
   </header>
 
   <main class="app-shell">
     <section class="view active" id="viewLanding">
       <div class="hero">
-        <span class="eyebrow">NCR SOLUTIONS · BTS MCO · </span>
+        <span class="eyebrow">NCR SOLUTIONS · BTS MCO · V5 CLASSROOM</span>
         <img class="hero-robot" src="assets/app-icon.webp" alt="Robot NCR">
-        <h1>Le cours prend vie<br><span>À vous de jouer !</span></h1>
-        <p>Crée une partie, projette le QR code et fais répondre toute la classe depuis les téléphones, Classement et podium en temps réel!</p>
+        <h1>Le cours prend vie.<br><span>À vous de jouer.</span></h1>
+        <p>Crée une partie, projette le QR code et fais répondre toute la classe depuis les téléphones. Classement et podium en temps réel.</p>
         <div class="hero-stats">
           <div><strong id="statQuestions">—</strong><span>questions</span></div>
           <div><strong>6</strong><span>manuels</span></div>
@@ -48,7 +48,7 @@
       <div class="mobile-card panel">
         <span class="eyebrow">ESPACE FORMATEUR</span>
         <h2>Connexion formateur</h2>
-        <p class="tiny auth-note">Seul un formateur connecté peut créer, lancer et piloter un live</p>
+        <p class="tiny auth-note">Seul un formateur connecté peut créer, lancer et piloter un live.</p>
         <label>Adresse e-mail<input id="trainerEmailInput" type="email" autocomplete="username" placeholder="vous@exemple.fr" /></label>
         <label>Mot de passe<input id="trainerPasswordInput" type="password" autocomplete="current-password" placeholder="Mot de passe" /></label>
         <button class="cta" id="trainerLoginBtn" type="button">Se connecter <span>→</span></button>
@@ -66,7 +66,7 @@
           <label>Séance<select id="sessionSelect"></select></label>
           <div class="field-row"><label>Niveau pédagogique<select id="difficultySelect"><option value="mixed">Mix pédagogique • varié</option><option value="medium">Standard pédagogique</option><option value="hard" selected>Difficile • application</option><option value="expert">Expert • distinctions fines</option></select></label><label>Questions<select id="countSelect"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>30</option><option>40</option><option>50</option><option>60</option></select></label></div>
           <label>Temps par question<select id="durationSelect"><option value="20">20 s • rapide</option><option value="30" selected>30 s • normal</option><option value="45">45 s • confort</option><option value="60">60 s • réflexion</option></select></label>
-          <div class="availability" id="availability"></div>
+          <label class="event-setting"><input id="eventsToggle" type="checkbox" checked> Présentations Expert et finale sur l’écran formateur</label><div class="availability" id="availability"></div>
           <button class="cta" id="createRoomBtn" type="button">Créer le live <span>→</span></button>
         </div>
         <aside class="panel preview-panel"><span class="eyebrow">APERÇU</span><div class="mini-screen"><div class="mini-kicker" id="previewMeta">ADOC • 1re année</div><h3 id="previewChapter">—</h3><div class="mini-options"><span></span><span></span><span></span><span></span></div></div><p>Standard pour comprendre, Difficile pour appliquer, Expert pour analyser. Le mix alterne les niveaux. Chaque correction renvoie au manuel.</p></aside>
@@ -76,20 +76,20 @@
     <section class="view" id="viewLobby">
       <div class="lobby-grid">
         <div class="panel qr-panel"><span class="eyebrow">REJOINDRE LE LIVE</span><div class="room-code" id="roomCode">000 000</div><div id="qrCode" class="qr-box"></div><div class="join-url" id="joinUrl"></div></div>
-        <div class="panel players-panel"><div class="players-head"><div><span class="eyebrow">SALLE D’ATTENTE</span><h2><span id="playerCount">0</span> élève(s)</h2></div><span class="pulse-live">LIVE</span></div><p class="tiny" id="emptyLobby">Les élèves apparaîtront ici dès leur arrivée</p><div class="player-cloud" id="playerCloud"></div><button class="cta" id="startGameBtn" type="button" disabled>Lancer le quiz <span>▶</span></button></div>
+        <div class="panel players-panel"><div class="players-head"><div><span class="eyebrow">SALLE D’ATTENTE</span><h2><span id="playerCount">0</span> élève(s)</h2></div><span class="pulse-live">LIVE</span></div><p class="tiny" id="emptyLobby">Les élèves apparaîtront ici dès leur arrivée.</p><div class="player-cloud" id="playerCloud"></div><button class="cta" id="startGameBtn" type="button" disabled>Lancer le quiz <span>▶</span></button></div>
       <button class="ghost-action" id="closeRoomBtn" type="button">Fermer cette salle</button></div>
     </section>
 
     <section class="view" id="viewHostGame">
-      <div class="game-top"><div><span class="eyebrow" id="hostGameMeta">—</span><strong id="hostProgress">Question —</strong></div><div class="live-meters"><strong id="hostTimerText" aria-label="Temps restant">30 s</strong><div class="answer-counter"><span id="hostAnswered">0</span>/<span id="hostTotalPlayers">0</span> réponses</div></div></div>
+      <div class="game-top"><div><span class="eyebrow" id="hostGameMeta">—</span><strong id="hostProgress">Question —</strong></div><div class="live-meters"><strong id="hostTimerText" aria-label="Temps restant">30 s</strong><div class="answer-counter"><span id="hostAnswered">0</span>/<span id="hostTotalPlayers">0</span> réponses reçues</div></div></div>
       <div class="timer-wrap"><div class="timer-bar" id="hostTimerBar"></div></div>
-      <div class="question-stage"><div class="question-card"><div class="question-number" id="hostQuestionNumber">01</div><h2 id="hostQuestionText">—</h2><div class="answers-grid" id="hostChoices"></div></div></div>
+      <div id="hostEvent" class="classroom-event hidden"></div><div class="question-stage"><div class="question-card"><div class="question-number" id="hostQuestionNumber">01</div><h2 id="hostQuestionText">—</h2><div class="answers-grid" id="hostChoices"></div></div></div>
       <div class="host-actions"><button class="secondary" id="revealBtn" type="button">Afficher la réponse</button></div>
     </section>
 
     <section class="view" id="viewReveal">
       <div class="reveal-layout">
-        <div class="panel reveal-card"><span class="eyebrow">CORRECTION</span><h2 id="revealQuestion">—</h2><div class="correct-answer" id="revealAnswer">—</div><p id="revealExplanation">—</p><p class="tiny" id="hostSource"></p></div>
+        <div class="panel reveal-card"><span class="eyebrow">CORRECTION</span><h2 id="revealQuestion">—</h2><div class="correct-answer" id="revealAnswer">—</div><p id="revealExplanation">—</p><p class="tiny" id="hostSource"></p><section id="answerHistogram" class="answer-histogram hidden" aria-label="Répartition des réponses après fermeture"></section></div>
         <div class="panel leaderboard"><span class="eyebrow">CLASSEMENT</span><div id="leaderboardList"></div><button class="cta" id="nextBtn" type="button">Question suivante <span>→</span></button></div>
       </div>
     </section>
@@ -113,10 +113,10 @@
     <section class="view" id="viewStudentWaiting"><div class="mobile-card panel center"><div class="student-avatar-large" id="studentAvatar"><img class="student-avatar-img" src="assets/avatars/avatar-01.webp" alt=""></div><span class="eyebrow">TU ES CONNECTÉ(E)</span><h2 id="studentName">—</h2><p>Regarde l’écran principal. Le quiz va commencer.</p><div class="score-chip">Score <strong id="waitingScore">0</strong></div></div></section>
 
     <section class="view" id="viewStudentQuestion">
-      <div class="student-game"><div class="student-top"><span id="studentProgress">1/10</span><div class="round-timer" id="studentTimer">20</div><strong id="studentScore">0 pts</strong></div><h2 id="studentQuestion">—</h2><div class="student-answers" id="studentChoices"></div><div class="submitted hidden" id="submittedBox">✓ Réponse envoyée</div></div>
+      <div class="student-game"><div class="student-top"><span id="studentProgress">1/10</span><div class="round-timer" id="studentTimer">20</div><strong id="studentScore">0 pts</strong></div><div id="studentEvent" class="classroom-event hidden"></div><h2 id="studentQuestion">—</h2><div class="student-answers" id="studentChoices"></div><div class="submitted hidden" id="submittedBox">✓ Réponse envoyée</div></div>
     </section>
 
-    <section class="view" id="viewStudentReveal"><div class="mobile-card panel center student-result-card"><span class="eyebrow">RÉSULTAT</span><div class="result-icon" id="studentResultIcon">✓</div><h2 id="studentResultTitle">Bonne réponse !</h2><div class="student-correction" id="studentCorrectionBox"><div class="correction-row hidden" id="studentYourAnswerRow"><span>Ta réponse</span><strong id="studentYourAnswerText">—</strong></div><div class="correction-row good"><span>Bonne réponse</span><strong id="studentCorrectText">—</strong></div><div class="correction-explanation"><span>Pourquoi ?</span><p id="studentExplanationText">—</p><p id="studentTrapText"></p><small id="studentNotionText"></small></div></div><div class="score-chip">Score <strong id="studentRevealScore">0</strong></div><p class="tiny student-sync-note" id="studentSyncNote">Synchronisation automatique avec l’écran principal.</p></div></section>
+    <section class="view" id="viewStudentReveal"><div class="mobile-card panel center student-result-card"><span class="eyebrow">RÉSULTAT</span><div class="result-icon" id="studentResultIcon">✓</div><h2 id="studentResultTitle">Bonne réponse !</h2><div class="student-correction" id="studentCorrectionBox"><div class="correction-row hidden" id="studentYourAnswerRow"><span>Ta réponse</span><strong id="studentYourAnswerText">—</strong></div><div class="correction-row good"><span>Bonne réponse</span><strong id="studentCorrectText">—</strong></div><div class="correction-explanation"><span>Pourquoi ?</span><p id="studentExplanationText">—</p><p id="studentTrapText"></p><small id="studentNotionText"></small></div></div><div id="studentFeedback" class="classroom-feedback" role="status"></div><div class="score-chip">Score <strong id="studentRevealScore">0</strong></div><p class="tiny student-sync-note" id="studentSyncNote">Synchronisation automatique avec l’écran principal.</p></div></section>
 
     <section class="view" id="viewSetupNeeded"><div class="mobile-card panel"><span class="eyebrow">CONFIGURATION REQUISE</span><h2>Connecter Supabase</h2><p>Le live multi-téléphones a besoin de Supabase Realtime. Le package contient déjà le SQL et le fichier de configuration.</p><ol><li>Exécute <code>supabase.sql</code> dans ton projet.</li><li>Renseigne l’URL et la clé anon dans <code>config.js</code>.</li><li>Dans <strong>Supabase &gt; Authentication &gt; Users</strong>, crée ton compte formateur.</li><li>Déploie le dossier sur ton hébergeur.</li></ol><button class="secondary" data-home type="button">Retour</button></div></section>
   </main>
@@ -127,6 +127,7 @@
   <script src="config.js"></script>
   <script src="core.js"></script>
   <script src="sync.js"></script>
+  <script src="classroom.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

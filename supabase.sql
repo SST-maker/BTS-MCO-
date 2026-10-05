@@ -72,7 +72,7 @@ begin
 end $$;
 create or replace function public.ncr_v4_snapshot(p_room uuid,p_token text default null)
 returns jsonb language plpgsql security definer set search_path='' as $$
-declare r ncr_arena.rooms; v_player uuid; a jsonb; players jsonb; n integer;
+declare r ncr_arena.rooms; v_player uuid; a jsonb; players jsonb; n integer; distribution jsonb;
 begin
  v_player:=ncr_arena.authorize(p_room,p_token);
  select * into r from ncr_arena.rooms where id=p_room for update;
@@ -89,7 +89,15 @@ begin
   select to_jsonb(x)-'room_id'-'player_id' into a from ncr_arena.answers x
   where room_id=p_room and player_id=v_player and round=r.round and question_index=r.current_index;
  end if;
- return jsonb_build_object('room',to_jsonb(r)-'owner_id','players',players,'player_id',v_player,'answer',a,'answer_count',n,'sync_revision',(select revision from public.ncr_v4_signals where id=p_room),'server_now',clock_timestamp());
+ -- V5 : agrégat anonyme réservé au propriétaire, uniquement après fermeture.
+ if v_player is null and r.phase in ('reveal','finished') then
+  select jsonb_agg(counts.n order by counts.choice) into distribution from (
+   select choice,count(a.player_id)::integer as n from generate_series(0,3) choice
+   left join ncr_arena.answers a on a.room_id=p_room and a.round=r.round
+    and a.question_index=r.current_index and a.answer_index=choice group by choice
+  ) counts;
+ end if;
+ return jsonb_build_object('distribution',distribution,'room',to_jsonb(r)-'owner_id','players',players,'player_id',v_player,'answer',a,'answer_count',n,'sync_revision',(select revision from public.ncr_v4_signals where id=p_room),'server_now',clock_timestamp());
 end $$;
 create or replace function ncr_arena.settings(p jsonb) returns void language plpgsql set search_path='' as $$
 declare ids text[]; n integer;
